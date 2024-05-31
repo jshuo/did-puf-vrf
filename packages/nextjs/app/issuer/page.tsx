@@ -23,6 +23,26 @@ import Head from "next/head";
 
 // app/issuer/page.tsx
 
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
 export default function IssuerPage() {
   return (
     <div>
@@ -30,19 +50,18 @@ export default function IssuerPage() {
         <title>Simple Next.js Page</title>
       </Head>
       <main>
-        <h1>Welcome to the Issuer Page</h1>
-        <p>This is a simple Next.js page.</p>
+        <hr />
+        <h2>Create Signing Delegate</h2>
         <ul>
-          <li>First item in the list</li>
-          <li>Second item in the list</li>
-          <li>Third item in the list</li>
+          <li>Create a signing delegate for the connected account</li>
         </ul>
-        <a href="/">
-          <button>Home</button>
-        </a>
-        <a href="/audience">
-          <button>Audience App</button>
-        </a>
+        <button id="createDelegate">Create Delegate</button>
+        <h3>
+          Delegate Signer Account: <span id="delegateSigner"></span>
+        </h3>
+        <h3>
+          Delegate Signer Identifier: <span id="delegateSignerIdentifier"></span>
+        </h3>
       </main>
     </div>
   );
