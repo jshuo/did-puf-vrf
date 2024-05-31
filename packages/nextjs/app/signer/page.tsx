@@ -2,6 +2,7 @@
 "use client";
 
 import Head from "next/head";
+import Image from "next/image";
 
 // app/issuer/page.tsx
 
@@ -44,6 +45,9 @@ export default function IssuerPage() {
           <button>Audience App</button>
         </a>
       </main>
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+        <Image src="/puf-did-ai-board.png" alt="Example Image" width={1000} height={600} />
+      </div>
     </div>
   );
 }
