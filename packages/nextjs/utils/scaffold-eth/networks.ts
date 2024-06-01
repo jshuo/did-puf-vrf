@@ -23,7 +23,6 @@ export const RPC_CHAIN_NAMES: Record<number, string> = {
   [chains.arbitrumGoerli.id]: "arb-goerli",
   [chains.arbitrumSepolia.id]: "arb-sepolia",
   [chains.polygon.id]: "polygon-mainnet",
-  [chains.polygonMumbai.id]: "polygon-mumbai",
   [chains.polygonAmoy.id]: "polygon-amoy",
   [chains.astar.id]: "astar-mainnet",
   [chains.polygonZkEvm.id]: "polygonzkevm-mainnet",
@@ -56,7 +55,7 @@ export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
     color: "#2bbdf7",
     nativeCurrencyTokenAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
   },
-  [chains.polygonMumbai.id]: {
+  [chains.polygonAmoy.id]: {
     color: "#92D9FA",
     nativeCurrencyTokenAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
   },

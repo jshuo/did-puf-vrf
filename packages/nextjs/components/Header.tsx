@@ -20,8 +20,13 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "Debug Contracts",
+    label: "REX Explorer",
     href: "/debug",
+    icon: <BugAntIcon className="h-4 w-4" />,
+  },
+  {
+    label: "Tuple Builder",
+    href: "/example-ui",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
 ];

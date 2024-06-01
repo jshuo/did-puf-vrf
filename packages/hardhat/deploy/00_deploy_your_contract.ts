@@ -1,5 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+// import { Contract } from "ethers";
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -11,7 +12,7 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
   /*
     On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
 
-    When deploying to live networks (e.g `yarn deploy --network goerli`), the deployer account
+    When deploying to live networks (e.g `yarn deploy --network sepolia`), the deployer account
     should have sufficient balance to pay for the gas fees for contract creation.
 
     You can generate a random account with `yarn generate` which will fill DEPLOYER_PRIVATE_KEY
@@ -19,7 +20,6 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
     You can run the `yarn account` command to check your balance in every network.
   */
   const { deployer } = await hre.getNamedAccounts();
-  console.log("account:" + deployer);
   const { deploy } = hre.deployments;
 
   await deploy("TREXFactory", {
@@ -91,9 +91,6 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
-
-  // Get the deployed contract
-  // const yourContract = await hre.ethers.getContract("YourContract", deployer);
 };
 
 export default deployContracts;
