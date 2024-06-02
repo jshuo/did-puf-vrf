@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     ClaimTopicsRegistry: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       abi: [
         {
           anonymous: false,
@@ -150,7 +150,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     IdentityRegistry: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
       abi: [
         {
           anonymous: false,
@@ -679,7 +679,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     IdentityRegistryStorage: {
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
       abi: [
         {
           anonymous: false,
@@ -1079,7 +1079,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     ModularCompliance: {
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
       abi: [
         {
           anonymous: false,
@@ -1431,7 +1431,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TREXFactory: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
           anonymous: false,
@@ -1738,7 +1738,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Token: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
       abi: [
         {
           anonymous: false,
@@ -2826,7 +2826,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TrustedIssuersRegistry: {
-      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
       abi: [
         {
           anonymous: false,
@@ -3090,315 +3090,6 @@ const deployedContracts = {
             },
           ],
           name: "updateIssuerClaimTopics",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
-      inheritedFunctions: {},
-    },
-  },
-  80002: {
-    TREXFactory: {
-      address: "0xC66AB83418C20A65C3f8e83B3d11c8C3a6097b6F",
-      abi: [
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "_addr",
-              type: "address",
-            },
-          ],
-          name: "Deployed",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: false,
-              internalType: "address",
-              name: "_implementationAuthority",
-              type: "address",
-            },
-          ],
-          name: "ImplementationAuthoritySet",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "previousOwner",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "newOwner",
-              type: "address",
-            },
-          ],
-          name: "OwnershipTransferred",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "_token",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "_ir",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "_irs",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "_tir",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "_ctr",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "_mc",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "string",
-              name: "_salt",
-              type: "string",
-            },
-          ],
-          name: "TREXSuiteDeployed",
-          type: "event",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "_salt",
-              type: "string",
-            },
-            {
-              components: [
-                {
-                  internalType: "address",
-                  name: "owner",
-                  type: "address",
-                },
-                {
-                  internalType: "string",
-                  name: "name",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "symbol",
-                  type: "string",
-                },
-                {
-                  internalType: "uint8",
-                  name: "decimals",
-                  type: "uint8",
-                },
-                {
-                  internalType: "address",
-                  name: "irs",
-                  type: "address",
-                },
-                {
-                  internalType: "address",
-                  name: "ONCHAINID",
-                  type: "address",
-                },
-                {
-                  internalType: "address[]",
-                  name: "irAgents",
-                  type: "address[]",
-                },
-                {
-                  internalType: "address[]",
-                  name: "tokenAgents",
-                  type: "address[]",
-                },
-                {
-                  internalType: "address[]",
-                  name: "complianceModules",
-                  type: "address[]",
-                },
-                {
-                  internalType: "bytes[]",
-                  name: "complianceSettings",
-                  type: "bytes[]",
-                },
-              ],
-              internalType: "struct ITREXFactory.TokenDetails",
-              name: "_tokenDetails",
-              type: "tuple",
-            },
-            {
-              components: [
-                {
-                  internalType: "uint256[]",
-                  name: "claimTopics",
-                  type: "uint256[]",
-                },
-                {
-                  internalType: "address[]",
-                  name: "issuers",
-                  type: "address[]",
-                },
-                {
-                  internalType: "uint256[][]",
-                  name: "issuerClaims",
-                  type: "uint256[][]",
-                },
-              ],
-              internalType: "struct ITREXFactory.ClaimDetails",
-              name: "_claimDetails",
-              type: "tuple",
-            },
-          ],
-          name: "deployTREXSuite",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getImplementationAuthority",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "_salt",
-              type: "string",
-            },
-          ],
-          name: "getToken",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "owner",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_contract",
-              type: "address",
-            },
-            {
-              internalType: "address",
-              name: "_newOwner",
-              type: "address",
-            },
-          ],
-          name: "recoverContractOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "renounceOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "implementationAuthority_",
-              type: "address",
-            },
-          ],
-          name: "setImplementationAuthority",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          name: "tokenDeployed",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "newOwner",
-              type: "address",
-            },
-          ],
-          name: "transferOwnership",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
