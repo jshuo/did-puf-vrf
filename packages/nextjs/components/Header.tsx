@@ -20,7 +20,7 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "REX Explorer",
+    label: "ERC3643 Smart Contract Debug",
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
   },

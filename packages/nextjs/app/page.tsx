@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">IOTA EVM Real World Asset Tokenization App</span>
+            <span className="block text-4xl font-bold">IOTA/Polygon/Agence EVM Real World Asset Tokenization App</span>
             <span className="block text-4xl font-bold">ERC 3643 Smart Contract Based</span>
             <span className="block text-4xl font-bold">For Modern Prehab/Modular Home</span>
           </h1>
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
               <SiEthereum size={50} />
               <p>
                 <Link href="/issuer" passHref className="link">
-                  RWA Token Issuer App
+                  RWA Token Issuer / <b>Agents</b> App
                 </Link>{" "}
               </p>
             </div>
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
               <FaUsb size={50} />
               <p>
                 <Link href="/signer" passHref className="link">
-                  Identity Claim Issuer App
+                  <b>Identity Claim Issuer</b>App
                 </Link>{" "}
               </p>
             </div>
@@ -58,6 +58,10 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+        <Image src="/puf-did-modular.png" alt="Example Image" width={1000} height={600} />
       </div>
     </>
   );
