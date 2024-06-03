@@ -17,7 +17,9 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">IOTA EVM NeoPUF-based Decentralized Identity App</span>
+            <span className="block text-4xl font-bold">
+              IOTA/Polygon/Agence EVM NeoPUF-based Decentralized Identity App
+            </span>
             <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
           </h1>
           <div className="flex justify-center items-center space-x-2">
@@ -72,7 +74,7 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-        <Image src="/puf-did-modular.png" alt="Example Image" width={1000} height={600} />
+        <Image src="/puf-did-ai-board.png" alt="Example Image" width={1000} height={600} />
       </div>
     </>
   );
