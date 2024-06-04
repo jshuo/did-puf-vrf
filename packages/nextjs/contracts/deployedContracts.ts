@@ -5,9 +5,9 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
+  80002: {
     EthereumDIDRegistry: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0xC1bE40A2698E09d7782361369D3c3058aA3b0Be4",
       abi: [
         {
           anonymous: false,
@@ -63,9 +63,9 @@ const deployedContracts = {
             },
             {
               indexed: false,
-              internalType: "address",
+              internalType: "bytes32",
               name: "delegate",
-              type: "address",
+              type: "bytes32",
             },
             {
               indexed: false,
@@ -121,9 +121,9 @@ const deployedContracts = {
               type: "bytes32",
             },
             {
-              internalType: "address",
-              name: "delegate",
-              type: "address",
+              internalType: "bytes",
+              name: "publicKey",
+              type: "bytes",
             },
             {
               internalType: "uint256",
@@ -132,49 +132,6 @@ const deployedContracts = {
             },
           ],
           name: "addDelegate",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "identity",
-              type: "address",
-            },
-            {
-              internalType: "uint8",
-              name: "sigV",
-              type: "uint8",
-            },
-            {
-              internalType: "bytes32",
-              name: "sigR",
-              type: "bytes32",
-            },
-            {
-              internalType: "bytes32",
-              name: "sigS",
-              type: "bytes32",
-            },
-            {
-              internalType: "bytes32",
-              name: "delegateType",
-              type: "bytes32",
-            },
-            {
-              internalType: "address",
-              name: "delegate",
-              type: "address",
-            },
-            {
-              internalType: "uint256",
-              name: "validity",
-              type: "uint256",
-            },
-          ],
-          name: "addDelegateSigned",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -262,9 +219,9 @@ const deployedContracts = {
               type: "bytes32",
             },
             {
-              internalType: "address",
+              internalType: "bytes32",
               name: "",
-              type: "address",
+              type: "bytes32",
             },
           ],
           name: "delegates",
@@ -409,50 +366,12 @@ const deployedContracts = {
               type: "bytes32",
             },
             {
-              internalType: "address",
-              name: "delegate",
-              type: "address",
+              internalType: "bytes",
+              name: "compressedPublicKey",
+              type: "bytes",
             },
           ],
           name: "revokeDelegate",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "identity",
-              type: "address",
-            },
-            {
-              internalType: "uint8",
-              name: "sigV",
-              type: "uint8",
-            },
-            {
-              internalType: "bytes32",
-              name: "sigR",
-              type: "bytes32",
-            },
-            {
-              internalType: "bytes32",
-              name: "sigS",
-              type: "bytes32",
-            },
-            {
-              internalType: "bytes32",
-              name: "delegateType",
-              type: "bytes32",
-            },
-            {
-              internalType: "address",
-              name: "delegate",
-              type: "address",
-            },
-          ],
-          name: "revokeDelegateSigned",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -541,9 +460,9 @@ const deployedContracts = {
               type: "bytes32",
             },
             {
-              internalType: "address",
-              name: "delegate",
-              type: "address",
+              internalType: "bytes",
+              name: "compressedPublicKey",
+              type: "bytes",
             },
           ],
           name: "validDelegate",
