@@ -1,6 +1,7 @@
 "use client";
 
 import Head from "next/head";
+import Image from "next/image";
 import { Account } from "../../components/Account";
 
 export default function IssuerPage() {
@@ -12,15 +13,16 @@ export default function IssuerPage() {
       <main>
         <div className="px-5">
           <h1 className="text-center">
-            <span className="block text-4xl font-bold">DID Issuers Page (Department of Defense or OEMs) App</span>
+            <span className="block text-4xl font-bold">DID Issuer Page (Department of Defense or OEMs) App</span>
             <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
           </h1>
           <hr />
           <h2>
             <span className="block text-2xl mb-2">
               <h2>
-                <b>DID Issuer Account</b> <Account />
+                <b>DID Issuer Account: e.g. 國防部, Google, Telsa..etc</b> <p></p> <Account />
               </h2>
+              <p></p>
               <hr />
               <ol>
                 <li>1. Create a NeoPUF USB Dongle signing delegate for the connected DID Issuer Account</li>
@@ -44,6 +46,9 @@ export default function IssuerPage() {
 
         <br />
       </main>
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+        <Image src="/puf-did-diagram.png" alt="Example Image" width={1000} height={600} />
+      </div>
     </div>
   );
 }
