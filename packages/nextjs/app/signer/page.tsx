@@ -30,7 +30,7 @@ export default function SignerPage() {
   return (
     <div>
       <Head>
-        <title>DID Issuers Page</title>
+        <title>DID Signer Page</title>
       </Head>
       <main>
         <div className="px-5">
@@ -43,7 +43,12 @@ export default function SignerPage() {
           <h2>
             <span className="block text-2xl mb-2">
               <h2>
-                <b>DID Issuer Account: e.g. Winstron, Quanta CT, Foxconn, Acer, Asus..etc</b> <p></p>
+                <b>
+                  Signer/Manufacturer (Authorized by Issuer(DoD, Google, Telsa.. Magnificent 7) with USB Dongle Key or
+                  HSM):{" "}
+                </b>{" "}
+                <p></p>
+                <b>e.g. DoD Contractors/Subcontractors, Winstron, Quanta CT, Foxconn, Acer, Asus..etc</b> <p></p>
                 <b>Chip on Board: e.g. Nivida, AMD, Qualcomm, Intel..etc</b> <p></p>
               </h2>
               <p></p>
