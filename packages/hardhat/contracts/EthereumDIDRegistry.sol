@@ -157,12 +157,12 @@ contract EthereumDIDRegistry {
 	}
 
 	function addDelegate(
-		address identity,
+		address DIDIssuerAddress,
 		bytes32 delegateType,
-		bytes memory publicKey,
+		bytes memory SignerCompressedPublicKey,
 		uint validity
 	) public {
-		addDelegate(identity, msg.sender, delegateType, publicKey, validity);
+		addDelegate(DIDIssuerAddress, msg.sender, delegateType, SignerCompressedPublicKey, validity);
 	}
 
 	function revokeDelegate(

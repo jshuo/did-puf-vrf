@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   80002: {
     EthereumDIDRegistry: {
-      address: "0x2af9a9aF7c16280d853eb63f0821a98373943734",
+      address: "0x87D8FA62875559F391132887570c62B2fE57a622",
       abi: [
         {
           anonymous: false,
@@ -125,7 +125,7 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "address",
-              name: "identity",
+              name: "DIDIssuerAddress",
               type: "address",
             },
             {
@@ -135,7 +135,7 @@ const deployedContracts = {
             },
             {
               internalType: "bytes",
-              name: "publicKey",
+              name: "SignerCompressedPublicKey",
               type: "bytes",
             },
             {
