@@ -44,6 +44,26 @@ import { Account } from "../../components/Account";
 
 // app/issuer/page.tsx
 
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
 export default function IssuerPage() {
   return (
     <div>
@@ -51,8 +71,26 @@ export default function IssuerPage() {
         <title>Simple Next.js Page</title>
       </Head>
       <main>
+        <div className="px-5">
+          <h1 className="text-center">
+            <span className="block text-4xl font-bold">DID Issuers Page (Department of Defense or OEMs) App</span>
+            <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
+          </h1>
+          <hr />
+          <h2>
+            <span className="block text-2xl mb-2">
+              <h2>
+                <b>DID Issuer Account</b> <Account />
+              </h2>
+              <hr />
+              <ul>
+                <li>Create a NeoPUF USB Dongle signing delegate for the connected DID Issuer Account</li>
+              </ul>
+            </span>
+          </h2>
+        </div>
         <hr />
-        <h2>Create Signing Delegate</h2>
+
         <ul>
           <li>Create a signing delegate for the connected account</li>
         </ul>
@@ -64,8 +102,6 @@ export default function IssuerPage() {
           Delegate Signer Identifier: <span id="delegateSignerIdentifier"></span>
         </h3>
 
-        <h2>Account</h2>
-        <Account />
         <br />
       </main>
     </div>
