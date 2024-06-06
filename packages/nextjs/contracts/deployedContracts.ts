@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   80002: {
     EthereumDIDRegistry: {
-      address: "0xC1bE40A2698E09d7782361369D3c3058aA3b0Be4",
+      address: "0x2af9a9aF7c16280d853eb63f0821a98373943734",
       abi: [
         {
           anonymous: false,
@@ -109,6 +109,19 @@ const deployedContracts = {
           type: "event",
         },
         {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "returnValue",
+              type: "uint256",
+            },
+          ],
+          name: "P256VerifyResult",
+          type: "event",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -133,6 +146,19 @@ const deployedContracts = {
           ],
           name: "addDelegate",
           outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "callP256Verify",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "returnValue",
+              type: "uint256",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "function",
         },
