@@ -20,13 +20,15 @@ export default function IssuerPage() {
           <h2>
             <span className="block text-2xl mb-2">
               <h2>
-                <b>DID Issuer Account: e.g. 國防部, Google, Telsa..etc</b> <p></p> <Account />
+                <b>DID Issuer Account: e.g. 國防部, Google, Telsa.. Magnificent 7 etc</b> <p></p> <Account />
               </h2>
               <p></p>
               <hr />
               <ol>
                 <li>1. Create a NeoPUF USB Dongle signing delegate for the connected DID Issuer Account</li>
-                <li>2. Bind DID Issuer EVM address with Signer SEC256R1 Public key</li>
+                <li>
+                  2. Bind DID Issuer EVM address (derivative of SECP256K1) with Signer SECP256R1 (or P-256) Public key
+                </li>
                 <li>3. Register the binding to ERC1056 smart contract</li>
               </ol>
               <button className="btn btn-blue" id="createDelegate">
@@ -34,7 +36,7 @@ export default function IssuerPage() {
               </button>
 
               <h3>
-                Delegate Signer SEC256R1 Public key: <span id="delegateSigner"></span>
+                Delegate Signer SECP256R1 (or P-256) Public key: <span id="delegateSigner"></span>
               </h3>
               <h3>
                 Delegate Signer Identifier: <span id="delegateSignerIdentifier"></span>
