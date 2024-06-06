@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ImageGrid from "../components/ImageGrid";
+import { NetworkSwitcher } from "../components/NetworkSwitcher";
 import type { NextPage } from "next";
 import { FaUsb } from "react-icons/fa";
 import { SiEthereum } from "react-icons/si";
@@ -24,10 +25,15 @@ const Home: NextPage = () => {
             <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
           </h1>
           <div className="flex justify-center items-center space-x-2">
+            <p className="my-2 font-medium"></p>
+            <NetworkSwitcher />
+          </div>
+          <div className="flex justify-center items-center space-x-2">
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
           </div>
           <ImageGrid />
+          <br />
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">

@@ -20,7 +20,7 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "EthereumDIDRegistry ERC1056 Smart Contract Debug",
+    label: "ERC1056 DID Contract",
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
