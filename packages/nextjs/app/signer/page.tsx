@@ -6,7 +6,18 @@ import Image from "next/image";
 
 export default function SignerPage() {
   const [claimDescription, setClaimDescription] = useState(
-    "This AI Board is certified to have undergone rigorous testing for high-performance AI applications.",
+    JSON.stringify(
+      {
+        boardType: "AI Board",
+        certification: "Certified for high-performance AI applications",
+        testing: "Rigorous testing for high-performance AI applications",
+        manufacturer: "AI Tech Co.",
+        model: "AI-X1000",
+        year: 2023,
+      },
+      null,
+      2,
+    ),
   );
   const [chipFingerprint, setChipFingerprint] = useState("AC2D3F147E98B6");
 
@@ -48,15 +59,15 @@ export default function SignerPage() {
               </h1>
               <p></p>
               <form onSubmit={createDelegate}>
+                <label>Claim Description:</label>
                 <div>
-                  <label htmlFor="claim-description">Claim Description:</label>
-                  <br />
-                  <input
-                    type="text"
+                  <textarea
                     id="claim-description"
                     name="claim-description"
                     value={claimDescription}
                     onChange={e => setClaimDescription(e.target.value)}
+                    rows={10}
+                    cols={50}
                   />
                   <br />
                   <br />
@@ -84,7 +95,8 @@ export default function SignerPage() {
       </main>
 
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-        <Image src="/puf-did-diagram.png" alt="Example Image" width={1000} height={600} />
+        <Image src="/puf-did-diagram.png" alt="Example Image" width={800} height={600} />
+        <Image src="/puf-did-ai-board.png" alt="Example Image" width={800} height={600} />
       </div>
     </div>
   );
