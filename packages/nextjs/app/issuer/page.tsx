@@ -1,108 +1,7 @@
-// app/issuer/page.tsx
 "use client";
 
 import Head from "next/head";
 import { Account } from "../../components/Account";
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
-
-// app/issuer/page.tsx
 
 export default function IssuerPage() {
   return (
@@ -123,12 +22,15 @@ export default function IssuerPage() {
                 <b>DID Issuer Account</b> <Account />
               </h2>
               <hr />
-              <ul>
-                <li>Create a NeoPUF USB Dongle signing delegate for the connected DID Issuer Account</li>
-                <li>bind DID Issuer EVM address with Signer SEC256R1 Public key</li>
-                <li>register the binding to ERC1056 smart contract</li>
-              </ul>
-              <button id="createDelegate">Create Delegate </button>
+              <ol>
+                <li>1. Create a NeoPUF USB Dongle signing delegate for the connected DID Issuer Account</li>
+                <li>2. Bind DID Issuer EVM address with Signer SEC256R1 Public key</li>
+                <li>3. Register the binding to ERC1056 smart contract</li>
+              </ol>
+              <button className="btn btn-blue" id="createDelegate">
+                Create Delegate
+              </button>
+
               <h3>
                 Delegate Signer SEC256R1 Public key: <span id="delegateSigner"></span>
               </h3>
