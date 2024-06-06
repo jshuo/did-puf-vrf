@@ -64,11 +64,31 @@ import { Account } from "../../components/Account";
 
 // app/issuer/page.tsx
 
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
 export default function IssuerPage() {
   return (
     <div>
       <Head>
-        <title>Simple Next.js Page</title>
+        <title>DID Issuers Page</title>
       </Head>
       <main>
         <div className="px-5">
