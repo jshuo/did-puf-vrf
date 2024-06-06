@@ -2,6 +2,27 @@
 "use client";
 
 import Head from "next/head";
+import { Account } from "../../components/Account";
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
+
+// app/issuer/page.tsx
 
 // app/issuer/page.tsx
 
@@ -42,6 +63,10 @@ export default function IssuerPage() {
         <h3>
           Delegate Signer Identifier: <span id="delegateSignerIdentifier"></span>
         </h3>
+
+        <h2>Account</h2>
+        <Account />
+        <br />
       </main>
     </div>
   );
