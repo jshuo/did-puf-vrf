@@ -31,6 +31,11 @@ const Home: NextPage = () => {
           <div className="flex justify-center items-center space-x-2">
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
+            <p>
+              <Link href="/callforactions" passHref className="link">
+                Call for Actions
+              </Link>{" "}
+            </p>
           </div>
           <ImageGrid />
           <br />
