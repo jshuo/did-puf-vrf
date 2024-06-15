@@ -7,8 +7,8 @@ contract EthereumDIDRegistry {
   mapping(address => address) public owners;
   mapping(address => mapping(bytes32 => mapping(address => uint))) public delegates;
   mapping(address => uint) public changed;
-  mapping(address => uint) public nonce;
- address constant P256VERIFY_PRECOMPILE = 0x0000000000000000000000000000000000000100;
+  mapping(address => uint) public nonce; 
+  address constant P256VERIFY_PRECOMPILE = 0x0000000000000000000000000000000000000100;
 
   modifier onlyOwner(address identity, address actor) {
     require (actor == identityOwner(identity), "bad_actor");
@@ -26,7 +26,6 @@ event P256VerifyResult(uint256 returnValue);
     bytes32 delegateType,
     address delegate,
     uint validTo,
-	bytes32 delegatePublicKey,
     uint previousChange
   );
 
@@ -52,7 +51,6 @@ event P256VerifyResult(uint256 returnValue);
     nonce[signer]++;
     return signer;
   }
-
 function callP256Verify() public returns (uint256 returnValue) {
       bool success; 
     	bytes memory CALLDATA =
@@ -67,7 +65,7 @@ function callP256Verify() public returns (uint256 returnValue) {
 
 		    emit P256VerifyResult(returnValue);
 	}
-	  function validDelegate(address identity, bytes32 delegateType, address delegate ) public view returns(bool) {
+  function validDelegate(address identity, bytes32 delegateType, address delegate) public view returns(bool) {
     uint validity = delegates[identity][keccak256(abi.encode(delegateType))][delegate];
     return (validity > block.timestamp);
   }
@@ -87,35 +85,34 @@ function callP256Verify() public returns (uint256 returnValue) {
     changeOwner(identity, checkSignature(identity, sigV, sigR, sigS, hash), newOwner);
   }
 
-  function addDelegate(address identity, address actor, bytes32 delegateType, address delegate, uint validity, bytes32 delegatePublicKey) internal onlyOwner(identity, actor) {		
-
-	delegates[identity][keccak256(abi.encode(delegateType))][delegate] = block.timestamp + validity;
-    emit DIDDelegateChanged(identity, delegateType, delegate, block.timestamp + validity, delegatePublicKey, changed[identity]);
+  function addDelegate(address identity, address actor, bytes32 delegateType, address delegate, uint validity) internal onlyOwner(identity, actor) {
+    delegates[identity][keccak256(abi.encode(delegateType))][delegate] = block.timestamp + validity;
+    emit DIDDelegateChanged(identity, delegateType, delegate, block.timestamp + validity, changed[identity]);
     changed[identity] = block.number;
   }
 
-  function addDelegate(address identity, bytes32 delegateType, address delegate, uint validity, bytes32 delegatePublicKey) public {
-    addDelegate(identity, msg.sender, delegateType, delegate, validity, delegatePublicKey) ;
+  function addDelegate(address identity, bytes32 delegateType, address delegate, uint validity) public {
+    addDelegate(identity, msg.sender, delegateType, delegate, validity);
   }
 
-  function addDelegateSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 delegateType, address delegate, uint validity, bytes32 delegatePublicKey) public {
+  function addDelegateSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 delegateType, address delegate, uint validity) public {
     bytes32 hash = keccak256(abi.encodePacked(bytes1(0x19), bytes1(0), this, nonce[identityOwner(identity)], identity, "addDelegate", delegateType, delegate, validity));
-    addDelegate(identity, checkSignature(identity, sigV, sigR, sigS, hash), delegateType, delegate,  validity, delegatePublicKey);
+    addDelegate(identity, checkSignature(identity, sigV, sigR, sigS, hash), delegateType, delegate, validity);
   }
 
-  function revokeDelegate(address identity, address actor, bytes32 delegateType, address delegate, bytes32 delegatePublicKey) internal onlyOwner(identity, actor) {
+  function revokeDelegate(address identity, address actor, bytes32 delegateType, address delegate) internal onlyOwner(identity, actor) {
     delegates[identity][keccak256(abi.encode(delegateType))][delegate] = block.timestamp;
-    emit DIDDelegateChanged(identity, delegateType, delegate, block.timestamp, delegatePublicKey, changed[identity]);
+    emit DIDDelegateChanged(identity, delegateType, delegate, block.timestamp, changed[identity]);
     changed[identity] = block.number;
   }
 
-  function revokeDelegate(address identity, bytes32 delegateType, address delegate, bytes32 delegatePublicKey) public {
-    revokeDelegate(identity, msg.sender, delegateType, delegate, delegatePublicKey);
+  function revokeDelegate(address identity, bytes32 delegateType, address delegate) public {
+    revokeDelegate(identity, msg.sender, delegateType, delegate);
   }
 
-  function revokeDelegateSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 delegateType, address delegate, bytes32 delegatePublicKey) public {
+  function revokeDelegateSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 delegateType, address delegate) public {
     bytes32 hash = keccak256(abi.encodePacked(bytes1(0x19), bytes1(0), this, nonce[identityOwner(identity)], identity, "revokeDelegate", delegateType, delegate));
-    revokeDelegate(identity, checkSignature(identity, sigV, sigR, sigS, hash), delegateType, delegate, delegatePublicKey);
+    revokeDelegate(identity, checkSignature(identity, sigV, sigR, sigS, hash), delegateType, delegate);
   }
 
   function setAttribute(address identity, address actor, bytes32 name, bytes memory value, uint validity ) internal onlyOwner(identity, actor) {

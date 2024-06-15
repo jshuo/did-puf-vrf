@@ -32,11 +32,11 @@ export default function IssuerPage() {
   const [delegateSignerIdentifier, setDelegateSignerIdentifier] = useState("");
   const [connectedMetamaskAccount, setConnectedMetamaskAccount] = useState("");
   const [signedJWT, setSignedJWT] = useState("");
-  let JWTMessage: unsignedJWT; // Unsigned JWT message
-  const [issuerDid, setIssuerDid] = useState(null);
+  const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
+  const [issuerDid, setIssuerDid] = useState<EthrDID>();
   const provider = useEthersProvider();
   const signer = useEthersSigner();
-  const registryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const registryAddress = "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0";
   const providerConfig = {
     networks: [{ name: "0x13882", provider }],
     registry: registryAddress,
@@ -78,7 +78,7 @@ export default function IssuerPage() {
     };
 
     setIssuerDID(issuerDid.did);
-    JWTMessage = buildJWT;
+    setJWTMessage(buildJWT);
   };
 
   const createDelegate = async () => {
@@ -95,7 +95,7 @@ export default function IssuerPage() {
       txSigner: signer,
       alg: "ES256K",
     });
-
+    setIssuerDid(issuerDid);
     const { kp } = await issuerDid.createSigningDelegate();
     setDelegateSigner(kp.address);
     setDelegateSignerIdentifier(kp.identifier);
@@ -104,17 +104,7 @@ export default function IssuerPage() {
   const signJWT = async () => {
     if (!JWTMessage) return;
 
-    if (signer) {
-      issuerAddress = await signer.getAddress();
-      chainNameOrId = await signer.getChainId();
-
-      const issuerDid = new EthrDID({
-        identifier: issuerAddress,
-        provider,
-        chainNameOrId,
-        txSigner: signer,
-        alg: "ES256K",
-      });
+    if (signer && issuerDid) {
       const signedJWT = await issuerDid.signJWT(JWTMessage.payload);
 
       setSignedJWT(signedJWT);
