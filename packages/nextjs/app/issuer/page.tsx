@@ -34,10 +34,9 @@ export default function IssuerPage() {
   const [signedJWT, setSignedJWT] = useState("");
   let JWTMessage: unsignedJWT; // Unsigned JWT message
   const [issuerDid, setIssuerDid] = useState(null);
-  const chainId = 80002;
-  const provider = useEthersProvider({ chainId });
-  const signer = useEthersSigner({ chainId });
-  const registryAddress = "0x0B306BF915C4d645ff596e518fAf3F9669b97016";
+  const provider = useEthersProvider();
+  const signer = useEthersSigner();
+  const registryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   const providerConfig = {
     networks: [{ name: "0x13882", provider }],
     registry: registryAddress,
@@ -47,7 +46,10 @@ export default function IssuerPage() {
   let issuerAddress: string, chainNameOrId: number;
 
   const processDid = async () => {
-    const chainNameOrId = chainId;
+    if (signer) {
+      issuerAddress = await signer.getAddress();
+      chainNameOrId = await signer.getChainId();
+    }
     const subjectAddr = subjectAddress || "0xDBB3d90156fC23c28C709eB68af8403836951AF8";
     const audienceAddr = audienceAddress || "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 
@@ -89,6 +91,7 @@ export default function IssuerPage() {
       identifier: issuerAddress,
       provider,
       chainNameOrId,
+      registry: registryAddress,
       txSigner: signer,
       alg: "ES256K",
     });
