@@ -36,7 +36,7 @@ export default function IssuerPage() {
   const [issuerDid, setIssuerDid] = useState<EthrDID>();
   const provider = useEthersProvider();
   const signer = useEthersSigner();
-  const registryAddress = "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0";
+  const registryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   const providerConfig = {
     networks: [{ name: "0x13882", provider }],
     registry: registryAddress,
@@ -109,19 +109,16 @@ export default function IssuerPage() {
 
       setSignedJWT(signedJWT);
 
-      setConnectedMetamaskAccount(await signer.getAddress());
-
       const issuerDoc = await didResolver.resolve(issuerDid.did);
       console.debug(issuerDoc);
     }
-    await fetch("/api/saveJWT", {
-      method: "POST",
-      body: JSON.stringify({ signedJWT }),
-      headers: { "Content-type": "application/json" },
-    }).then(async res => {
-      const message = await res.text();
-      console.log(JSON.parse(message).message);
-    });
+
+    const audienceAddr = audienceAddress || "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+    const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
+    const JWTVerified = await audienceDid.verifyJWT(signedJWT, didResolver);
+
+    console.log(`Verify JWT:`);
+    console.debug(JWTVerified);
   };
 
   return (
