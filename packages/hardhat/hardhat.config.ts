@@ -30,8 +30,8 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  // defaultNetwork: "localhost",
-  defaultNetwork: "polygonAmoy",
+  defaultNetwork: "localhost",
+  // defaultNetwork: "polygonAmoy",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
