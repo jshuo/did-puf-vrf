@@ -20,7 +20,7 @@ const Home: NextPage = () => {
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
             <span className="block text-4xl font-bold">
-              IOTA/Polygon/Agence EVM NeoPUF-based Decentralized Identity App
+              EVM-Compatible NeoPUF-Based and DID-Based Apps for Supply Chain and RWA
             </span>
             <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
           </h1>
