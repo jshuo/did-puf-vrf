@@ -36,7 +36,7 @@ export default function IssuerPage() {
   const [issuerDid, setIssuerDid] = useState<EthrDID>();
   const provider = useEthersProvider();
   const signer = useEthersSigner();
-  const registryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const registryAddress = "0x0F042827cA2FCC4042c79Ff43181ef618dC14585";
   const providerConfig = {
     networks: [{ name: "0x13882", provider }],
     registry: registryAddress,
@@ -105,6 +105,8 @@ export default function IssuerPage() {
     if (!JWTMessage) return;
 
     if (signer && issuerDid) {
+      const ethrDidResolver = getResolver(providerConfig);
+      const didResolver = new Resolver(ethrDidResolver);
       const signedJWT = await issuerDid.signJWT(JWTMessage.payload);
 
       setSignedJWT(signedJWT);

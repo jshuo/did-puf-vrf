@@ -32,8 +32,8 @@ const Home: NextPage = () => {
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
             <p>
-              <Link href="/callforactions" passHref className="link">
-                Call for Actions
+              <Link href="/calltoactions" passHref className="link">
+                Call To Actions
               </Link>{" "}
             </p>
           </div>
