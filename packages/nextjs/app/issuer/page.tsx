@@ -159,7 +159,7 @@ export default function IssuerPage() {
           <h2>
             <span className="block text-2xl mb-2">
               <h2>
-                <b>DID Issuer Account: e.g. 國防部, Google, Telsa.. Magnificent 7 etc</b> <p></p> <Account />
+                <b>DID Issuer Account:</b> <p></p> <Account />
               </h2>
               <p></p>
               <hr />
@@ -187,10 +187,18 @@ export default function IssuerPage() {
                     Audience Address:
                     <input type="text" value={audienceAddress} onChange={e => setAudienceAddress(e.target.value)} />
                   </label>
-                  <button type="submit">Configure Addresses</button>
+                  <br />
+                  <button
+                    type="submit"
+                    style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
+                  >
+                    Configure Addresses
+                  </button>
                 </form>
                 <span id="subjectDID">{subjectDID}</span>
+                <br />
                 <span id="audienceDID">{audienceDID}</span>
+                <br />
               </section>
               <section>
                 <h2>Prepare JWT Token for Signing</h2>
@@ -202,9 +210,26 @@ export default function IssuerPage() {
                 >
                   <label>
                     Private Claim:
-                    <input type="text" value={privateClaim} onChange={e => setPrivateClaim(e.target.value)} />
+                    <input
+                      type="text"
+                      value={privateClaim}
+                      placeholder="Enter default claim text..."
+                      onChange={e => setPrivateClaim(e.target.value)}
+                      style={{
+                        width: "500px", // Adjust width as needed
+                        height: "80px", // Adjust width as needed
+                        padding: "8px", // Adjust padding for uniformity with the button
+                        marginRight: "10px", // Optional: Provide spacing between input and button
+                      }}
+                    />
                   </label>
-                  <button type="submit">Prepare JWT</button>
+                  <br />
+                  <button
+                    type="submit"
+                    style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
+                  >
+                    Prepare JWT
+                  </button>
                 </form>
                 <span id="issuerDID">{issuerDID}</span>
               </section>
@@ -216,7 +241,12 @@ export default function IssuerPage() {
               </section>
               <section>
                 <h2>Sign JWT Token</h2>
-                <button onClick={signJWT}>Sign JWT</button>
+                <button
+                  onClick={signJWT}
+                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
+                >
+                  Sign JWT
+                </button>
                 <span id="connectedMetamaskAccount">{connectedMetamaskAccount}</span>
                 <span id="signedJWT">{signedJWT}</span>
               </section>
