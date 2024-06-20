@@ -31,6 +31,8 @@ const config: HardhatUserConfig = {
     },
   },
   defaultNetwork: "localhost",
+  //  defaultNetwork: "agence",
+  // defaultNetwork: "hardhat",
   // defaultNetwork: "polygonAmoy",
   namedAccounts: {
     deployer: {
@@ -105,6 +107,10 @@ const config: HardhatUserConfig = {
     },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
+      accounts: [deployerPrivateKey],
+    },
+    agence: {
+      url: "https://takecopter.cloud.agence.network",
       accounts: [deployerPrivateKey],
     },
   },

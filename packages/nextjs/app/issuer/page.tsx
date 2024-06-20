@@ -36,10 +36,32 @@ export default function IssuerPage() {
   const [issuerDid, setIssuerDid] = useState<EthrDID>();
   const provider = useEthersProvider();
   const signer = useEthersSigner();
-  const registryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
+  const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
+  const AgenceRegistryAddress = "0x48a9054a18c82b126Fae729a493757209E9182b8"; // agence
   const providerConfig = {
     networks: [
-      { name: "development", rpcUrl: "http://localhost:7545", chainId: 31337, provider, registry: registryAddress },
+      {
+        name: "development",
+        rpcUrl: "http://localhost:7545",
+        chainId: 31337,
+        provider,
+        registry: hardHatRegistryAddress,
+      },
+      {
+        name: "agence",
+        rpcUrl: "https://takecopter.cloud.agence.network",
+        chainId: 887,
+        provider,
+        registry: AgenceRegistryAddress,
+      },
+      {
+        name: "PolygonAmoy",
+        rpcUrl: "https://rpc-amoy.polygon.technology",
+        chainId: 80002,
+        provider,
+        registry: PolyAmoyRegistryAddress,
+      },
     ],
   };
   const ethrDidResolver = getResolver(providerConfig);
@@ -92,7 +114,7 @@ export default function IssuerPage() {
       identifier: issuerAddress,
       provider,
       chainNameOrId,
-      registry: registryAddress,
+      registry: PolyAmoyRegistryAddress,
       txSigner: signer,
       alg: "ES256K",
     });
