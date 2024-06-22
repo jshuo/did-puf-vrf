@@ -24,16 +24,17 @@ type unsignedJWT = {
 export default function IssuerPage() {
   const [subjectAddress, setSubjectAddress] = useState("");
   const [audienceAddress, setAudienceAddress] = useState("");
+  const [privateClaim, setPrivateClaim] = useState("");
   const [subjectDID, setSubjectDID] = useState("");
   const [audienceDID, setAudienceDID] = useState("");
-  const [privateClaim, setPrivateClaim] = useState("");
   const [issuerDID, setIssuerDID] = useState("");
+  const [issuerDid, setIssuerDid] = useState<EthrDID>();
+  const [audienceDid, setAudienceDid] = useState<EthrDID>();
+  const [subjectDid, setSubjectDid] = useState<EthrDID>();
   const [delegateSigner, setDelegateSigner] = useState("");
   const [delegateSignerIdentifier, setDelegateSignerIdentifier] = useState("");
-  const [connectedMetamaskAccount, setConnectedMetamaskAccount] = useState("");
-  const [signedJWT, setSignedJWT] = useState("");
+  const [signedJWT, setSignedJWT] = useState<string | undefined>("");
   const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
-  const [issuerDid, setIssuerDid] = useState<EthrDID>();
   const provider = useEthersProvider();
   const signer = useEthersSigner();
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
@@ -78,9 +79,21 @@ export default function IssuerPage() {
 
     const subjectDid = new EthrDID({ identifier: subjectAddr, provider, chainNameOrId });
     const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
+    const issuerDid = new EthrDID({
+      identifier: issuerAddress,
+      provider,
+      chainNameOrId,
+      registry: hardHatRegistryAddress,
+      txSigner: signer,
+      alg: "ES256K",
+    });
 
     setSubjectDID(subjectDid.did);
     setAudienceDID(audienceDid.did);
+    setIssuerDID(issuerDid.did);
+    setIssuerDid(issuerDid);
+    setSubjectDid(subjectDid);
+    setAudienceDid(audienceDid);
   };
 
   const prepareJWT = async () => {
@@ -89,18 +102,15 @@ export default function IssuerPage() {
       chainNameOrId = await signer.getChainId();
     }
 
-    const issuerDid = new EthrDID({ identifier: issuerAddress, provider, chainNameOrId });
-
     const buildJWT = {
       payload: {
-        iss: issuerDid.did,
-        sub: subjectDID,
-        aud: audienceDID,
+        iss: issuerDid?.did,
+        sub: subjectDid?.did,
+        aud: audienceDid?.did,
         privateClaim: privateClaim || "DEFAULT_PRIVATE_CLAIM",
       },
     };
 
-    setIssuerDID(issuerDid.did);
     setJWTMessage(buildJWT);
   };
 
@@ -110,38 +120,30 @@ export default function IssuerPage() {
       chainNameOrId = await signer.getChainId();
     }
 
-    const issuerDid = new EthrDID({
-      identifier: issuerAddress,
-      provider,
-      chainNameOrId,
-      registry: PolyAmoyRegistryAddress,
-      txSigner: signer,
-      alg: "ES256K",
-    });
-    setIssuerDid(issuerDid);
-    const { kp } = await issuerDid.createSigningDelegate();
-    setDelegateSigner(kp.address);
-    setDelegateSignerIdentifier(kp.identifier);
+    const { kp } = (await issuerDid?.createSigningDelegate()) || { kp: undefined };
+    if (kp !== undefined) {
+      // Now you can use kp safely
+      setDelegateSigner(kp.address);
+      setDelegateSignerIdentifier(kp.identifier);
+    }
   };
 
   const signJWT = async () => {
     if (!JWTMessage) return;
 
-    if (signer && issuerDid) {
-      const signedJWT = await issuerDid.signJWT(JWTMessage.payload);
+    const signedJWT: string | undefined = await issuerDid?.signJWT(JWTMessage.payload);
+    setSignedJWT(signedJWT);
 
-      setSignedJWT(signedJWT);
-
+    if (issuerDid != undefined) {
       const issuerDoc = await didResolver.resolve(issuerDid.did);
       console.debug(issuerDoc);
     }
 
-    const audienceAddr = audienceAddress || "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
-    const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
-    const JWTVerified = await audienceDid.verifyJWT(signedJWT, didResolver);
-
-    console.log(`Verify JWT:`);
-    console.debug(JWTVerified);
+    if (signedJWT != undefined) {
+      const JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
+      console.log(`Verify JWT:`);
+      console.log(JWTVerified);
+    }
   };
 
   return (
@@ -247,7 +249,6 @@ export default function IssuerPage() {
                 >
                   Sign JWT
                 </button>
-                <span id="connectedMetamaskAccount">{connectedMetamaskAccount}</span>
                 <span id="signedJWT">{signedJWT}</span>
               </section>
             </span>
