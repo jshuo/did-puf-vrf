@@ -1,0 +1,692 @@
+{
+  "address": "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "name",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "value",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "validTo",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "previousChange",
+          "type": "uint256"
+        }
+      ],
+      "name": "DIDAttributeChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "delegateType",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "validTo",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "previousChange",
+          "type": "uint256"
+        }
+      ],
+      "name": "DIDDelegateChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "previousChange",
+          "type": "uint256"
+        }
+      ],
+      "name": "DIDOwnerChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "returnValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "P256VerifyResult",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "delegateType",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "validity",
+          "type": "uint256"
+        }
+      ],
+      "name": "addDelegate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "sigV",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigR",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigS",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "delegateType",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "validity",
+          "type": "uint256"
+        }
+      ],
+      "name": "addDelegateSigned",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "callP256Verify",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "returnValue",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "changeOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "sigV",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigR",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigS",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "changeOwnerSigned",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "changed",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "delegates",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        }
+      ],
+      "name": "identityOwner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "nonce",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "owners",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "name",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "value",
+          "type": "bytes"
+        }
+      ],
+      "name": "revokeAttribute",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "sigV",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigR",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigS",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "name",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "value",
+          "type": "bytes"
+        }
+      ],
+      "name": "revokeAttributeSigned",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "delegateType",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        }
+      ],
+      "name": "revokeDelegate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "sigV",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigR",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigS",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "delegateType",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        }
+      ],
+      "name": "revokeDelegateSigned",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "name",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "value",
+          "type": "bytes"
+        },
+        {
+          "internalType": "uint256",
+          "name": "validity",
+          "type": "uint256"
+        }
+      ],
+      "name": "setAttribute",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "sigV",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigR",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sigS",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "name",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "value",
+          "type": "bytes"
+        },
+        {
+          "internalType": "uint256",
+          "name": "validity",
+          "type": "uint256"
+        }
+      ],
+      "name": "setAttributeSigned",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "delegateType",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        }
+      ],
+      "name": "validDelegate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x7b9cfc83db11b00187f3e877ec778660d43959f15764066b8777724dfa72670f",
+  "receipt": {
+    "to": null,
+    "from": "0xfC10126E2F41cbB264BceEE6c6093133AA45f317",
+    "contractAddress": "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB",
+    "transactionIndex": 0,
+    "gasUsed": "1154805",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x46ed0bac7dc36e32861bc4548681b643c72fc7df21837d59090a1104a358f2a2",
+    "transactionHash": "0x7b9cfc83db11b00187f3e877ec778660d43959f15764066b8777724dfa72670f",
+    "logs": [],
+    "blockNumber": 12570802,
+    "cumulativeGasUsed": "1154805",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "e14f02f7403e451e1c76016358e2dc0f",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"name\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"value\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"validTo\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"previousChange\",\"type\":\"uint256\"}],\"name\":\"DIDAttributeChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"delegateType\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"delegate\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"validTo\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"previousChange\",\"type\":\"uint256\"}],\"name\":\"DIDDelegateChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"previousChange\",\"type\":\"uint256\"}],\"name\":\"DIDOwnerChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"returnValue\",\"type\":\"uint256\"}],\"name\":\"P256VerifyResult\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"delegateType\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"delegate\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"validity\",\"type\":\"uint256\"}],\"name\":\"addDelegate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"sigV\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"sigR\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"sigS\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"delegateType\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"delegate\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"validity\",\"type\":\"uint256\"}],\"name\":\"addDelegateSigned\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"callP256Verify\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"returnValue\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"changeOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"sigV\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"sigR\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"sigS\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"changeOwnerSigned\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"changed\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"delegates\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"}],\"name\":\"identityOwner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"nonce\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"owners\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"name\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"value\",\"type\":\"bytes\"}],\"name\":\"revokeAttribute\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"sigV\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"sigR\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"sigS\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"name\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"value\",\"type\":\"bytes\"}],\"name\":\"revokeAttributeSigned\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"delegateType\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"delegate\",\"type\":\"address\"}],\"name\":\"revokeDelegate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"sigV\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"sigR\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"sigS\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"delegateType\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"delegate\",\"type\":\"address\"}],\"name\":\"revokeDelegateSigned\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"name\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"value\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"validity\",\"type\":\"uint256\"}],\"name\":\"setAttribute\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"sigV\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"sigR\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"sigS\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"name\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"value\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"validity\",\"type\":\"uint256\"}],\"name\":\"setAttributeSigned\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"identity\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"delegateType\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"delegate\",\"type\":\"address\"}],\"name\":\"validDelegate\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/EthereumDIDRegistry.sol\":\"EthereumDIDRegistry\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/EthereumDIDRegistry.sol\":{\"content\":\"/* SPDX-License-Identifier: MIT */\\n\\npragma solidity ^0.8.6;\\n\\ncontract EthereumDIDRegistry {\\n\\n  mapping(address => address) public owners;\\n  mapping(address => mapping(bytes32 => mapping(address => uint))) public delegates;\\n  mapping(address => uint) public changed;\\n  mapping(address => uint) public nonce; \\n  address constant P256VERIFY_PRECOMPILE = 0x0000000000000000000000000000000000000100;\\n\\n  modifier onlyOwner(address identity, address actor) {\\n    require (actor == identityOwner(identity), \\\"bad_actor\\\");\\n    _;\\n  }\\nevent P256VerifyResult(uint256 returnValue);\\n  event DIDOwnerChanged(\\n    address indexed identity,\\n    address owner,\\n    uint previousChange\\n  );\\n\\n  event DIDDelegateChanged(\\n    address indexed identity,\\n    bytes32 delegateType,\\n    address delegate,\\n    uint validTo,\\n    uint previousChange\\n  );\\n\\n  event DIDAttributeChanged(\\n    address indexed identity,\\n    bytes32 name,\\n    bytes value,\\n    uint validTo,\\n    uint previousChange\\n  );\\n\\n  function identityOwner(address identity) public view returns(address) {\\n     address owner = owners[identity];\\n     if (owner != address(0x00)) {\\n       return owner;\\n     }\\n     return identity;\\n  }\\n\\n  function checkSignature(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 hash) internal returns(address) {\\n    address signer = ecrecover(hash, sigV, sigR, sigS);\\n    require(signer == identityOwner(identity), \\\"bad_signature\\\");\\n    nonce[signer]++;\\n    return signer;\\n  }\\nfunction callP256Verify() public returns (uint256 returnValue) {\\n      bool success; \\n    \\tbytes memory CALLDATA =\\n\\t\\t  hex\\\"4cee90eb86eaa050036147a12d49004b6b9c72bd725d39d4785011fe190f0b4da73bd4903f0ce3b639bbbf6e8e80d16931ff4bcf5993d58468e8fb19086e8cac36dbcd03009df8c59286b162af3bd7fcc0450c9aa81be5d10d312af6c66b1d604aebd3099c618202fcfe16ae7770b0c49ab5eadf74b754204a3bb6060e44eff37618b065f9832de4ca6ca971a7a1adc826d0f7c00181a5fb2ddf79ae00b4e10e\\\";\\n            // Call the P256VERIFY precompile\\n        assembly {\\n            // Staticcall to prevent state modifications\\n            success := staticcall(gas(), P256VERIFY_PRECOMPILE, add(CALLDATA, 0x20), mload(CALLDATA), 0, 32)\\n            returnValue := mload(0) // Load the first 32 bytes (bytes32) of the return data\\n        }\\n        // Check if the signature is valid\\n\\n\\t\\t    emit P256VerifyResult(returnValue);\\n\\t}\\n  function validDelegate(address identity, bytes32 delegateType, address delegate) public view returns(bool) {\\n    uint validity = delegates[identity][keccak256(abi.encode(delegateType))][delegate];\\n    return (validity > block.timestamp);\\n  }\\n\\n  function changeOwner(address identity, address actor, address newOwner) internal onlyOwner(identity, actor) {\\n    owners[identity] = newOwner;\\n    emit DIDOwnerChanged(identity, newOwner, changed[identity]);\\n    changed[identity] = block.number;\\n  }\\n\\n  function changeOwner(address identity, address newOwner) public {\\n    changeOwner(identity, msg.sender, newOwner);\\n  }\\n\\n  function changeOwnerSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, address newOwner) public {\\n    bytes32 hash = keccak256(abi.encodePacked(bytes1(0x19), bytes1(0), this, nonce[identityOwner(identity)], identity, \\\"changeOwner\\\", newOwner));\\n    changeOwner(identity, checkSignature(identity, sigV, sigR, sigS, hash), newOwner);\\n  }\\n\\n  function addDelegate(address identity, address actor, bytes32 delegateType, address delegate, uint validity) internal onlyOwner(identity, actor) {\\n    delegates[identity][keccak256(abi.encode(delegateType))][delegate] = block.timestamp + validity;\\n    emit DIDDelegateChanged(identity, delegateType, delegate, block.timestamp + validity, changed[identity]);\\n    changed[identity] = block.number;\\n  }\\n\\n  function addDelegate(address identity, bytes32 delegateType, address delegate, uint validity) public {\\n    addDelegate(identity, msg.sender, delegateType, delegate, validity);\\n  }\\n\\n  function addDelegateSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 delegateType, address delegate, uint validity) public {\\n    bytes32 hash = keccak256(abi.encodePacked(bytes1(0x19), bytes1(0), this, nonce[identityOwner(identity)], identity, \\\"addDelegate\\\", delegateType, delegate, validity));\\n    addDelegate(identity, checkSignature(identity, sigV, sigR, sigS, hash), delegateType, delegate, validity);\\n  }\\n\\n  function revokeDelegate(address identity, address actor, bytes32 delegateType, address delegate) internal onlyOwner(identity, actor) {\\n    delegates[identity][keccak256(abi.encode(delegateType))][delegate] = block.timestamp;\\n    emit DIDDelegateChanged(identity, delegateType, delegate, block.timestamp, changed[identity]);\\n    changed[identity] = block.number;\\n  }\\n\\n  function revokeDelegate(address identity, bytes32 delegateType, address delegate) public {\\n    revokeDelegate(identity, msg.sender, delegateType, delegate);\\n  }\\n\\n  function revokeDelegateSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 delegateType, address delegate) public {\\n    bytes32 hash = keccak256(abi.encodePacked(bytes1(0x19), bytes1(0), this, nonce[identityOwner(identity)], identity, \\\"revokeDelegate\\\", delegateType, delegate));\\n    revokeDelegate(identity, checkSignature(identity, sigV, sigR, sigS, hash), delegateType, delegate);\\n  }\\n\\n  function setAttribute(address identity, address actor, bytes32 name, bytes memory value, uint validity ) internal onlyOwner(identity, actor) {\\n    emit DIDAttributeChanged(identity, name, value, block.timestamp + validity, changed[identity]);\\n    changed[identity] = block.number;\\n  }\\n\\n  function setAttribute(address identity, bytes32 name, bytes memory value, uint validity) public {\\n    setAttribute(identity, msg.sender, name, value, validity);\\n  }\\n\\n  function setAttributeSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 name, bytes memory value, uint validity) public {\\n    bytes32 hash = keccak256(abi.encodePacked(bytes1(0x19), bytes1(0), this, nonce[identityOwner(identity)], identity, \\\"setAttribute\\\", name, value, validity));\\n    setAttribute(identity, checkSignature(identity, sigV, sigR, sigS, hash), name, value, validity);\\n  }\\n\\n  function revokeAttribute(address identity, address actor, bytes32 name, bytes memory value ) internal onlyOwner(identity, actor) {\\n    emit DIDAttributeChanged(identity, name, value, 0, changed[identity]);\\n    changed[identity] = block.number;\\n  }\\n\\n  function revokeAttribute(address identity, bytes32 name, bytes memory value) public {\\n    revokeAttribute(identity, msg.sender, name, value);\\n  }\\n\\n  function revokeAttributeSigned(address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes32 name, bytes memory value) public {\\n    bytes32 hash = keccak256(abi.encodePacked(bytes1(0x19), bytes1(0), this, nonce[identityOwner(identity)], identity, \\\"revokeAttribute\\\", name, value));\\n    revokeAttribute(identity, checkSignature(identity, sigV, sigR, sigS, hash), name, value);\\n  }\\n\\n}\",\"keccak256\":\"0x4ad607248ed83f587406727b25b3a119280bfd1c75b4d3413e15e0dfae49d47d\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506113ec806100206000396000f3fe608060405234801561001057600080fd5b506004361061010a5760003560e01c806380b29f7c116100a2578063a7068d6611610071578063a7068d66146102c0578063e476af5c146102d3578063f00d4b5d146102e6578063f5ce9d18146102f9578063f96d0f9f1461030157600080fd5b806380b29f7c146102745780638733d4e814610287578063930726841461029a5780639c2c1b2b146102ad57600080fd5b8063240cf1fa116100de578063240cf1fa146101bc578063622b2a3c146101cf57806370ae92d2146102415780637ad4b0a41461026157600080fd5b8062c023da1461010f578063022914a7146101245780630d44625b1461016a578063123b5e98146101a9575b600080fd5b61012261011d366004610d6c565b610321565b005b61014d610132366004610dc3565b6000602081905290815260409020546001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b61019b610178366004610de5565b600160209081526000938452604080852082529284528284209052825290205481565b604051908152602001610161565b6101226101b7366004610e32565b610332565b6101226101ca366004610eb7565b6103be565b6102316101dd366004610de5565b6001600160a01b039283166000908152600160209081526040808320815180840196909652815180870384018152958201825285519583019590952083529381528382209290941681529252902054421090565b6040519015158152602001610161565b61019b61024f366004610dc3565b60036020526000908152604090205481565b61012261026f366004610f0e565b610489565b610122610282366004610de5565b61049c565b61014d610295366004610dc3565b6104a8565b6101226102a8366004610f6d565b6104d8565b6101226102bb366004610fcc565b6105af565b6101226102ce366004611036565b610686565b6101226102e136600461107a565b610693565b6101226102f43660046110f4565b610712565b61019b610721565b61019b61030f366004610dc3565b60026020526000908152604090205481565b61032d83338484610795565b505050565b6000601960f81b81306003826103478d6104a8565b6001600160a01b03166001600160a01b03168152602001908152602001600020548b88888860405160200161038398979695949392919061114b565b6040516020818303038152906040528051906020012090506103b4886103ac8a8a8a8a87610851565b868686610940565b5050505050505050565b6000601960f81b81306003826103d38b6104a8565b6001600160a01b0316815260208082019290925260409081016000205481516001600160f81b0319968716818501529490951660218501526001600160601b0319606093841b8116602286015260368501959095528a831b851660568501526a31b430b733b2a7bbb732b960a91b606a8501529186901b90931660758301528051606981840301815260899092019052805191012090506104818661047b8188888887610851565b84610a08565b505050505050565b6104968433858585610940565b50505050565b61032d83338484610ad0565b6001600160a01b0380821660009081526020819052604081205490911680156104d15792915050565b5090919050565b6000601960f81b81306003826104ed8c6104a8565b6001600160a01b0316815260208082019290925260409081016000205481516001600160f81b0319968716818501529490951660218501526001600160601b0319606093841b8116602286015260368501959095528b831b851660568501526d7265766f6b6544656c656761746560901b606a850152607884018890529186901b90931660988301528051608c81840301815260ac9092019052805191012090506105a68761059f8189898987610851565b8585610ad0565b50505050505050565b6000601960f81b81306003826105c48d6104a8565b6001600160a01b0316815260208082019290925260409081016000205490516001600160f81b031995861692810192909252929093166021840152606090811b6001600160601b0319908116602285015260368401929092528a811b821660568401526a61646444656c656761746560a81b606a8401526075830187905285901b16609582015260a9810183905260c9016040516020818303038152906040528051906020012090506103b48861067e8a8a8a8a87610851565b868686610bae565b6104968433858585610bae565b6000601960f81b81306003826106a88c6104a8565b6001600160a01b03166001600160a01b03168152602001908152602001600020548a87876040516020016106e297969594939291906111d1565b6040516020818303038152906040528051906020012090506105a68761070b8989898987610851565b8585610795565b61071d823383610a08565b5050565b60008060006040518060c0016040528060a0815260200161131760a091399050602060008251602084016101005afa915060005192507f85f5751e685a26274fb3e776155fd0ba7633034ddff9ba29a3d850c1acdce63e8360405161078891815260200190565b60405180910390a1505090565b83836107a0826104a8565b6001600160a01b0316816001600160a01b0316146107d95760405162461bcd60e51b81526004016107d090611253565b60405180910390fd5b6001600160a01b0386166000818152600260205260408082205490517f18ab6b2ae3d64306c00ce663125f2bd680e441a098de1635bd7ad8b0d44965e492610826928992899291906112a2565b60405180910390a25050506001600160a01b0390921660009081526002602052604090204390555050565b6040805160008082526020820180845284905260ff8716928201929092526060810185905260808101849052819060019060a0016020604051602081039080840390855afa1580156108a7573d6000803e3d6000fd5b5050506020604051035190506108bc876104a8565b6001600160a01b0316816001600160a01b03161461090c5760405162461bcd60e51b815260206004820152600d60248201526c6261645f7369676e617475726560981b60448201526064016107d0565b6001600160a01b0381166000908152600360205260408120805491610930836112e4565b9091555090979650505050505050565b848461094b826104a8565b6001600160a01b0316816001600160a01b03161461097b5760405162461bcd60e51b81526004016107d090611253565b6001600160a01b0387167f18ab6b2ae3d64306c00ce663125f2bd680e441a098de1635bd7ad8b0d44965e486866109b287426112fd565b6001600160a01b038c16600090815260026020526040908190205490516109dc94939291906112a2565b60405180910390a25050506001600160a01b039093166000908152600260205260409020439055505050565b8282610a13826104a8565b6001600160a01b0316816001600160a01b031614610a435760405162461bcd60e51b81526004016107d090611253565b6001600160a01b0385811660008181526020818152604080832080546001600160a01b031916958916958617905560028252918290205482519485529084015290917f38a5a6e68f30ed1ab45860a4afb34bcb2fc00f22ca462d249b8a8d40cda6f7a3910160405180910390a2505050506001600160a01b03166000908152600260205260409020439055565b8383610adb826104a8565b6001600160a01b0316816001600160a01b031614610b0b5760405162461bcd60e51b81526004016107d090611253565b6001600160a01b03868116600081815260016020908152604080832081518084018b90528251808203850181528184018085528151918601919091208652918452828520968a16808652968452828520429081905586865260029094529190932054928990526060810194909452608084015260a0830152907f5a5084339536bcab65f20799fcc58724588145ca054bd2be626174b27ba156f79060c001610826565b8484610bb9826104a8565b6001600160a01b0316816001600160a01b031614610be95760405162461bcd60e51b81526004016107d090611253565b610bf383426112fd565b6001600160a01b03888116600081815260016020908152604080832081518084018d9052825180820385018152908301835280519084012084528252808320948a16835293905291909120919091557f5a5084339536bcab65f20799fcc58724588145ca054bd2be626174b27ba156f78686610c6f87426112fd565b6001600160a01b038c8116600090815260026020908152604091829020548251968752949092169185019190915283015260608201526080016109dc565b80356001600160a01b0381168114610cc457600080fd5b919050565b634e487b7160e01b600052604160045260246000fd5b600082601f830112610cf057600080fd5b813567ffffffffffffffff80821115610d0b57610d0b610cc9565b604051601f8301601f19908116603f01168101908282118183101715610d3357610d33610cc9565b81604052838152866020858801011115610d4c57600080fd5b836020870160208301376000602085830101528094505050505092915050565b600080600060608486031215610d8157600080fd5b610d8a84610cad565b925060208401359150604084013567ffffffffffffffff811115610dad57600080fd5b610db986828701610cdf565b9150509250925092565b600060208284031215610dd557600080fd5b610dde82610cad565b9392505050565b600080600060608486031215610dfa57600080fd5b610e0384610cad565b925060208401359150610e1860408501610cad565b90509250925092565b803560ff81168114610cc457600080fd5b600080600080600080600060e0888a031215610e4d57600080fd5b610e5688610cad565b9650610e6460208901610e21565b955060408801359450606088013593506080880135925060a088013567ffffffffffffffff811115610e9557600080fd5b610ea18a828b01610cdf565b92505060c0880135905092959891949750929550565b600080600080600060a08688031215610ecf57600080fd5b610ed886610cad565b9450610ee660208701610e21565b93506040860135925060608601359150610f0260808701610cad565b90509295509295909350565b60008060008060808587031215610f2457600080fd5b610f2d85610cad565b935060208501359250604085013567ffffffffffffffff811115610f5057600080fd5b610f5c87828801610cdf565b949793965093946060013593505050565b60008060008060008060c08789031215610f8657600080fd5b610f8f87610cad565b9550610f9d60208801610e21565b9450604087013593506060870135925060808701359150610fc060a08801610cad565b90509295509295509295565b600080600080600080600060e0888a031215610fe757600080fd5b610ff088610cad565b9650610ffe60208901610e21565b955060408801359450606088013593506080880135925061102160a08901610cad565b915060c0880135905092959891949750929550565b6000806000806080858703121561104c57600080fd5b61105585610cad565b93506020850135925061106a60408601610cad565b9396929550929360600135925050565b60008060008060008060c0878903121561109357600080fd5b61109c87610cad565b95506110aa60208801610e21565b945060408701359350606087013592506080870135915060a087013567ffffffffffffffff8111156110db57600080fd5b6110e789828a01610cdf565b9150509295509295509295565b6000806040838503121561110757600080fd5b61111083610cad565b915061111e60208401610cad565b90509250929050565b60005b8381101561114257818101518382015260200161112a565b50506000910152565b6001600160f81b03198981168252881660018201526001600160601b0319606088811b821660028401526016830188905286901b1660368201526b73657441747472696275746560a01b604a8201526056810184905282516000906111b7816076850160208801611127565b607692019182019290925260960198975050505050505050565b6001600160f81b03198881168252871660018201526001600160601b0319606087811b821660028401526016830187905285901b1660368201526e7265766f6b6541747472696275746560881b604a820152605981018390528151600090611240816079850160208701611127565b9190910160790198975050505050505050565b6020808252600990820152683130b22fb0b1ba37b960b91b604082015260600190565b6000815180845261128e816020860160208601611127565b601f01601f19169290920160200192915050565b8481526080602082015260006112bb6080830186611276565b6040830194909452506060015292915050565b634e487b7160e01b600052601160045260246000fd5b6000600182016112f6576112f66112ce565b5060010190565b80820180821115611310576113106112ce565b9291505056fe4cee90eb86eaa050036147a12d49004b6b9c72bd725d39d4785011fe190f0b4da73bd4903f0ce3b639bbbf6e8e80d16931ff4bcf5993d58468e8fb19086e8cac36dbcd03009df8c59286b162af3bd7fcc0450c9aa81be5d10d312af6c66b1d604aebd3099c618202fcfe16ae7770b0c49ab5eadf74b754204a3bb6060e44eff37618b065f9832de4ca6ca971a7a1adc826d0f7c00181a5fb2ddf79ae00b4e10ea264697066735822122014dc871eaaa8a55b4b509e6bff886c3d0e82c455f96671271080d516ac1eadd264736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061010a5760003560e01c806380b29f7c116100a2578063a7068d6611610071578063a7068d66146102c0578063e476af5c146102d3578063f00d4b5d146102e6578063f5ce9d18146102f9578063f96d0f9f1461030157600080fd5b806380b29f7c146102745780638733d4e814610287578063930726841461029a5780639c2c1b2b146102ad57600080fd5b8063240cf1fa116100de578063240cf1fa146101bc578063622b2a3c146101cf57806370ae92d2146102415780637ad4b0a41461026157600080fd5b8062c023da1461010f578063022914a7146101245780630d44625b1461016a578063123b5e98146101a9575b600080fd5b61012261011d366004610d6c565b610321565b005b61014d610132366004610dc3565b6000602081905290815260409020546001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b61019b610178366004610de5565b600160209081526000938452604080852082529284528284209052825290205481565b604051908152602001610161565b6101226101b7366004610e32565b610332565b6101226101ca366004610eb7565b6103be565b6102316101dd366004610de5565b6001600160a01b039283166000908152600160209081526040808320815180840196909652815180870384018152958201825285519583019590952083529381528382209290941681529252902054421090565b6040519015158152602001610161565b61019b61024f366004610dc3565b60036020526000908152604090205481565b61012261026f366004610f0e565b610489565b610122610282366004610de5565b61049c565b61014d610295366004610dc3565b6104a8565b6101226102a8366004610f6d565b6104d8565b6101226102bb366004610fcc565b6105af565b6101226102ce366004611036565b610686565b6101226102e136600461107a565b610693565b6101226102f43660046110f4565b610712565b61019b610721565b61019b61030f366004610dc3565b60026020526000908152604090205481565b61032d83338484610795565b505050565b6000601960f81b81306003826103478d6104a8565b6001600160a01b03166001600160a01b03168152602001908152602001600020548b88888860405160200161038398979695949392919061114b565b6040516020818303038152906040528051906020012090506103b4886103ac8a8a8a8a87610851565b868686610940565b5050505050505050565b6000601960f81b81306003826103d38b6104a8565b6001600160a01b0316815260208082019290925260409081016000205481516001600160f81b0319968716818501529490951660218501526001600160601b0319606093841b8116602286015260368501959095528a831b851660568501526a31b430b733b2a7bbb732b960a91b606a8501529186901b90931660758301528051606981840301815260899092019052805191012090506104818661047b8188888887610851565b84610a08565b505050505050565b6104968433858585610940565b50505050565b61032d83338484610ad0565b6001600160a01b0380821660009081526020819052604081205490911680156104d15792915050565b5090919050565b6000601960f81b81306003826104ed8c6104a8565b6001600160a01b0316815260208082019290925260409081016000205481516001600160f81b0319968716818501529490951660218501526001600160601b0319606093841b8116602286015260368501959095528b831b851660568501526d7265766f6b6544656c656761746560901b606a850152607884018890529186901b90931660988301528051608c81840301815260ac9092019052805191012090506105a68761059f8189898987610851565b8585610ad0565b50505050505050565b6000601960f81b81306003826105c48d6104a8565b6001600160a01b0316815260208082019290925260409081016000205490516001600160f81b031995861692810192909252929093166021840152606090811b6001600160601b0319908116602285015260368401929092528a811b821660568401526a61646444656c656761746560a81b606a8401526075830187905285901b16609582015260a9810183905260c9016040516020818303038152906040528051906020012090506103b48861067e8a8a8a8a87610851565b868686610bae565b6104968433858585610bae565b6000601960f81b81306003826106a88c6104a8565b6001600160a01b03166001600160a01b03168152602001908152602001600020548a87876040516020016106e297969594939291906111d1565b6040516020818303038152906040528051906020012090506105a68761070b8989898987610851565b8585610795565b61071d823383610a08565b5050565b60008060006040518060c0016040528060a0815260200161131760a091399050602060008251602084016101005afa915060005192507f85f5751e685a26274fb3e776155fd0ba7633034ddff9ba29a3d850c1acdce63e8360405161078891815260200190565b60405180910390a1505090565b83836107a0826104a8565b6001600160a01b0316816001600160a01b0316146107d95760405162461bcd60e51b81526004016107d090611253565b60405180910390fd5b6001600160a01b0386166000818152600260205260408082205490517f18ab6b2ae3d64306c00ce663125f2bd680e441a098de1635bd7ad8b0d44965e492610826928992899291906112a2565b60405180910390a25050506001600160a01b0390921660009081526002602052604090204390555050565b6040805160008082526020820180845284905260ff8716928201929092526060810185905260808101849052819060019060a0016020604051602081039080840390855afa1580156108a7573d6000803e3d6000fd5b5050506020604051035190506108bc876104a8565b6001600160a01b0316816001600160a01b03161461090c5760405162461bcd60e51b815260206004820152600d60248201526c6261645f7369676e617475726560981b60448201526064016107d0565b6001600160a01b0381166000908152600360205260408120805491610930836112e4565b9091555090979650505050505050565b848461094b826104a8565b6001600160a01b0316816001600160a01b03161461097b5760405162461bcd60e51b81526004016107d090611253565b6001600160a01b0387167f18ab6b2ae3d64306c00ce663125f2bd680e441a098de1635bd7ad8b0d44965e486866109b287426112fd565b6001600160a01b038c16600090815260026020526040908190205490516109dc94939291906112a2565b60405180910390a25050506001600160a01b039093166000908152600260205260409020439055505050565b8282610a13826104a8565b6001600160a01b0316816001600160a01b031614610a435760405162461bcd60e51b81526004016107d090611253565b6001600160a01b0385811660008181526020818152604080832080546001600160a01b031916958916958617905560028252918290205482519485529084015290917f38a5a6e68f30ed1ab45860a4afb34bcb2fc00f22ca462d249b8a8d40cda6f7a3910160405180910390a2505050506001600160a01b03166000908152600260205260409020439055565b8383610adb826104a8565b6001600160a01b0316816001600160a01b031614610b0b5760405162461bcd60e51b81526004016107d090611253565b6001600160a01b03868116600081815260016020908152604080832081518084018b90528251808203850181528184018085528151918601919091208652918452828520968a16808652968452828520429081905586865260029094529190932054928990526060810194909452608084015260a0830152907f5a5084339536bcab65f20799fcc58724588145ca054bd2be626174b27ba156f79060c001610826565b8484610bb9826104a8565b6001600160a01b0316816001600160a01b031614610be95760405162461bcd60e51b81526004016107d090611253565b610bf383426112fd565b6001600160a01b03888116600081815260016020908152604080832081518084018d9052825180820385018152908301835280519084012084528252808320948a16835293905291909120919091557f5a5084339536bcab65f20799fcc58724588145ca054bd2be626174b27ba156f78686610c6f87426112fd565b6001600160a01b038c8116600090815260026020908152604091829020548251968752949092169185019190915283015260608201526080016109dc565b80356001600160a01b0381168114610cc457600080fd5b919050565b634e487b7160e01b600052604160045260246000fd5b600082601f830112610cf057600080fd5b813567ffffffffffffffff80821115610d0b57610d0b610cc9565b604051601f8301601f19908116603f01168101908282118183101715610d3357610d33610cc9565b81604052838152866020858801011115610d4c57600080fd5b836020870160208301376000602085830101528094505050505092915050565b600080600060608486031215610d8157600080fd5b610d8a84610cad565b925060208401359150604084013567ffffffffffffffff811115610dad57600080fd5b610db986828701610cdf565b9150509250925092565b600060208284031215610dd557600080fd5b610dde82610cad565b9392505050565b600080600060608486031215610dfa57600080fd5b610e0384610cad565b925060208401359150610e1860408501610cad565b90509250925092565b803560ff81168114610cc457600080fd5b600080600080600080600060e0888a031215610e4d57600080fd5b610e5688610cad565b9650610e6460208901610e21565b955060408801359450606088013593506080880135925060a088013567ffffffffffffffff811115610e9557600080fd5b610ea18a828b01610cdf565b92505060c0880135905092959891949750929550565b600080600080600060a08688031215610ecf57600080fd5b610ed886610cad565b9450610ee660208701610e21565b93506040860135925060608601359150610f0260808701610cad565b90509295509295909350565b60008060008060808587031215610f2457600080fd5b610f2d85610cad565b935060208501359250604085013567ffffffffffffffff811115610f5057600080fd5b610f5c87828801610cdf565b949793965093946060013593505050565b60008060008060008060c08789031215610f8657600080fd5b610f8f87610cad565b9550610f9d60208801610e21565b9450604087013593506060870135925060808701359150610fc060a08801610cad565b90509295509295509295565b600080600080600080600060e0888a031215610fe757600080fd5b610ff088610cad565b9650610ffe60208901610e21565b955060408801359450606088013593506080880135925061102160a08901610cad565b915060c0880135905092959891949750929550565b6000806000806080858703121561104c57600080fd5b61105585610cad565b93506020850135925061106a60408601610cad565b9396929550929360600135925050565b60008060008060008060c0878903121561109357600080fd5b61109c87610cad565b95506110aa60208801610e21565b945060408701359350606087013592506080870135915060a087013567ffffffffffffffff8111156110db57600080fd5b6110e789828a01610cdf565b9150509295509295509295565b6000806040838503121561110757600080fd5b61111083610cad565b915061111e60208401610cad565b90509250929050565b60005b8381101561114257818101518382015260200161112a565b50506000910152565b6001600160f81b03198981168252881660018201526001600160601b0319606088811b821660028401526016830188905286901b1660368201526b73657441747472696275746560a01b604a8201526056810184905282516000906111b7816076850160208801611127565b607692019182019290925260960198975050505050505050565b6001600160f81b03198881168252871660018201526001600160601b0319606087811b821660028401526016830187905285901b1660368201526e7265766f6b6541747472696275746560881b604a820152605981018390528151600090611240816079850160208701611127565b9190910160790198975050505050505050565b6020808252600990820152683130b22fb0b1ba37b960b91b604082015260600190565b6000815180845261128e816020860160208601611127565b601f01601f19169290920160200192915050565b8481526080602082015260006112bb6080830186611276565b6040830194909452506060015292915050565b634e487b7160e01b600052601160045260246000fd5b6000600182016112f6576112f66112ce565b5060010190565b80820180821115611310576113106112ce565b9291505056fe4cee90eb86eaa050036147a12d49004b6b9c72bd725d39d4785011fe190f0b4da73bd4903f0ce3b639bbbf6e8e80d16931ff4bcf5993d58468e8fb19086e8cac36dbcd03009df8c59286b162af3bd7fcc0450c9aa81be5d10d312af6c66b1d604aebd3099c618202fcfe16ae7770b0c49ab5eadf74b754204a3bb6060e44eff37618b065f9832de4ca6ca971a7a1adc826d0f7c00181a5fb2ddf79ae00b4e10ea264697066735822122014dc871eaaa8a55b4b509e6bff886c3d0e82c455f96671271080d516ac1eadd264736f6c63430008110033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 5,
+        "contract": "contracts/EthereumDIDRegistry.sol:EthereumDIDRegistry",
+        "label": "owners",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_address,t_address)"
+      },
+      {
+        "astId": 13,
+        "contract": "contracts/EthereumDIDRegistry.sol:EthereumDIDRegistry",
+        "label": "delegates",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_mapping(t_bytes32,t_mapping(t_address,t_uint256)))"
+      },
+      {
+        "astId": 17,
+        "contract": "contracts/EthereumDIDRegistry.sol:EthereumDIDRegistry",
+        "label": "changed",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 21,
+        "contract": "contracts/EthereumDIDRegistry.sol:EthereumDIDRegistry",
+        "label": "nonce",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_address,t_uint256)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_address,t_address)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => address)",
+        "numberOfBytes": "32",
+        "value": "t_address"
+      },
+      "t_mapping(t_address,t_mapping(t_bytes32,t_mapping(t_address,t_uint256)))": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => mapping(bytes32 => mapping(address => uint256)))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_bytes32,t_mapping(t_address,t_uint256))"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_mapping(t_bytes32,t_mapping(t_address,t_uint256))": {
+        "encoding": "mapping",
+        "key": "t_bytes32",
+        "label": "mapping(bytes32 => mapping(address => uint256))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_address,t_uint256)"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

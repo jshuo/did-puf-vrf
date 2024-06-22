@@ -83,7 +83,7 @@ export default function IssuerPage() {
       identifier: issuerAddress,
       provider,
       chainNameOrId,
-      registry: hardHatRegistryAddress,
+      registry: AgenceRegistryAddress,
       txSigner: signer,
       alg: "ES256K",
     });
