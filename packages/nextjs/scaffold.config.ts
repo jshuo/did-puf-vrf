@@ -8,10 +8,71 @@ export type ScaffoldConfig = {
   onlyLocalBurnerWallet: boolean;
 };
 
+interface NativeCurrency {
+  name: string;
+  symbol: string;
+  decimals: number;
+}
+
+interface RpcUrls {
+  public: {
+    http: string[];
+    webSocket: string[];
+  };
+  default: {
+    http: string[];
+    webSocket: string[];
+  };
+}
+
+interface BlockExplorer {
+  name: string;
+  url: string;
+}
+
+interface ChainAgence {
+  name: string;
+  id: number;
+  nativeCurrency: NativeCurrency;
+  rpcUrls: RpcUrls;
+  blockExplorers: {
+    default: BlockExplorer;
+  };
+  testnet: boolean;
+}
+
+const chainAgence: chains.Chain = {
+  name: "Agence",
+  id: 887,
+  nativeCurrency: {
+    name: "Agence",
+    symbol: "HME",
+    decimals: 2,
+  },
+  rpcUrls: {
+    public: {
+      http: ["https://takecopter.cloud.agence.network"],
+      webSocket: ["wss://takecopter.cloud.agence.network"],
+    },
+    default: {
+      http: ["https://takecopter.cloud.agence.network"],
+      webSocket: ["wss://takecopter.cloud.agence.network"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Acala Blockscout",
+      url: "https://blockscout.takecopter.agence.network",
+    },
+  },
+  testnet: true,
+};
+
+
 const scaffoldConfig = {
   // The network where your DApp lives in
   // targetNetworks: [chains.hardhat],
-  targetNetworks: [chains.hardhat, chains.polygonAmoy, chains.shimmer, chains.shimmerTestnet],
+  targetNetworks: [chainAgence, chains.polygonAmoy, chains.shimmer, chains.shimmerTestnet],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)
