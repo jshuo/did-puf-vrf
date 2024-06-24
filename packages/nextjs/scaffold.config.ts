@@ -8,10 +8,65 @@ export type ScaffoldConfig = {
   onlyLocalBurnerWallet: boolean;
 };
 
+
+// const chainAgence = {
+//   name: "Agence",
+//   id: 887,
+//   nativeCurrency: {
+//     name: "Agence",
+//     symbol: "HME",
+//     decimals: 2,
+//   },
+//   rpcUrls: {
+//     public: {
+//       http: ["https://takecopter.cloud.agence.network"],
+//       webSocket: ["wss://takecopter.cloud.agence.network"],
+//     },
+//     default: {
+//       http: ["https://takecopter.cloud.agence.network"],
+//       webSocket: ["wss://takecopter.cloud.agence.network"],
+//     },
+//   },
+//   blockExplorers: {
+//     default: {
+//       name: "Agence Blockscout",
+//       url: "https://blockscout.takecopter.cloud.agence.network/",
+//     },
+//   },
+//   testnet: true,
+// };
+
+
 const scaffoldConfig = {
   // The network where your DApp lives in
   // targetNetworks: [chains.hardhat],
-  targetNetworks: [chains.hardhat, chains.polygonAmoy, chains.shimmer, chains.shimmerTestnet],
+
+  targetNetworks: [{
+    name: "Agence",
+    id: 887,
+    nativeCurrency: {
+      name: "Agence",
+      symbol: "HME",
+      decimals: 2,
+    },
+    rpcUrls: {
+      public: {
+        http: ["https://takecopter.cloud.agence.network"],
+        webSocket: ["wss://takecopter.cloud.agence.network"],
+      },
+      default: {
+        http: ["https://takecopter.cloud.agence.network"],
+        webSocket: ["wss://takecopter.cloud.agence.network"],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Agence Blockscout",
+        url: "https://blockscout.takecopter.cloud.agence.network/",
+      },
+    },
+    testnet: true,
+  }, chains.polygonAmoy, chains.shimmer, chains.shimmerTestnet],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)

@@ -30,8 +30,8 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  defaultNetwork: "localhost",
-  //  defaultNetwork: "agence",
+  // defaultNetwork: "localhost",
+  defaultNetwork: "agence",
   // defaultNetwork: "hardhat",
   // defaultNetwork: "polygonAmoy",
   namedAccounts: {

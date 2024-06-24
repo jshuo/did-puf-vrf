@@ -10,6 +10,7 @@ import * as didJWT from "did-jwt";
 import { Resolver } from "did-resolver";
 import { EthrDID } from "ethr-did";
 import { getResolver } from "ethr-did-resolver";
+import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 
 type unsignedJWT = {
   payload: didJWT.JWTPayload;
@@ -40,6 +41,7 @@ export default function IssuerPage() {
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
   const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
   const AgenceRegistryAddress = "0x48a9054a18c82b126Fae729a493757209E9182b8"; // agence
+  const { targetNetwork } = useTargetNetwork();
   const providerConfig = {
     networks: [
       {
@@ -79,11 +81,19 @@ export default function IssuerPage() {
 
     const subjectDid = new EthrDID({ identifier: subjectAddr, provider, chainNameOrId });
     const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
+    let registryAddress;
+    if (targetNetwork.id == 80002) {
+      registryAddress = PolyAmoyRegistryAddress;
+    } else if (targetNetwork.id == 887) {
+      registryAddress = AgenceRegistryAddress;
+    } else if (targetNetwork.id == 31337) {
+      registryAddress = hardHatRegistryAddress;
+    }
     const issuerDid = new EthrDID({
       identifier: issuerAddress,
       provider,
       chainNameOrId,
-      registry: hardHatRegistryAddress,
+      registry: registryAddress,
       txSigner: signer,
       alg: "ES256K",
     });
