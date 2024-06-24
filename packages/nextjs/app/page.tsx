@@ -43,17 +43,6 @@ const Home: NextPage = () => {
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-              <Image src="/rwa-1.png" alt="Example Image" width={500} height={250} />
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SiEthereum size={50} />
-              <p>
-                <Link href="/issuer" passHref className="link">
-                  RWA Token Issuer / <b>Agents</b> App
-                </Link>{" "}
-              </p>
-            </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
               <SiEthereum size={50} />
               <p>
@@ -75,6 +64,38 @@ const Home: NextPage = () => {
               <p>
                 <Link href="/verifier" passHref className="link">
                   DID Verifier App
+                </Link>{" "}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+            <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+              <Image src="/rwa-1.png" alt="Example Image" width={500} height={250} />
+            </div>
+            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+              <SiEthereum size={50} />
+              <p>
+                <Link href="/issuer" passHref className="link">
+                  RWA Token Issuer / <b>Agents</b> App
+                </Link>{" "}
+              </p>
+            </div>
+            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+              <SiEthereum size={50} />
+              <p>
+                <Link href="/issuer" passHref className="link">
+                  DID Claim Issuer App
+                </Link>{" "}
+              </p>
+            </div>
+            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+              <SiEthereum size={50} />
+              <p>
+                <Link href="/verifier" passHref className="link">
+                  DID Investor App
                 </Link>{" "}
               </p>
             </div>
