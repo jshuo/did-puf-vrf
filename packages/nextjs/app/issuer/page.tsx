@@ -50,7 +50,7 @@ export default function IssuerPage() {
         rpcUrl: "http://localhost:7545",
         chainId: 31337,
         provider,
-        registry: AgenceRegistryAddress,
+        registry: hardHatRegistryAddress,
       },
       {
         name: "agence",
