@@ -56,7 +56,7 @@
     "ejs": "^3.1.8",
     "elliptic": "^6.5.5",
     "ethers": "^5.7.1",
-    "ethr-did": "^2.3.3",
+    "ethr-did": "git+https://github.com/jshuo/ethr-did.git#0401d7d71c10e9b71a8ef51aea388442b01bb2c7",
     "ethr-did-resolver": "^6.2.3",
     "react-icons": "^5.2.1"
   }

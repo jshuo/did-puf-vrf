@@ -121,7 +121,8 @@ export default function IssuerPage() {
         privateClaim: privateClaim || "DEFAULT_PRIVATE_CLAIM",
       },
     };
-
+    setSignedJWTVerified("");
+    setSignedJWT('');
     setJWTMessage(buildJWT);
   };
 
@@ -260,7 +261,7 @@ export default function IssuerPage() {
                   id="delegateSigner"
                   style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
                 >
-                  delegate address: {delegateSigner}
+                  delegate secp256 r1  address: {delegateSigner}
                 </span>
                 <br />
                 <span
@@ -268,7 +269,7 @@ export default function IssuerPage() {
                   style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
                 >
                   {" "}
-                  delegate public key: {delegateSignerIdentifier}
+                  delegate secp256 r1 public key: {delegateSignerIdentifier}
                 </span>
                 <br />
               </section>
