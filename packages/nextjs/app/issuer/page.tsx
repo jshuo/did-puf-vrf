@@ -49,7 +49,7 @@ export default function IssuerPage() {
         rpcUrl: "http://localhost:7545",
         chainId: 31337,
         provider,
-        registry: hardHatRegistryAddress,
+        registry: AgenceRegistryAddress,
       },
       {
         name: "agence",
@@ -247,9 +247,28 @@ export default function IssuerPage() {
               </section>
               <section>
                 <h2>Create Signing Delegate</h2>
-                <button onClick={createDelegate}>Create Delegate</button>
-                <span id="delegateSigner">{delegateSigner}</span>
-                <span id="delegateSignerIdentifier">{delegateSignerIdentifier}</span>
+                <button
+                  onClick={createDelegate}
+                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
+                >
+                  Create Delegate
+                </button>
+                <br />
+                <span
+                  id="delegateSigner"
+                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
+                >
+                  delegate address: {delegateSigner}
+                </span>
+                <br />
+                <span
+                  id="delegateSignerIdentifier"
+                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
+                >
+                  {" "}
+                  delegate public key: {delegateSignerIdentifier}
+                </span>
+                <br />
               </section>
               <section>
                 <h2>Sign JWT Token</h2>
