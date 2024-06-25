@@ -151,9 +151,9 @@ export default function IssuerPage() {
       chainNameOrId = await signer.getChainId();
     }
 
-    const { kp } = (await issuerDid?.createSigningDelegate()) || { kp: undefined };
+    const { kp, txHash } = (await issuerDid?.createSigningDelegate()) || { kp: undefined };
     if (kp !== undefined) {
-      // Now you can use kp safely
+      console.log(txHash)
       setDelegateSigner(kp.address);
       setDelegateSignerIdentifier(kp.identifier);
     }
