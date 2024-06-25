@@ -20,10 +20,13 @@ const Home: NextPage = () => {
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
             <span className="block text-4xl font-bold">
-              Cutting-Edge EVM-Compatible NeoPUF and DID Apps
+              Cutting-Edge EVM-Compatible dApps
             </span>
             <span className="block text-4xl font-bold">
-              for Enterprise Supply Chain and RWA Management
+              for Enterprise Supply Chain,  RWA Management and VRF
+            </span>
+            <span className="block text-4xl font-bold">
+             via ERC1056/ERC3643/VRF SC worker with NeoPUF USB Dongle/HSM 
             </span>
           </h1>
           <div className="flex justify-center items-center space-x-2">

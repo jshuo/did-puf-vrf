@@ -20,7 +20,7 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "DID RWA Contract",
+    label: "DID RWA VRF Smart Contract",
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
