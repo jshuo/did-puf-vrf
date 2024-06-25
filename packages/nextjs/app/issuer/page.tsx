@@ -36,11 +36,12 @@ export default function IssuerPage() {
   const [delegateSignerIdentifier, setDelegateSignerIdentifier] = useState("");
   const [signedJWT, setSignedJWT] = useState<string | undefined>("");
   const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
+  const [signedJWTVerified, setSignedJWTVerified] = useState("");
   const provider = useEthersProvider();
   const signer = useEthersSigner();
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
   const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
-  const AgenceRegistryAddress = "0x48a9054a18c82b126Fae729a493757209E9182b8"; // agence
+  const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
   const { targetNetwork } = useTargetNetwork();
   const providerConfig = {
     networks: [
@@ -146,13 +147,14 @@ export default function IssuerPage() {
 
     if (issuerDid != undefined) {
       const issuerDoc = await didResolver.resolve(issuerDid.did);
-      console.debug(issuerDoc);
+      console.log(issuerDoc);
     }
 
     if (signedJWT != undefined) {
       const JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
       console.log(`Verify JWT:`);
       console.log(JWTVerified);
+      setSignedJWTVerified(JSON.stringify(JWTVerified));
     }
   };
 
@@ -279,6 +281,8 @@ export default function IssuerPage() {
                   Sign JWT
                 </button>
                 <span id="signedJWT">{signedJWT}</span>
+                <br />
+                <span id="signedJWT">{signedJWTVerified}</span>
               </section>
             </span>
           </h2>
