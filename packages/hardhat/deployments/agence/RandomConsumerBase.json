@@ -1,0 +1,81 @@
+{
+  "address": "0xb4d99D78c9c01b20B280F2F02546AA5ECEd558A2",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "have",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "want",
+          "type": "address"
+        }
+      ],
+      "name": "CanOnlyBeCalledByPrecompile",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "entropy",
+          "type": "uint256"
+        }
+      ],
+      "name": "executeEntropy",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x95f271189e3b21c3c89247f47ad1b5f50a5da993882aaa38cb661c7db67875c3",
+  "receipt": {
+    "to": null,
+    "from": "0xfC10126E2F41cbB264BceEE6c6093133AA45f317",
+    "contractAddress": "0xb4d99D78c9c01b20B280F2F02546AA5ECEd558A2",
+    "transactionIndex": 0,
+    "gasUsed": "53000",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xbafa4599489601f0f5afdf94c1201f6dace764c6931f72bb585f0d1fee5908e9",
+    "transactionHash": "0x95f271189e3b21c3c89247f47ad1b5f50a5da993882aaa38cb661c7db67875c3",
+    "logs": [],
+    "blockNumber": 12634653,
+    "cumulativeGasUsed": "53000",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "86cdab323817fac8203e56882d31ef0d",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"have\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"want\",\"type\":\"address\"}],\"name\":\"CanOnlyBeCalledByPrecompile\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"entropy\",\"type\":\"uint256\"}],\"name\":\"executeEntropy\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"USAGERandomness Consumer contracts must inherit from RandomConsumerBase and implement `randomCallbackImpl` to override the virtual base function.contract MyContract is RandomConsumerBase {function executeImpl(uint256 requestId, uint256 entropy) internal override(RandomConsumerBase) {// YOUR CUSTOM CODE HERE}} \",\"kind\":\"dev\",\"methods\":{\"executeEntropy(uint256,uint256)\":{\"details\":\"`executeEntropy` delegates the data to the `executeImpl` Returns null\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"*****************************************************************************\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/RandomConsumerBase.sol\":\"RandomConsumerBase\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/RandomConsumerBase.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\n\\npragma solidity ^0.8.9;\\n\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n}\\n\\n/**\\n * *****************************************************************************\\n * @dev USAGE\\n *\\n * @dev Randomness Consumer contracts must inherit from RandomConsumerBase and\\n * implement `randomCallbackImpl` to override the virtual base function.\\n *\\n * @dev   contract MyContract is RandomConsumerBase {\\n * @dev     function executeImpl(uint256 requestId, uint256 entropy) internal override(RandomConsumerBase) {\\n * @dev       // YOUR CUSTOM CODE HERE\\n * @dev     }\\n * @dev   }\\n * */\\nabstract contract RandomConsumerBase is Context {\\n    error CanOnlyBeCalledByPrecompile(address have, address want);\\n\\n    /**\\n     * @dev Receives `entropy` for `requestId`.  Contract must override this function\\n     *\\n     * Returns null\\n     */\\n    function executeImpl(uint256 requestId, uint256 entropy) internal virtual;\\n\\n    /**\\n     * @dev `executeEntropy` delegates the data to the `executeImpl`\\n     *\\n     * Returns null\\n     */\\n    function executeEntropy(uint256 requestId, uint256 entropy) external {\\n        if (msg.sender != 0x0000000000000000000000000000000000000801) {\\n            revert CanOnlyBeCalledByPrecompile(\\n                msg.sender,\\n                0x0000000000000000000000000000000000000801\\n            );\\n        }\\n        executeImpl(requestId, entropy);\\n    }\\n}\",\"keccak256\":\"0xe48d5dafe715fcdfecaefe60d06a71fada510f99fd8e37313eee8dc91cbcac20\",\"license\":\"GPL-3.0\"}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "devdoc": {
+    "details": "USAGERandomness Consumer contracts must inherit from RandomConsumerBase and implement `randomCallbackImpl` to override the virtual base function.contract MyContract is RandomConsumerBase {function executeImpl(uint256 requestId, uint256 entropy) internal override(RandomConsumerBase) {// YOUR CUSTOM CODE HERE}} ",
+    "kind": "dev",
+    "methods": {
+      "executeEntropy(uint256,uint256)": {
+        "details": "`executeEntropy` delegates the data to the `executeImpl` Returns null"
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "notice": "*****************************************************************************",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}
