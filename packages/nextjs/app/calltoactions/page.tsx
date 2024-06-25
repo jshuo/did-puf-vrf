@@ -19,7 +19,9 @@ export default function VerifierPage() {
           <p></p>
           <span className="block text-2xl font-bold">Showcases to blockchain developer communities</span>
           <p></p>
-          <span className="block text-2xl font-bold">Machine Learning Verifiable Claims with cryptographic signatures Verification</span>
+          <span className="block text-2xl font-bold">
+            Machine Learning Verifiable Claims with cryptographic signatures Verification
+            </span>
           <p>Yes, the idea of using machine learning (ML) to assess the content of verifiable claims, while relying on cryptographic methods to verify their signatures, is indeed a brilliant concept with significant business potential. Here’s why:
 
             Why It’s a Brilliant Idea
@@ -31,8 +33,8 @@ export default function VerifierPage() {
 
             Data-Driven Insights: ML models can analyze vast amounts of historical data to identify patterns and anomalies that might be missed by human reviewers.
             Consistency: Unlike human reviewers, ML models apply the same criteria and logic consistently, leading to more reliable verification outcomes.
+            
             Cost Reduction:
-
             Reduced Labor Costs: Automating the content verification process can significantly reduce labor costs associated with manual review.
             Operational Efficiency: Faster and more accurate verification processes can lead to overall operational efficiencies and cost savings.
             Fraud Detection:
