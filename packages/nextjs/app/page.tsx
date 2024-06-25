@@ -20,9 +20,8 @@ const Home: NextPage = () => {
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
             <span className="block text-4xl font-bold">
-              EVM-Compatible NeoPUF-Based and DID-Based Apps for Supply Chain and RWA
+              Cutting-Edge EVM-Compatible NeoPUF and DID Apps for Enterprise Supply Chain and RWA Management
             </span>
-            <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
           </h1>
           <div className="flex justify-center items-center space-x-2">
             <p className="my-2 font-medium"></p>
