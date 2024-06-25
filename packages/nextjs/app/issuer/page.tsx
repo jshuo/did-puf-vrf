@@ -120,23 +120,23 @@ export default function IssuerPage() {
         sub: subjectDid?.did,
         aud: audienceDid?.did,
         privateClaim: privateClaim || {
-          "credentialSubject": {
-            "id": "https://example.org/subjects/ai-chip-1",
-            "type": "AIChip",
-            "name": "SuperFast AI Chip",
-            "model": "SF-AI-2024",
-            "serialNumber": "SN123456789",
-            "chipFingerprint": {
-              "algorithm": "SHA-256",
-              "fingerprintValue": "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3"
-            }
+          credentialSubject: {
+            id: "https://example.org/subjects/ai-chip-1",
+            type: "AIChip",
+            name: "SuperFast AI Chip",
+            model: "SF-AI-2024",
+            serialNumber: "SN123456789",
+            chipFingerprint: {
+              algorithm: "SHA-256",
+              fingerprintValue: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
+            },
           },
-          "proof": {
-            "type": "secp256r1",
-            "created": "2024-06-25T14:23:52Z",
-            "proofPurpose": "assertionMethod",
-            "verificationMethod": "https://example.org/keys/1"
-          }
+          proof: {
+            type: "secp256r1",
+            created: "2024-06-25T14:23:52Z",
+            proofPurpose: "assertionMethod",
+            verificationMethod: "https://example.org/keys/1",
+          },
         },
       },
     };
@@ -174,9 +174,10 @@ export default function IssuerPage() {
       const JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
       console.log(`Verify JWT:`);
       console.log(JWTVerified);
-
-      setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
-      setSignedVC(JSON.stringify(JWTVerified.payload!.privateClaim!));
+      if (JWTVerified != undefined) {
+        setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
+        setSignedVC(JSON.stringify(JWTVerified.payload!.privateClaim!));
+      }
     }
   };
 
@@ -306,7 +307,8 @@ export default function IssuerPage() {
                 <br />
                 <span id="signedJWT">Signature Verified: {signedJWTVerified}</span>
                 <br />
-                <span id="signedJWT">DID Verifiable Claim:
+                <span id="signedJWT">
+                  DID Verifiable Claim:
                   {signedVC}
                 </span>
               </section>
