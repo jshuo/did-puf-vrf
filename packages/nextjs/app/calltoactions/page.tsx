@@ -35,6 +35,7 @@ export default function VerifierPage() {
             Consistency: Unlike human reviewers, ML models apply the same criteria and logic consistently, leading to more reliable verification outcomes.
             
             Cost Reduction:
+
             Reduced Labor Costs: Automating the content verification process can significantly reduce labor costs associated with manual review.
             Operational Efficiency: Faster and more accurate verification processes can lead to overall operational efficiencies and cost savings.
             Fraud Detection:
@@ -44,7 +45,9 @@ export default function VerifierPage() {
 
             Speed: Faster verification processes improve user experience, making systems more attractive to users and stakeholders.
             Trust: Reliable and consistent verification builds trust with users and clients.
+            
             Business Potential
+
             Market Demand:
 
             Digital Identity Verification: With the rise of digital transactions and remote services, there is increasing demand for robust digital identity verification systems.
