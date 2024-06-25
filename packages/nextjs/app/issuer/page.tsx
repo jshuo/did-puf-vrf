@@ -37,6 +37,7 @@ export default function IssuerPage() {
   const [signedJWT, setSignedJWT] = useState<string | undefined>("");
   const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
   const [signedJWTVerified, setSignedJWTVerified] = useState("");
+  const [signedVC, setSignedVC] = useState("");
   const provider = useEthersProvider();
   const signer = useEthersSigner();
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
@@ -118,7 +119,25 @@ export default function IssuerPage() {
         iss: issuerDid?.did,
         sub: subjectDid?.did,
         aud: audienceDid?.did,
-        privateClaim: privateClaim || "DEFAULT_PRIVATE_CLAIM",
+        privateClaim: privateClaim || {
+          "credentialSubject": {
+            "id": "https://example.org/subjects/ai-chip-1",
+            "type": "AIChip",
+            "name": "SuperFast AI Chip",
+            "model": "SF-AI-2024",
+            "serialNumber": "SN123456789",
+            "chipFingerprint": {
+              "algorithm": "SHA-256",
+              "fingerprintValue": "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3"
+            }
+          },
+          "proof": {
+            "type": "secp256r1",
+            "created": "2024-06-25T14:23:52Z",
+            "proofPurpose": "assertionMethod",
+            "verificationMethod": "https://example.org/keys/1"
+          }
+        },
       },
     };
     setSignedJWTVerified("");
@@ -155,7 +174,9 @@ export default function IssuerPage() {
       const JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
       console.log(`Verify JWT:`);
       console.log(JWTVerified);
-      setSignedJWTVerified(JSON.stringify(JWTVerified));
+
+      setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
+      setSignedVC(JSON.stringify(JWTVerified.payload!.privateClaim!));
     }
   };
 
@@ -283,7 +304,11 @@ export default function IssuerPage() {
                 </button>
                 <span id="signedJWT">{signedJWT}</span>
                 <br />
-                <span id="signedJWT">{signedJWTVerified}</span>
+                <span id="signedJWT">Signature Verified: {signedJWTVerified}</span>
+                <br />
+                <span id="signedJWT">DID Verifiable Claim:
+                  {signedVC}
+                </span>
               </section>
             </span>
           </h2>
