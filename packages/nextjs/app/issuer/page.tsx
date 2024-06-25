@@ -122,7 +122,7 @@ export default function IssuerPage() {
       },
     };
     setSignedJWTVerified("");
-    setSignedJWT('');
+    setSignedJWT("");
     setJWTMessage(buildJWT);
   };
 
@@ -261,7 +261,7 @@ export default function IssuerPage() {
                   id="delegateSigner"
                   style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
                 >
-                  delegate secp256 r1  address: {delegateSigner}
+                  delegate secp256 r1 address: {delegateSigner}
                 </span>
                 <br />
                 <span

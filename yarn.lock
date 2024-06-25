@@ -1284,10 +1284,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/ciphers@npm:^0.4.0":
-  version: 0.4.1
-  resolution: "@noble/ciphers@npm:0.4.1"
-  checksum: 8301334d6281c1cd6200716be6d01e30b8fd07b6ff7a537587187a649e625a347f24d52eba4812fc3535a077cd53e33a7abb77aeee19ff6662b7f048148f9e21
+"@noble/ciphers@npm:^0.5.0":
+  version: 0.5.3
+  resolution: "@noble/ciphers@npm:0.5.3"
+  checksum: c5ed5d7d43b054c2051b3e0e220353cc9d31fa8d17b82cfb753d87f922e4e1e69b73ca5273a9cc457023f83d96d1d9a51678d2f6d4e58ca039d1111a62856d19
   languageName: node
   linkType: hard
 
@@ -5822,6 +5822,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"did-jwt@git+https://github.com/jshuo/did-jwt.git#aa924a2f2004c4e5f315095dc8ec9d56d5b08e5d":
+  version: 8.0.4
+  resolution: "did-jwt@https://github.com/jshuo/did-jwt.git#commit=aa924a2f2004c4e5f315095dc8ec9d56d5b08e5d"
+  dependencies:
+    "@noble/ciphers": ^0.5.0
+    "@noble/curves": ^1.0.0
+    "@noble/hashes": ^1.3.0
+    "@scure/base": ^1.1.3
+    canonicalize: ^2.0.0
+    did-resolver: ^4.1.0
+    multibase: ^4.0.6
+    multiformats: ^9.6.2
+    uint8arrays: 3.1.1
+  checksum: 116a9a85ecd0b35147abb61e65914d67e1c57016e92f1622b3dde0ffc9df7d5081a8d69154dc1eaa4e1f1f77447ceede273cb79e2f38642847a1f7a714e14f29
+  languageName: node
+  linkType: hard
+
 "did-jwt@npm:^6.8.0":
   version: 6.11.6
   resolution: "did-jwt@npm:6.11.6"
@@ -5842,24 +5859,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"did-jwt@npm:^7.2.0":
-  version: 7.4.7
-  resolution: "did-jwt@npm:7.4.7"
-  dependencies:
-    "@noble/ciphers": ^0.4.0
-    "@noble/curves": ^1.0.0
-    "@noble/hashes": ^1.3.0
-    "@scure/base": ^1.1.3
-    canonicalize: ^2.0.0
-    did-resolver: ^4.1.0
-    multibase: ^4.0.6
-    multiformats: ^9.6.2
-    uint8arrays: 3.1.1
-  checksum: 898e75d63a23f33a91aea18077490b6c16a799a71b758fd8aa7b05186b14798f46c63b092878cb3429321f7c3b975e30ca66f544017ce30a738ed44257239bcc
-  languageName: node
-  linkType: hard
-
-"did-resolver@npm:^4.0.0, did-resolver@npm:^4.0.1, did-resolver@npm:^4.1.0":
+"did-resolver@npm:^4.0.0, did-resolver@npm:^4.1.0":
   version: 4.1.0
   resolution: "did-resolver@npm:4.1.0"
   checksum: 0b0f6c3502f877c2a3cb264befc2718b12efa8e7d39ef255b00cd79f8fe12303257ac8e84a030a49599415bce87192fef29388d9f695776d331d0139848d3d4c
@@ -7152,29 +7152,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethr-did-resolver@npm:^8.0.0":
-  version: 8.1.2
-  resolution: "ethr-did-resolver@npm:8.1.2"
-  dependencies:
-    "@ethersproject/abi": ^5.6.3
-    "@ethersproject/abstract-signer": ^5.6.2
-    "@ethersproject/address": ^5.6.1
-    "@ethersproject/basex": ^5.6.1
-    "@ethersproject/bignumber": ^5.6.2
-    "@ethersproject/bytes": ^5.6.1
-    "@ethersproject/contracts": ^5.6.2
-    "@ethersproject/keccak256": ^5.6.1
-    "@ethersproject/providers": ^5.6.8
-    "@ethersproject/signing-key": ^5.6.2
-    "@ethersproject/transactions": ^5.6.2
-    did-resolver: ^4.0.1
-  checksum: 1d4b666e553ee671cc4c3eb8d87734da855a64b4b5c64f284af1ae5028b9622b8adb3677c8a2830c9ff5d1aba663dfcab2b985c2d6f06c051d76e51549049316
-  languageName: node
-  linkType: hard
-
-"ethr-did@npm:^2.3.3":
-  version: 2.3.23
-  resolution: "ethr-did@npm:2.3.23"
+"ethr-did@git+https://github.com/jshuo/ethr-did.git#0401d7d71c10e9b71a8ef51aea388442b01bb2c7":
+  version: 2.3.4
+  resolution: "ethr-did@https://github.com/jshuo/ethr-did.git#commit=0401d7d71c10e9b71a8ef51aea388442b01bb2c7"
   dependencies:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/base64": ^5.7.0
@@ -7185,10 +7165,11 @@ __metadata:
     "@ethersproject/strings": ^5.7.0
     "@ethersproject/transactions": ^5.7.0
     "@ethersproject/wallet": ^5.7.0
-    did-jwt: ^7.2.0
+    did-jwt: "git+https://github.com/jshuo/did-jwt.git#aa924a2f2004c4e5f315095dc8ec9d56d5b08e5d"
     did-resolver: ^4.1.0
-    ethr-did-resolver: ^8.0.0
-  checksum: dd011417699e6ce954134e4617d6514e0682eaabd2720ee664a8c7c80b6d14d9b0a5f2e01115995473955d52a5b28ab61eeacc317846675c355eca88fe82cbbb
+    elliptic: ^6.5.5
+    ethr-did-resolver: ^6.2.3
+  checksum: 49a41d7c609f2915657733c924cc1bd0b1a121a4b03587545f8b25c48190bbdc59029de2c19a9dcd715e6665914a097c440f807ab157595e2772b27acd855e87
   languageName: node
   linkType: hard
 
@@ -12344,7 +12325,7 @@ __metadata:
     ejs: ^3.1.8
     elliptic: ^6.5.5
     ethers: ^5.7.1
-    ethr-did: ^2.3.3
+    ethr-did: "git+https://github.com/jshuo/ethr-did.git#0401d7d71c10e9b71a8ef51aea388442b01bb2c7"
     ethr-did-resolver: ^6.2.3
     express: ^4.18.2
     husky: ^8.0.1
