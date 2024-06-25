@@ -18,6 +18,7 @@ export default function VerifierPage() {
           <span className="block text-2xl font-bold">to contact issuers, delegate Signer</span>
           <p></p>
           <span className="block text-2xl font-bold">Showcases to blockchain developer communities</span>
+
           <p></p>
           <span className="block text-2xl font-bold">
             Machine Learning Verifiable Claims with cryptographic signatures Verification
