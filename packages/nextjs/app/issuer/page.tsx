@@ -153,7 +153,7 @@ export default function IssuerPage() {
 
     const { kp, txHash } = (await issuerDid?.createSigningDelegate()) || { kp: undefined };
     if (kp !== undefined) {
-      console.log(txHash)
+      console.log(txHash);
       setDelegateSigner(kp.address);
       setDelegateSignerIdentifier(kp.identifier);
     }
