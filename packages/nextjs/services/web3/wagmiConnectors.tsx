@@ -9,7 +9,7 @@ const { onlyLocalBurnerWallet, targetNetworks } = scaffoldConfig;
 const wallets = [
   metaMaskWallet,
   walletConnectWallet,
-  rainbowWallet,
+  // rainbowWallet,
   ...(!targetNetworks.some(network => network.id !== (chains.hardhat as chains.Chain).id) || !onlyLocalBurnerWallet
     ? [rainbowkitBurnerWallet]
     : []),
