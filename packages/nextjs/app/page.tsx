@@ -42,8 +42,6 @@ const Home: NextPage = () => {
               </Link>{" "}
             </p>
           </div>
-          <ImageGrid />
-          <br />
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
@@ -52,7 +50,7 @@ const Home: NextPage = () => {
               <Image src="/did-puf-sc.png" alt="Example Image" width={500} height={250} />
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SiEthereum size={50} />
+            <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/issuer" passHref className="link">
                   DID Issuer App
@@ -60,7 +58,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <FaUsb size={50} />
+            <Image src="/pufusb.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/signer" passHref className="link">
                   DID Delegate Signer App
@@ -68,7 +66,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SiEthereum size={50} />
+            <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/verifier" passHref className="link">
                   DID Verifier App
@@ -84,7 +82,7 @@ const Home: NextPage = () => {
               <Image src="/rwa-1.png" alt="Example Image" width={500} height={250} />
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SiEthereum size={50} />
+            <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/issuer" passHref className="link">
                   RWA Token Issuer / <b>Agents</b> App
@@ -92,7 +90,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SiEthereum size={50} />
+            <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/issuer" passHref className="link">
                   DID Claim Issuer App
@@ -100,7 +98,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SiEthereum size={50} />
+            <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/verifier" passHref className="link">
                   DID Investor App
