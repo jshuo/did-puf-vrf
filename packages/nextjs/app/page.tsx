@@ -79,6 +79,30 @@ const Home: NextPage = () => {
         <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
           <Image src="/puf-did-ai-board.png" alt="Example Image" width={1000} height={600} />
         </div>
+
+        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <h1 className="text-center"><span className="block text-4xl font-bold">VRF NeoPUF-secp256r1 HSM</span></h1>
+          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+
+            <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+              <Image src="/puf-vrf.png" alt="Example Image" width={500} height={250} />
+            </div>
+            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+              <Image src="/shieldbio.png" alt="" width={80} height={40} />
+              <p>
+                <Link href="/issuer" passHref className="link">
+                  VRF PUF (Lottery) App
+                </Link>{" "}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+          <Image src="/puf-did-ai-board.png" alt="Example Image" width={1000} height={600} />
+        </div>
+
+
+
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           <h1 className="text-center"><span className="block text-4xl font-bold">Real World Asset Tokenization Integration with Shield Bio</span></h1>
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
@@ -113,8 +137,8 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-          <Image src="/erc3643-arch.png" alt="Example Image" width={1000} height={600} />
-        </div>
+        <Image src="/erc3643-arch.png" alt="Example Image" width={1000} height={600} />
+      </div>
     </>
   );
 };
