@@ -2,14 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import ImageGrid from "../components/ImageGrid";
 import { NetworkSwitcher } from "../components/NetworkSwitcher";
 import type { NextPage } from "next";
-import { FaUsb } from "react-icons/fa";
-import { SiEthereum } from "react-icons/si";
-import { useAccount } from "wagmi";
+import { useAccount,  useBalance } from "wagmi";
 import { Address } from "~~/components/scaffold-eth";
-
+// import ImageGrid from "../components/ImageGrid";
+// import { FaUsb } from "react-icons/fa";
+// import { SiEthereum } from "react-icons/si"; 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
@@ -100,7 +99,7 @@ const Home: NextPage = () => {
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
             <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
-                <Link href="/verifier" passHref className="link">
+                <Link href="/investors" passHref className="link">
                   DID Investor App
                 </Link>{" "}
               </p>
