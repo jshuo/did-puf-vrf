@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
-import { BaseError } from 'viem';
+import Image from "next/image";
 
 import { type Address } from "viem";
 import { useAccount, useBalance } from "wagmi";
@@ -23,7 +23,12 @@ export default function ReadContract() {
         <br />
 
       </div>
+
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+        <Image src="/investor.png" alt="Example Image" width={1200} height={900} />
+      </div>
     </div>
+    
   );
 }
 

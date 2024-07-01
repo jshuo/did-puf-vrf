@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { NetworkSwitcher } from "../components/NetworkSwitcher";
 import type { NextPage } from "next";
-import { useAccount,  useBalance } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 import { Address } from "~~/components/scaffold-eth";
 // import ImageGrid from "../components/ImageGrid";
 // import { FaUsb } from "react-icons/fa";
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
               for Enterprise Supply Chain,  RWA Management and VRF
             </span>
             <span className="block text-4xl font-bold">
-             via ERC1056/ERC3643/VRF SC worker with NeoPUF USB Dongle/HSM 
+              via ERC1056/ERC3643/VRF SC worker with NeoPUF USB Dongle/HSM
             </span>
           </h1>
           <div className="flex justify-center items-center space-x-2">
@@ -44,12 +44,14 @@ const Home: NextPage = () => {
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <h1 className="text-center"><span className="block text-4xl font-bold">Supply Chain - DID NeoPUF-secp256r1 HSM</span></h1>
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+
+            <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
               <Image src="/did-puf-sc.png" alt="Example Image" width={500} height={250} />
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-            <Image src="/shieldbio.png" alt="" width={80} height={40} />
+              <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/issuer" passHref className="link">
                   DID Issuer App
@@ -57,7 +59,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-            <Image src="/pufusb.png" alt="" width={80} height={40} />
+              <Image src="/pufusb.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/signer" passHref className="link">
                   DID Delegate Signer App
@@ -65,7 +67,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-            <Image src="/shieldbio.png" alt="" width={80} height={40} />
+              <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/verifier" passHref className="link">
                   DID Verifier App
@@ -74,14 +76,17 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-
+        <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+          <Image src="/puf-did-ai-board.png" alt="Example Image" width={1000} height={600} />
+        </div>
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <h1 className="text-center"><span className="block text-4xl font-bold">Real World Asset Tokenization Integration with Shield Bio</span></h1>
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
             <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
               <Image src="/rwa-1.png" alt="Example Image" width={500} height={250} />
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-            <Image src="/shieldbio.png" alt="" width={80} height={40} />
+              <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/issuer" passHref className="link">
                   RWA Token Issuer / <b>Agents</b> App
@@ -89,7 +94,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-            <Image src="/shieldbio.png" alt="" width={80} height={40} />
+              <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/issuer" passHref className="link">
                   DID Claim Issuer App
@@ -97,7 +102,7 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-            <Image src="/shieldbio.png" alt="" width={80} height={40} />
+              <Image src="/shieldbio.png" alt="" width={80} height={40} />
               <p>
                 <Link href="/investors" passHref className="link">
                   DID Investor App
@@ -108,8 +113,8 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-        <Image src="/puf-did-ai-board.png" alt="Example Image" width={1000} height={600} />
-      </div>
+          <Image src="/erc3643-arch.png" alt="Example Image" width={1000} height={600} />
+        </div>
     </>
   );
 };
