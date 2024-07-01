@@ -15,6 +15,8 @@ export default function ReadContract() {
   return (
     <div className="flex items-center flex-col flex-grow pt-10">
       <div className="px-5">
+        <h1 className="text-center"><STOSymbol /></h1>
+        <br />
         <h1 className="text-center"><BalanceOf /></h1>
         <br />
         <h1 className="text-center"> <TotalSupply /></h1>
@@ -44,6 +46,20 @@ const TotalSupply = () => {
   );
 };
 
+
+const STOSymbol = () => {
+  const { data, isRefetching, refetch } = useReadContract({
+    ...wagmiContractConfig,
+    functionName: 'symbol',
+  });
+
+  return (
+    <div>
+      <b style={{ fontSize: '28px' }}>Stock Symbol: {data?.toString()}</b>
+      <br />
+    </div>
+  );
+};
 const BalanceOf = () => {
   const { address } = useAccount()
 
