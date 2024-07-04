@@ -90,7 +90,7 @@ export default function VerifierPage() {
       <main>
         <div className="px-5">
           <br />
-          <h2 className="block text-2xl">The purpose of the "VerifierPage" in the Next.js application is to verify Decentralized Identifiers (DIDs) and JSON Web Tokens (JWTs) using Ethereum-based DID (EthrDID). It allows users to submit a form to process and verify a signed JWT retrieved from local storage, displaying the verification results and any associated verifiable claims. This functionality is useful for ensuring the authenticity and integrity of claims in a decentralized identity system</h2>
+          <h2 className="block text-2xl">The purpose of the VerifierPage in the Next.js application is to verify Decentralized Identifiers (DIDs) and JSON Web Tokens (JWTs) using Ethereum-based DID (EthrDID). It allows users to submit a form to process and verify a signed JWT retrieved from local storage, displaying the verification results and any associated verifiable claims. This functionality is useful for ensuring the authenticity and integrity of claims in a decentralized identity system</h2>
 
           <h1 className="text-center">
             <span className="block text-4xl font-bold">
