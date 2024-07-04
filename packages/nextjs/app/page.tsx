@@ -97,11 +97,6 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-          <Image src="/puf-did-ai-board.png" alt="Example Image" width={1000} height={600} />
-        </div>
-
-
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           <h1 className="text-center"><span className="block text-4xl font-bold">Real World Asset Tokenization Integration with Shield Bio</span></h1>

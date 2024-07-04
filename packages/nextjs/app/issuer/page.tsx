@@ -23,21 +23,11 @@ type unsignedJWT = {
 };
 
 export default function IssuerPage() {
-  const [subjectAddress, setSubjectAddress] = useState("");
-  const [audienceAddress, setAudienceAddress] = useState("");
-  const [privateClaim, setPrivateClaim] = useState("");
-  const [subjectDID, setSubjectDID] = useState("");
-  const [audienceDID, setAudienceDID] = useState("");
-  const [issuerDID, setIssuerDID] = useState("");
   const [issuerDid, setIssuerDid] = useState<EthrDID>();
   const [audienceDid, setAudienceDid] = useState<EthrDID>();
   const [subjectDid, setSubjectDid] = useState<EthrDID>();
   const [delegateSigner, setDelegateSigner] = useState("");
   const [delegateSignerIdentifier, setDelegateSignerIdentifier] = useState("");
-  const [signedJWT, setSignedJWT] = useState<string | undefined>("");
-  const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
-  const [signedJWTVerified, setSignedJWTVerified] = useState("");
-  const [signedVC, setSignedVC] = useState("");
   const provider = useEthersProvider();
   const signer = useEthersSigner();
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
@@ -78,11 +68,7 @@ export default function IssuerPage() {
       issuerAddress = await signer.getAddress();
       chainNameOrId = await signer.getChainId();
     }
-    const subjectAddr = subjectAddress || "0xDBB3d90156fC23c28C709eB68af8403836951AF8";
-    const audienceAddr = audienceAddress || "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 
-    const subjectDid = new EthrDID({ identifier: subjectAddr, provider, chainNameOrId });
-    const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
     let registryAddress;
     if (targetNetwork.id == 80002) {
       registryAddress = PolyAmoyRegistryAddress;
@@ -100,53 +86,16 @@ export default function IssuerPage() {
       alg: "ES256K",
     });
 
-    setSubjectDID(subjectDid.did);
-    setAudienceDID(audienceDid.did);
-    setIssuerDID(issuerDid.did);
+
     setIssuerDid(issuerDid);
     setSubjectDid(subjectDid);
     setAudienceDid(audienceDid);
   };
 
-  const prepareJWT = async () => {
-    if (signer) {
-      issuerAddress = await signer.getAddress();
-      chainNameOrId = await signer.getChainId();
-    }
-
-    const buildJWT = {
-      payload: {
-        iss: issuerDid?.did,
-        sub: subjectDid?.did,
-        aud: audienceDid?.did,
-        privateClaim: privateClaim || {
-          credentialSubject: {
-            id: "https://example.org/subjects/ai-chip-1",
-            type: "AIChip",
-            name: "SuperFast AI Chip",
-            model: "SF-AI-2024",
-            serialNumber: "SN123456789",
-            chipFingerprint: {
-              algorithm: "SHA-256",
-              fingerprintValue: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
-            },
-          },
-          proof: {
-            type: "secp256r1",
-            created: "2024-06-25T14:23:52Z",
-            proofPurpose: "assertionMethod",
-            verificationMethod: "https://example.org/keys/1",
-          },
-        },
-      },
-    };
-    setSignedJWTVerified("");
-    setSignedJWT("");
-    setJWTMessage(buildJWT);
-  };
 
   const createDelegate = async () => {
     if (signer) {
+      await processDid();
       issuerAddress = await signer.getAddress();
       chainNameOrId = await signer.getChainId();
     }
@@ -156,28 +105,6 @@ export default function IssuerPage() {
       console.log(txHash);
       setDelegateSigner(kp.address);
       setDelegateSignerIdentifier(kp.identifier);
-    }
-  };
-
-  const signJWT = async () => {
-    if (!JWTMessage) return;
-
-    const signedJWT: string | undefined = await issuerDid?.signJWT(JWTMessage.payload);
-    setSignedJWT(signedJWT);
-
-    if (issuerDid != undefined) {
-      const issuerDoc = await didResolver.resolve(issuerDid.did);
-      console.log(issuerDoc);
-    }
-
-    if (signedJWT != undefined) {
-      const JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
-      console.log(`Verify JWT:`);
-      console.log(JWTVerified);
-      if (JWTVerified != undefined) {
-        setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
-        setSignedVC(JSON.stringify(JWTVerified.payload!.privateClaim!));
-      }
     }
   };
 
@@ -207,69 +134,8 @@ export default function IssuerPage() {
                 </li>
                 <li>3. Register the binding to ERC1056 smart contract</li>
               </ol>
-              <h1>JWT Handling with DID</h1>
-              <section>
-                <h2>Configure subject and audience DIDs</h2>
-                <form
-                  onSubmit={e => {
-                    e.preventDefault();
-                    processDid();
-                  }}
-                >
-                  <label>
-                    Subject Address:
-                    <input type="text" value={subjectAddress} onChange={e => setSubjectAddress(e.target.value)} />
-                  </label>
-                  <label>
-                    Audience Address:
-                    <input type="text" value={audienceAddress} onChange={e => setAudienceAddress(e.target.value)} />
-                  </label>
-                  <br />
-                  <button
-                    type="submit"
-                    style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                  >
-                    Configure Addresses
-                  </button>
-                </form>
-                <span id="subjectDID">{subjectDID}</span>
-                <br />
-                <span id="audienceDID">{audienceDID}</span>
-                <br />
-              </section>
-              <section>
-                <h2>Prepare JWT Token for Signing</h2>
-                <form
-                  onSubmit={e => {
-                    e.preventDefault();
-                    prepareJWT();
-                  }}
-                >
-                  <label>
-                    Private Claim:
-                    <input
-                      type="text"
-                      value={privateClaim}
-                      placeholder="Enter default claim text..."
-                      onChange={e => setPrivateClaim(e.target.value)}
-                      style={{
-                        width: "500px", // Adjust width as needed
-                        height: "80px", // Adjust width as needed
-                        padding: "8px", // Adjust padding for uniformity with the button
-                        marginRight: "10px", // Optional: Provide spacing between input and button
-                      }}
-                    />
-                  </label>
-                  <br />
-                  <button
-                    type="submit"
-                    style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                  >
-                    Prepare JWT
-                  </button>
-                </form>
-                <span id="issuerDID">{issuerDID}</span>
-              </section>
+
+
               <section>
                 <h2>Create Signing Delegate</h2>
                 <button
@@ -295,23 +161,6 @@ export default function IssuerPage() {
                 </span>
                 <br />
               </section>
-              <section>
-                <h2>Sign JWT Token</h2>
-                <button
-                  onClick={signJWT}
-                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                >
-                  Sign JWT
-                </button>
-                <span id="signedJWT">{signedJWT}</span>
-                <br />
-                <span id="signedJWT">Signature Verified: {signedJWTVerified}</span>
-                <br />
-                <span id="signedJWT">
-                  DID Verifiable Claim:
-                  {signedVC}
-                </span>
-              </section>
             </span>
           </h2>
         </div>
@@ -319,6 +168,7 @@ export default function IssuerPage() {
 
         <br />
       </main>
+      
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
         <Image src="/puf-did-diagram.png" alt="Example Image" width={800} height={600} />
         <Image src="/puf-did-ai-board.png" alt="Example Image" width={800} height={600} />

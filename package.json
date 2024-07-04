@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "ejs": "^3.1.8",
-    "ethr-did": "git+https://github.com/jshuo/ethr-did.git#7d749f7e87bed809cbb7a3fe6fe5e74fb941613e",
+    "ethr-did": "git+https://github.com/jshuo/ethr-did.git#cf70861e677a9b32bbf8b244196f2cc7c03ee402",
     "react-icons": "^5.2.1"
   }
 }
