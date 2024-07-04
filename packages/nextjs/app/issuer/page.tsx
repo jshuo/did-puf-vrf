@@ -6,26 +6,10 @@ import Image from "next/image";
 import { Account } from "../../components/Account";
 import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
-import * as didJWT from "did-jwt";
-import { Resolver } from "did-resolver";
 import { EthrDID } from "ethr-did";
-import { getResolver } from "ethr-did-resolver";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 
-type unsignedJWT = {
-  payload: didJWT.JWTPayload;
-  options?: {
-    issuer: string; // Removed signer in order to be able to prepare the message
-  };
-  header?: {
-    alg: string;
-  };
-};
-
 export default function IssuerPage() {
-  const [issuerDid, setIssuerDid] = useState<EthrDID>();
-  const [audienceDid, setAudienceDid] = useState<EthrDID>();
-  const [subjectDid, setSubjectDid] = useState<EthrDID>();
   const [delegateSigner, setDelegateSigner] = useState("");
   const [delegateSignerIdentifier, setDelegateSignerIdentifier] = useState("");
   const provider = useEthersProvider();
@@ -34,77 +18,35 @@ export default function IssuerPage() {
   const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
   const { targetNetwork } = useTargetNetwork();
-  const providerConfig = {
-    networks: [
-      {
-        name: "development",
-        rpcUrl: "http://localhost:7545",
-        chainId: 31337,
-        provider,
-        registry: hardHatRegistryAddress,
-      },
-      {
-        name: "agence",
-        rpcUrl: "https://takecopter.cloud.agence.network",
-        chainId: 887,
-        provider,
-        registry: AgenceRegistryAddress,
-      },
-      {
-        name: "PolygonAmoy",
-        rpcUrl: "https://rpc-amoy.polygon.technology",
-        chainId: 80002,
-        provider,
-        registry: PolyAmoyRegistryAddress,
-      },
-    ],
-  };
-  const ethrDidResolver = getResolver(providerConfig);
-  const didResolver = new Resolver(ethrDidResolver);
+
   let issuerAddress: string, chainNameOrId: number;
-
-  const processDid = async () => {
-    if (signer) {
-      issuerAddress = await signer.getAddress();
-      chainNameOrId = await signer.getChainId();
-    }
-
-    let registryAddress;
-    if (targetNetwork.id == 80002) {
-      registryAddress = PolyAmoyRegistryAddress;
-    } else if (targetNetwork.id == 887) {
-      registryAddress = AgenceRegistryAddress;
-    } else if (targetNetwork.id == 31337) {
-      registryAddress = hardHatRegistryAddress;
-    }
-    const issuerDid = new EthrDID({
-      identifier: issuerAddress,
-      provider,
-      chainNameOrId,
-      registry: registryAddress,
-      txSigner: signer,
-      alg: "ES256K",
-    });
-
-
-    setIssuerDid(issuerDid);
-    setSubjectDid(subjectDid);
-    setAudienceDid(audienceDid);
-  };
-
 
   const createDelegate = async () => {
     if (signer) {
-      await processDid();
+      let registryAddress;
+      if (targetNetwork.id == 80002) {
+        registryAddress = PolyAmoyRegistryAddress;
+      } else if (targetNetwork.id == 887) {
+        registryAddress = AgenceRegistryAddress;
+      } else if (targetNetwork.id == 31337) {
+        registryAddress = hardHatRegistryAddress;
+      }
       issuerAddress = await signer.getAddress();
       chainNameOrId = await signer.getChainId();
-    }
-
-    const { kp, txHash } = (await issuerDid?.createSigningDelegate()) || { kp: undefined };
-    if (kp !== undefined) {
-      console.log(txHash);
-      setDelegateSigner(kp.address);
-      setDelegateSignerIdentifier(kp.identifier);
+      const issuerDid = new EthrDID({
+        identifier: issuerAddress,
+        provider,
+        chainNameOrId,
+        registry: registryAddress,
+        txSigner: signer,
+        alg: "ES256K",
+      });
+      const { kp, txHash } = (await issuerDid?.createSigningDelegate()) || { kp: undefined };
+      if (kp !== undefined) {
+        console.log(txHash);
+        setDelegateSigner(kp.address);
+        setDelegateSignerIdentifier(kp.identifier);
+      }
     }
   };
 
@@ -134,7 +76,6 @@ export default function IssuerPage() {
                 </li>
                 <li>3. Register the binding to ERC1056 smart contract</li>
               </ol>
-
 
               <section>
                 <h2>Create Signing Delegate</h2>
@@ -168,7 +109,7 @@ export default function IssuerPage() {
 
         <br />
       </main>
-      
+
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
         <Image src="/puf-did-diagram.png" alt="Example Image" width={800} height={600} />
         <Image src="/puf-did-ai-board.png" alt="Example Image" width={800} height={600} />
