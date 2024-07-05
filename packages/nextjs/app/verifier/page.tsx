@@ -22,22 +22,6 @@ export default function VerifierPage() {
 
   const [message, setMessage] = useState('');
 
-useEffect(() => {
-  fetch('/api/services')
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('API request failed');
-      }
-      return res.json();
-    })
-    .then(data => setMessage(data.message))
-    .catch(error => {
-      console.error('Error fetching data:', error);
-      setMessage('Error: Unable to fetch data from the server'); 
-    });
-}, []);
-
-
   const providerConfig = {
     networks: [
       {
@@ -66,6 +50,28 @@ useEffect(() => {
   const ethrDidResolver = getResolver(providerConfig);
   const didResolver = new Resolver(ethrDidResolver);
 
+  const summarizeText = async (text) => {
+    try {
+      const response = await fetch('/api/services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: text }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.message; // Extract the summary from the response
+
+    } catch (error) {
+      console.error("Error summarizing text:", error);
+      throw error; // Handle the error appropriately
+    }
+  }
 
   const processDid = async () => {
     setSignedJWTVerified("");
@@ -77,8 +83,8 @@ useEffect(() => {
     console.log(JWTVerified);
     if (JWTVerified != undefined) {
       setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
-      // setSignedVC(JSON.stringify(JWTVerified.payload!.veriableClaim!));
-      setSignedVC(JSON.stringify(JWTVerified.payload!));
+      const summary = await summarizeText(JWTVerified.payload!.veriableClaim!);
+      setSignedVC(summary);
     }
     if (signedJWT) {
       localStorage.removeItem("jwt");
@@ -91,14 +97,37 @@ useEffect(() => {
       </Head>
       <main>
         <div className="px-5">
-          <br />
-          <h2 className="block text-2xl">
-            The purpose of the VerifierPage in the Next.js application is to verify Decentralized Identifiers (DIDs) and
-            JSON Web Tokens (JWTs) using Ethereum-based DID (EthrDID). It allows users to submit a form to process and
-            verify a signed JWT retrieved from local storage, displaying the verification results and any associated
-            verifiable claims. This functionality is useful for ensuring the authenticity and integrity of claims in a
-            decentralized identity system
+          <h1 className="text-center">
+            <span className="block text-4xl font-bold">DID Verifier Page (Manufacturers / Agents) App</span>
+            <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
+          </h1>
+          <hr />
+          <h2>
+            <span className="block text-2xl mb-2">
+              <h2>
+                <b>DID Verifier:</b> <p></p>
+              </h2>
+              <p></p>
+              <hr />
+              <ul className="list-disc" style={{ marginLeft: '20px' }}>
+
+                <li> To verify Decentralized Identifiers (DIDs) and
+                  JSON Web Tokens (JWTs) using Ethereum-based DID (EthrDID).</li>
+                <li>
+                  <li> EthrDID only allows designated verifier ethereum account to verify the claim</li>
+                  It allows users to submit a form to process and
+                  verify a signed JWT retrieved from local storage, displaying the verification results and any associated
+                  verifiable claims.
+                </li>
+                <li> This functionality is useful for ensuring the authenticity and integrity of claims in a
+                  decentralized identity system</li>
+                <li> Use of OpenAI to perform decoded JWT data</li>
+              </ul>
+            </span>
           </h2>
+
+          <br />
+
 
           <h1 className="text-center">
             <span className="block text-4xl font-bold">
@@ -132,16 +161,19 @@ useEffect(() => {
             </span>
           </h1>
           <hr />
-          <span id="signedJWT">Signature Verified: {signedJWTVerified}</span>
+          <span id="signedJWT" className="block text-2xl" >Signature Verified: {signedJWTVerified}</span>
           <br />
-          <span id="signedJWT">
-            DID Verifiable Claim:
+          <span className="block text-4xl font-bold">
+            OpenAI Summary of DID Verifiable Claim:
+          </span>
+          <span id="signedJWT" className="block text-2xl">
+
             {signedVC}
           </span>
         </div>
       </main>
-      <section></section>
-      <div>{message}</div>
+
+
     </div>
   );
 }
