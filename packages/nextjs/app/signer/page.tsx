@@ -189,8 +189,8 @@ export default function IssuerPage() {
                 <li>
                   2. This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
                 </li>
-                <li>3. Delegation can be time-bound. The identity owner can set an expiration date for the delegate's authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
-                <li>4. The identity owner has the power to revoke the delegation at any time, effectively removing the delegate's authority to act on behalf of the identity.</li>
+                <li>3. Delegation can be time-bound. The identity owner can set an expiration date for the delegates authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
+                <li>4. The identity owner has the power to revoke the delegation at any time, effectively removing the delegates authority to act on behalf of the identity.</li>
                 <li>
                   5. This revocation is also recorded on the blockchain, ensuring transparency and security.
                 </li>
