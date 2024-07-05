@@ -2,27 +2,42 @@
 
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
 import { Resolver } from "did-resolver";
 import { EthrDID } from "ethr-did";
 import { getResolver } from "ethr-did-resolver";
 import { useAccount, useBalance } from "wagmi";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 
 export default function VerifierPage() {
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
   const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
-  const { targetNetwork } = useTargetNetwork();
-  const [signedJWT, setSignedJWT] = useState<string | undefined>("");
   const provider = useEthersProvider();
   const signer = useEthersSigner();
   const { address: connectedAddress } = useAccount();
   const audienceAddr = connectedAddress;
   const [signedJWTVerified, setSignedJWTVerified] = useState("");
   const [signedVC, setSignedVC] = useState("");
+
+  const [message, setMessage] = useState('');
+
+useEffect(() => {
+  fetch('/api/services')
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('API request failed');
+      }
+      return res.json();
+    })
+    .then(data => setMessage(data.message))
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      setMessage('Error: Unable to fetch data from the server'); 
+    });
+}, []);
+
+
   const providerConfig = {
     networks: [
       {
@@ -50,18 +65,10 @@ export default function VerifierPage() {
   };
   const ethrDidResolver = getResolver(providerConfig);
   const didResolver = new Resolver(ethrDidResolver);
-  // useEffect(() => {
-  //   const token = localStorage.getItem('jwt');
-  //   const chainNameOrId = await signer.getChainId();
-  //   const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
-  //   if (token) {
-  //     setSignedJWT(token);
-  //   }
-  // }, []);
+
 
   const processDid = async () => {
     setSignedJWTVerified("");
-    setSignedJWT("");
     const signedJWT = localStorage.getItem("jwt");
     const chainNameOrId = await signer.getChainId();
     const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
@@ -75,7 +82,6 @@ export default function VerifierPage() {
     }
     if (signedJWT) {
       localStorage.removeItem("jwt");
-      setSignedJWT(signedJWT);
     }
   };
   return (
@@ -135,6 +141,7 @@ export default function VerifierPage() {
         </div>
       </main>
       <section></section>
+      <div>{message}</div>
     </div>
   );
 }
