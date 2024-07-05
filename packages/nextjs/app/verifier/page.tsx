@@ -1,19 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { Resolver } from "did-resolver";
-import { getResolver } from "ethr-did-resolver";
-import { EthrDID } from "ethr-did";
 import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import { Resolver } from "did-resolver";
+import { EthrDID } from "ethr-did";
+import { getResolver } from "ethr-did-resolver";
 import { useAccount, useBalance } from "wagmi";
-
+import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 
 export default function VerifierPage() {
-
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
   const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
@@ -61,12 +59,10 @@ export default function VerifierPage() {
   //   }
   // }, []);
 
-
   const processDid = async () => {
-
     setSignedJWTVerified("");
     setSignedJWT("");
-    const signedJWT = localStorage.getItem('jwt');
+    const signedJWT = localStorage.getItem("jwt");
     const chainNameOrId = await signer.getChainId();
     const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
     const JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
@@ -78,10 +74,10 @@ export default function VerifierPage() {
       setSignedVC(JSON.stringify(JWTVerified.payload!));
     }
     if (signedJWT) {
-      localStorage.removeItem('jwt');
+      localStorage.removeItem("jwt");
       setSignedJWT(signedJWT);
     }
-  }
+  };
   return (
     <div>
       <Head>
@@ -90,19 +86,22 @@ export default function VerifierPage() {
       <main>
         <div className="px-5">
           <br />
-          <h2 className="block text-2xl">The purpose of the VerifierPage in the Next.js application is to verify Decentralized Identifiers (DIDs) and JSON Web Tokens (JWTs) using Ethereum-based DID (EthrDID). It allows users to submit a form to process and verify a signed JWT retrieved from local storage, displaying the verification results and any associated verifiable claims. This functionality is useful for ensuring the authenticity and integrity of claims in a decentralized identity system</h2>
+          <h2 className="block text-2xl">
+            The purpose of the VerifierPage in the Next.js application is to verify Decentralized Identifiers (DIDs) and
+            JSON Web Tokens (JWTs) using Ethereum-based DID (EthrDID). It allows users to submit a form to process and
+            verify a signed JWT retrieved from local storage, displaying the verification results and any associated
+            verifiable claims. This functionality is useful for ensuring the authenticity and integrity of claims in a
+            decentralized identity system
+          </h2>
 
           <h1 className="text-center">
             <span className="block text-4xl font-bold">
-
-
               <form
                 onSubmit={e => {
                   e.preventDefault();
                   processDid();
                 }}
               >
-
                 <button
                   type="submit"
                   style={{
@@ -112,12 +111,12 @@ export default function VerifierPage() {
                     borderRadius: "4px",
                     padding: "10px 20px",
                     cursor: "pointer",
-                    fontSize: "16px"
+                    fontSize: "16px",
                   }}
-                  onMouseOver={(e) => {
+                  onMouseOver={e => {
                     e.target.style.backgroundColor = "#0056b3";
                   }}
-                  onMouseOut={(e) => {
+                  onMouseOut={e => {
                     e.target.style.backgroundColor = "#007BFF";
                   }}
                 >
@@ -135,9 +134,7 @@ export default function VerifierPage() {
           </span>
         </div>
       </main>
-      <section>
-
-      </section>
+      <section></section>
     </div>
   );
 }

@@ -6,9 +6,10 @@ import { NetworkSwitcher } from "../components/NetworkSwitcher";
 import type { NextPage } from "next";
 import { useAccount, useBalance } from "wagmi";
 import { Address } from "~~/components/scaffold-eth";
+
 // import ImageGrid from "../components/ImageGrid";
 // import { FaUsb } from "react-icons/fa";
-// import { SiEthereum } from "react-icons/si"; 
+// import { SiEthereum } from "react-icons/si";
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
@@ -18,12 +19,8 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">
-              Cutting-Edge EVM-Compatible dApps
-            </span>
-            <span className="block text-4xl font-bold">
-              for Enterprise Supply Chain,  RWA Management and VRF
-            </span>
+            <span className="block text-4xl font-bold">Cutting-Edge EVM-Compatible dApps</span>
+            <span className="block text-4xl font-bold">for Enterprise Supply Chain, RWA Management and VRF</span>
             <span className="block text-4xl font-bold">
               via ERC1056/ERC3643/VRF SC worker with NeoPUF USB Dongle/HSM
             </span>
@@ -44,9 +41,10 @@ const Home: NextPage = () => {
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <h1 className="text-center"><span className="block text-4xl font-bold">Supply Chain - DID NeoPUF-secp256r1 HSM</span></h1>
+          <h1 className="text-center">
+            <span className="block text-4xl font-bold">Supply Chain - DID NeoPUF-secp256r1 HSM</span>
+          </h1>
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-
             <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
               <Image src="/did-puf-sc.png" alt="Example Image" width={500} height={250} />
             </div>
@@ -81,9 +79,10 @@ const Home: NextPage = () => {
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <h1 className="text-center"><span className="block text-4xl font-bold">VRF NeoPUF-secp256r1 HSM</span></h1>
+          <h1 className="text-center">
+            <span className="block text-4xl font-bold">VRF NeoPUF-secp256r1 HSM</span>
+          </h1>
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-
             <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
               <Image src="/puf-vrf.png" alt="Example Image" width={500} height={250} />
             </div>
@@ -99,7 +98,9 @@ const Home: NextPage = () => {
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <h1 className="text-center"><span className="block text-4xl font-bold">Real World Asset Tokenization Integration with Shield Bio</span></h1>
+          <h1 className="text-center">
+            <span className="block text-4xl font-bold">Real World Asset Tokenization Integration with Shield Bio</span>
+          </h1>
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
             <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
               <Image src="/rwa-1.png" alt="Example Image" width={500} height={250} />

@@ -20,15 +20,23 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
+    label: "DID issuer",
+    href: "/issuer",
+  },
+  {
+    label: "DID Signer",
+    href: "/signer",
+  },
+  {
+    label: "DID verifier",
+    href: "/verifier",
+  },
+  {
     label: "DID RWA VRF Smart Contract",
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
-  {
-    label: "Tuple Builder",
-    href: "/example-ui",
-    icon: <BugAntIcon className="h-4 w-4" />,
-  },
+
 ];
 
 export const HeaderMenuLinks = () => {

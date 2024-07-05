@@ -81,7 +81,21 @@ export default function IssuerPage() {
                 <h2>Create Signing Delegate</h2>
                 <button
                   onClick={createDelegate}
-                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
+                  style={{
+                    backgroundColor: "#007BFF",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    padding: "10px 20px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                  }}
+                  onMouseOver={e => {
+                    e.target.style.backgroundColor = "#0056b3";
+                  }}
+                  onMouseOut={e => {
+                    e.target.style.backgroundColor = "#007BFF";
+                  }}
                 >
                   Create Delegate
                 </button>

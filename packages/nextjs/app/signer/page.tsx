@@ -72,7 +72,7 @@ export default function IssuerPage() {
   let issuerAddress: string, chainNameOrId: number;
 
   const processDid = async () => {
-      
+
     if (signer) {
       issuerAddress = await signer.getAddress();
       chainNameOrId = await signer.getChainId();
@@ -144,7 +144,7 @@ export default function IssuerPage() {
           serialNumber: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
           uuid: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
           chipFingerprintId: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3"
-       
+
         },
       },
     };
@@ -173,27 +173,32 @@ export default function IssuerPage() {
       <main>
         <div className="px-5">
           <h1 className="text-center">
-            <span className="block text-4xl font-bold">DID Issuer Page (Department of Defense or OEMs) App</span>
+            <span className="block text-4xl font-bold">DID Delegate Signer Page (Manufacturers / Agents) App</span>
             <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
           </h1>
           <hr />
           <h2>
             <span className="block text-2xl mb-2">
               <h2>
-                <b>DID Issuer Account:</b> <p></p> <Account />
+                <b>DID Signer:</b> <p></p>
               </h2>
               <p></p>
               <hr />
               <ol>
-                <li>1. Create a NeoPUF USB Dongle signing delegate for the connected DID Issuer Account</li>
+                <li>1. A delegate signer is an entity that has been granted permission to act on behalf of its DID issuer</li>
                 <li>
-                  2. Bind DID Issuer EVM address (derivative of SECP256K1) with Signer SECP256R1 (or P-256) Public key
+                  2. This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
                 </li>
-                <li>3. Register the binding to ERC1056 smart contract</li>
+                <li>3. Delegation can be time-bound. The identity owner can set an expiration date for the delegate's authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
+                <li>4. The identity owner has the power to revoke the delegation at any time, effectively removing the delegate's authority to act on behalf of the identity.</li>
+                <li>
+                  5. This revocation is also recorded on the blockchain, ensuring transparency and security.
+                </li>
+                <li>6. Delegate signers add a layer of security and flexibility. The identity owner (i.e. its DID issuer) does not need to use their private key for every transaction, reducing the risk of key exposure.</li>
               </ol>
-              <h1>JWT Handling with DID</h1>
               <section>
-                <h2>Configure subject and audience DIDs</h2>
+                <br />
+                <h2 className="block text-2xl mb-2 font-bold">Configure subject and audience DIDs</h2>
                 <form
                   onSubmit={e => {
                     e.preventDefault();
@@ -211,18 +216,31 @@ export default function IssuerPage() {
                   <br />
                   <button
                     type="submit"
-                    style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                  >
+                    style={{
+                      backgroundColor: "#007BFF",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      padding: "10px 20px",
+                      cursor: "pointer",
+                      fontSize: "16px",
+                    }}
+                    onMouseOver={e => {
+                      e.target.style.backgroundColor = "#0056b3";
+                    }}
+                    onMouseOut={e => {
+                      e.target.style.backgroundColor = "#007BFF";
+                    }}                  >
                     Configure Addresses
                   </button>
                 </form>
                 <span id="subjectDID">{subjectDID}</span>
-                <br />
+      
                 <span id="audienceDID">{audienceDID}</span>
-                <br />
+
               </section>
               <section>
-                <h2>Prepare JWT Token for Signing</h2>
+              <h2 className="block text-2xl mb-2 font-bold">Prepare JWT Token for Signing</h2>
                 <form
                   onSubmit={e => {
                     e.preventDefault();
@@ -230,7 +248,7 @@ export default function IssuerPage() {
                   }}
                 >
                   <label>
-                    Private Claim:
+                     Claim:
                     <input
                       type="text"
                       value={veriableClaim}
@@ -247,19 +265,45 @@ export default function IssuerPage() {
                   <br />
                   <button
                     type="submit"
-                    style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                  >
+                    style={{
+                      backgroundColor: "#007BFF",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      padding: "10px 20px",
+                      cursor: "pointer",
+                      fontSize: "16px",
+                    }}
+                    onMouseOver={e => {
+                      e.target.style.backgroundColor = "#0056b3";
+                    }}
+                    onMouseOut={e => {
+                      e.target.style.backgroundColor = "#007BFF";
+                    }}                   >
                     Prepare JWT
                   </button>
                 </form>
                 <span id="issuerDID">{issuerDID}</span>
               </section>
               <section>
-                <h2>Sign JWT Token</h2>
+                <h2></h2>
                 <button
                   onClick={signJWT}
-                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                >
+                  style={{
+                    backgroundColor: "#007BFF",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    padding: "10px 20px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                  }}
+                  onMouseOver={e => {
+                    e.target.style.backgroundColor = "#0056b3";
+                  }}
+                  onMouseOut={e => {
+                    e.target.style.backgroundColor = "#007BFF";
+                  }}                 >
                   Sign JWT
                 </button>
                 <span id="signedJWT">{signedJWT}</span>
