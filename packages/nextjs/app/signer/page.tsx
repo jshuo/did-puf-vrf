@@ -154,11 +154,13 @@ export default function IssuerPage() {
 
   const signJWT = async () => {
     if (!JWTMessage) return;
-
-    if (issuerDid != undefined) {
-      const issuerDoc = await didResolver.resolve(issuerDid.did);
-      console.log(issuerDoc);
-    }
+    //  should check if delegate signer is one of the issuer delegates 
+    // the following operation is expensive;  should be cached 
+    // comment it out for now for response time 
+    // if (issuerDid != undefined) {
+    //   const issuerDoc = await didResolver.resolve(issuerDid.did);
+    //   console.log(issuerDoc);
+    // }
     const signedJWT: string | undefined = await issuerDid?.signJWT(JWTMessage.payload);
     if (signedJWT != undefined) localStorage.setItem('jwt', signedJWT);
     setSignedJWT(signedJWT);
@@ -184,18 +186,19 @@ export default function IssuerPage() {
               </h2>
               <p></p>
               <hr />
-              <ol>
-                <li>1. A delegate signer is an entity that has been granted permission to act on behalf of its DID issuer</li>
+              <ul className="list-disc" style={{ marginLeft: '20px' }}>
+                <li> A delegate signer is an entity authorized to act on behalf of the identity owner (i.e. its DID issuer). Our design modifies ethr-did to utilize a secp256r1 hardware/PUF-based USB dongle on the client side or an HSM on the server side as the delegate signer.</li>
                 <li>
-                  2. This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
+                   This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
                 </li>
-                <li>3. Delegation can be time-bound. The identity owner can set an expiration date for the delegates authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
-                <li>4. The identity owner has the power to revoke the delegation at any time, effectively removing the delegates authority to act on behalf of the identity.</li>
+                <li> Delegation can be time-bound. The identity owner (i.e. its DID issuer) can set an expiration date for the delegates authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
+                <li> The identity owner has the power to revoke the delegation at any time, effectively removing the delegates authority to act on behalf of the identity.</li>
                 <li>
-                  5. This revocation is also recorded on the blockchain, ensuring transparency and security.
+                  This revocation is also recorded on the blockchain, ensuring transparency and security.
                 </li>
-                <li>6. Delegate signers add a layer of security and flexibility. The identity owner (i.e. its DID issuer) does not need to use their private key for every transaction, reducing the risk of key exposure.</li>
-              </ol>
+                <li>  Delegate signers add a layer of security and flexibility. The identity owner (i.e. its DID issuer) does not need to use their private key for every transaction, reducing the risk of key exposure.</li>
+              </ul>
+
               <section>
                 <br />
                 <h2 className="block text-2xl mb-2 font-bold">Configure subject and audience DIDs</h2>
@@ -209,6 +212,7 @@ export default function IssuerPage() {
                     Subject Address:
                     <input type="text" value={subjectAddress} onChange={e => setSubjectAddress(e.target.value)} />
                   </label>
+                  <br />
                   <label>
                     Audience Address:
                     <input type="text" value={audienceAddress} onChange={e => setAudienceAddress(e.target.value)} />
@@ -234,13 +238,16 @@ export default function IssuerPage() {
                     Configure Addresses
                   </button>
                 </form>
-                <span id="subjectDID">{subjectDID}</span>
-      
-                <span id="audienceDID">{audienceDID}</span>
-
+                <br />
+                <span id="subjectDID">Subject Address: {subjectDID}</span>
+                <br />
+                <span id="audienceDID">Verifier Address: {audienceDID}</span>
+                <br />
+                <span id="issuerDID">Issuer Address: {issuerDID}</span>
+                <br />
               </section>
               <section>
-              <h2 className="block text-2xl mb-2 font-bold">Prepare JWT Token for Signing</h2>
+                <h2 className="block text-2xl mb-2 font-bold">Prepare JWT Token for Signing</h2>
                 <form
                   onSubmit={e => {
                     e.preventDefault();
@@ -248,7 +255,7 @@ export default function IssuerPage() {
                   }}
                 >
                   <label>
-                     Claim:
+                    Claim:
                     <input
                       type="text"
                       value={veriableClaim}
@@ -283,7 +290,7 @@ export default function IssuerPage() {
                     Prepare JWT
                   </button>
                 </form>
-                <span id="issuerDID">{issuerDID}</span>
+           
               </section>
               <section>
                 <h2></h2>
