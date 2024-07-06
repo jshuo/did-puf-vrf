@@ -18,8 +18,9 @@ Please review the details to determine if there is any indication that the item 
 
   // 3. Send Request to OpenAI
   // model: "gpt-4",
+  // model: "gpt-3.5-turbo"
   const response = await openai.chat.completions.create({
-    model: "gpt-4",
+    model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: prompt }],
   });
 

@@ -24,6 +24,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/issuer/wagmi.ts", "app/api/services/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/issuer/wagmi.ts", "app/api/aiApiServices/openai/route.js"],
   "exclude": ["node_modules"]
 }

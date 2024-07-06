@@ -54,7 +54,7 @@ export default function VerifierPage() {
 
   const summarizeText = async (text) => {
     try {
-      const response = await fetch('/api/services', {
+      const response = await fetch('/api/aiApiServices/openai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,11 +129,7 @@ export default function VerifierPage() {
               </ul>
             </span>
           </h2>
-
-          <br />
-
-
-          <h1 className="text-center">
+       
             <span className="block text-4xl font-bold">
               <form
                 onSubmit={e => {
@@ -147,6 +143,7 @@ export default function VerifierPage() {
                     backgroundColor: "#007BFF",
                     color: "white",
                     border: "none",
+                    margin:  "20px",
                     borderRadius: "4px",
                     padding: "10px 20px",
                     cursor: "pointer",
@@ -163,7 +160,7 @@ export default function VerifierPage() {
                 </button>
               </form>
             </span>
-          </h1>
+  
           <hr />
           <span id="signedJWT" className="block text-2xl font-bold" >Chip Fingerprint and Signature Verified: </span>
           {loading ? (
@@ -173,7 +170,7 @@ export default function VerifierPage() {
           )}
           <br />
           <span className="block text-2xl font-bold">
-            OpenAI Summary of DID Verifiable Claim:
+            OpenAI Inspection Result of DID Verifiable Claim:
           </span>
           {loading ? (
             <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
