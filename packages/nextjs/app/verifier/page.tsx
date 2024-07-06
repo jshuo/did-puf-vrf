@@ -19,6 +19,8 @@ export default function VerifierPage() {
   const audienceAddr = connectedAddress;
   const [signedJWTVerified, setSignedJWTVerified] = useState("");
   const [signedVC, setSignedVC] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const [message, setMessage] = useState('');
 
@@ -75,6 +77,8 @@ export default function VerifierPage() {
 
   const processDid = async () => {
     setSignedJWTVerified("");
+    setSignedVC("");
+    setLoading(true); // Set loading state to true
     const signedJWT = localStorage.getItem("jwt");
     const chainNameOrId = await signer.getChainId();
     const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
@@ -89,6 +93,7 @@ export default function VerifierPage() {
     if (signedJWT) {
       localStorage.removeItem("jwt");
     }
+    setLoading(false); // Set loading state to false after processing
   };
   return (
     <div>
@@ -161,15 +166,23 @@ export default function VerifierPage() {
           </h1>
           <hr />
           <span id="signedJWT" className="block text-2xl font-bold" >Chip Fingerprint and Signature Verified: </span>
-          <div className="block text-4xl font-bold" >{signedJWTVerified}</div>
+          {loading ? (
+            <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
+          ) : (
+            <div className="block text-4xl font-bold" >{signedJWTVerified}</div>
+          )}
           <br />
           <span className="block text-2xl font-bold">
             OpenAI Summary of DID Verifiable Claim:
           </span>
-          <span id="signedJWT" className="block text-2xl">
+          {loading ? (
+            <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
+          ) : (
+            <span id="signedJWT" className="block text-2xl">
+              {signedVC}
+            </span>
+          )}
 
-            {signedVC}
-          </span>
         </div>
       </main>
 
