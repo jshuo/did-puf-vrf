@@ -212,7 +212,7 @@ export default function IssuerPage() {
               <p></p>
               <hr />
               <ul className="list-disc" style={{ marginLeft: '20px' }}>
-                <li> A delegate signer is an entity authorized to act on behalf of the identity owner (i.e. its DID issuer). Our design modifies ethr-did to utilize a secp256r1 hardware/PUF-based USB dongle on the client side or an HSM on the server side as the delegate signer.</li>
+                <li> A delegate signer is an entity authorized to act on behalf of the identity owner (i.e. its DID issuer). <b>Our design modifies ethr-did to utilize a secp256r1 hardware/PUF-based USB dongle on the client side or an HSM on the server side as the delegate signer.</b></li>
                 <li>
                   This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
                 </li>
@@ -336,7 +336,18 @@ export default function IssuerPage() {
                   }}                 >
                   Sign JWT
                 </button>
-                <span id="signedJWT">{signedJWT}</span>
+                <span style={{
+                  display: 'inline-block',
+                  maxWidth: '100%',
+                  maxHeight: '1000px',
+                  overflow: 'auto',
+                  padding: '8px',
+                  whiteSpace: 'pre-wrap',
+                  wordWrap: 'break-word',
+                  marginRight: '10px'
+                }}>
+                  {signedJWT}
+                </span>
                 <br />
               </section>
             </span>
@@ -345,11 +356,11 @@ export default function IssuerPage() {
         <hr />
 
         <br />
-      </main>
+      </main >
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
         <Image src="/puf-did-diagram.png" alt="Example Image" width={800} height={600} />
         <Image src="/puf-did-ai-board.png" alt="Example Image" width={800} height={600} />
       </div>
-    </div>
+    </div >
   );
 }

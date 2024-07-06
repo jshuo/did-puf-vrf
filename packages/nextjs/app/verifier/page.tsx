@@ -18,7 +18,8 @@ export default function VerifierPage() {
   const { address: connectedAddress } = useAccount();
   const audienceAddr = connectedAddress;
   const [signedJWTVerified, setSignedJWTVerified] = useState("");
-  const [signedVC, setSignedVC] = useState("");
+  const [openaiResult, setOpenaiResult] = useState("");
+  const [geminiResult, setGeminiResult] = useState("");
   const [loading, setLoading] = useState(false);
 
 
@@ -52,7 +53,7 @@ export default function VerifierPage() {
   const ethrDidResolver = getResolver(providerConfig);
   const didResolver = new Resolver(ethrDidResolver);
 
-  const summarizeText = async (text) => {
+  const OpenAIAnalyze = async (text) => {
     try {
       const response = await fetch('/api/aiApiServices/openai', {
         method: 'POST',
@@ -75,9 +76,33 @@ export default function VerifierPage() {
     }
   }
 
+  const GeminiAIAnalyze = async (text) => {
+    try {
+      const response = await fetch('/api/aiApiServices/gemini', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: text }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.message; // Extract the summary from the response
+
+    } catch (error) {
+      console.error("Error summarizing text:", error);
+      throw error; // Handle the error appropriately
+    }
+  }
+
   const processDid = async () => {
     setSignedJWTVerified("");
-    setSignedVC("");
+    setOpenaiResult("");
+    setGeminiResult("");
     setLoading(true); // Set loading state to true
     const signedJWT = localStorage.getItem("jwt");
     const chainNameOrId = await signer.getChainId();
@@ -87,8 +112,10 @@ export default function VerifierPage() {
     console.log(JWTVerified);
     if (JWTVerified != undefined) {
       setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
-      const summary = await summarizeText(JWTVerified.payload!.veriableClaim!);
-      setSignedVC(summary);
+      const openaiAnalysis = await OpenAIAnalyze(JWTVerified.payload!.veriableClaim!);
+      setOpenaiResult(openaiAnalysis);
+      const geminiAnalysis = await GeminiAIAnalyze(JWTVerified.payload!.veriableClaim!);
+      setGeminiResult(geminiAnalysis);
     }
     if (signedJWT) {
       localStorage.removeItem("jwt");
@@ -124,43 +151,43 @@ export default function VerifierPage() {
                   decentralized identity system</li>
                 <li> Users can submit a form to process and verify a <b>verifiable credential</b> fetched from storage or a URL-based VC repository.
                 </li>
-                <li> <b>OpenAI (or Taiwan  trainded AI model) </b> can be used to replace human visual inspection and perform analysis on decoded JWT content</li>
+                <li> <b>OpenAI, Gemini, (or future Taiwan's trainded AI model) </b> can be used to replace human visual inspection and perform analysis on decoded JWT content</li>
                 <li> The system shows verification outcomes integrated with OpenAI Content Analysis instead of relying on rule-based methods or human visual inspection</li>
               </ul>
             </span>
           </h2>
-       
-            <span className="block text-4xl font-bold">
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                  processDid();
+
+          <span className="block text-4xl font-bold">
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                processDid();
+              }}
+            >
+              <button
+                type="submit"
+                style={{
+                  backgroundColor: "#007BFF",
+                  color: "white",
+                  border: "none",
+                  margin: "20px",
+                  borderRadius: "4px",
+                  padding: "10px 20px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+                onMouseOver={e => {
+                  e.target.style.backgroundColor = "#0056b3";
+                }}
+                onMouseOut={e => {
+                  e.target.style.backgroundColor = "#007BFF";
                 }}
               >
-                <button
-                  type="submit"
-                  style={{
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    margin:  "20px",
-                    borderRadius: "4px",
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                    fontSize: "16px",
-                  }}
-                  onMouseOver={e => {
-                    e.target.style.backgroundColor = "#0056b3";
-                  }}
-                  onMouseOut={e => {
-                    e.target.style.backgroundColor = "#007BFF";
-                  }}
-                >
-                  Claim Verification
-                </button>
-              </form>
-            </span>
-  
+                Claim Verification
+              </button>
+            </form>
+          </span>
+
           <hr />
           <span id="signedJWT" className="block text-2xl font-bold" >Chip Fingerprint and Signature Verified: </span>
           {loading ? (
@@ -176,7 +203,18 @@ export default function VerifierPage() {
             <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
           ) : (
             <span id="signedJWT" className="block text-2xl">
-              {signedVC}
+              {openaiResult}
+            </span>
+          )}
+
+          <span className="block text-2xl font-bold" style={{marginTop:"30px"}}>
+            Gemini Inspection Result of DID Verifiable Claim:
+          </span>
+          {loading ? (
+            <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
+          ) : (
+            <span id="signedJWT" className="block text-2xl">
+              {geminiResult}
             </span>
           )}
 

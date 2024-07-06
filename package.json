@@ -51,6 +51,7 @@
     "node": ">=18.17.0"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.14.1",
     "ejs": "^3.1.8",
     "ethr-did": "git+https://github.com/jshuo/ethr-did.git#cf70861e677a9b32bbf8b244196f2cc7c03ee402",
     "openai": "^4.52.3",

@@ -1,8 +1,6 @@
-import OpenAI from "openai";
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const openai = new OpenAI({
-  apiKey: process.env["OPENAI_API_KEY"], // This is the default and can be omitted
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 
 export async function POST(request) {
@@ -16,21 +14,16 @@ Please review the details to determine if there is any indication that the item 
     requestContent,
   )}`;
 
-  // 3. Send Request to OpenAI
-  // model: "gpt-4",
-  // model: "gpt-3.5-turbo"
-  const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: prompt }],
-  });
+  // 3. Set up model 
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
-  // 4. Return Summary
-  const summary = response.choices[0].message.content;
-  console.log(summary);
-  // Perform your desired server-side logic with the data
-  // For example, save it to a database or send it to another API
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  const text = response.text();
 
-  return new Response(JSON.stringify({ message: summary }), {
+  console.log(text)
+
+  return new Response(JSON.stringify({ message: text }), {
     status: 200, // Or an appropriate status code
     headers: { 
       "Content-Type": "application/json",
