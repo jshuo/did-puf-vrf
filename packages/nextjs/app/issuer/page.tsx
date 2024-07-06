@@ -78,7 +78,6 @@ export default function IssuerPage() {
               </ol>
 
               <section>
-                <h2>Create Signing Delegate</h2>
                 <button
                   onClick={createDelegate}
                   style={{
@@ -99,21 +98,20 @@ export default function IssuerPage() {
                 >
                   Create Delegate
                 </button>
+                <section>
+                </section>
                 <br />
                 <span
-                  id="delegateSigner"
-                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                >
-                  delegate secp256 r1 address: {delegateSigner}
+                  id="delegateSigner" className="block text-2xl font-bold"            >
+                  delegate signer secp256 r1 address: 
                 </span>
+                {delegateSigner}
                 <br />
                 <span
-                  id="delegateSignerIdentifier"
-                  style={{ backgroundColor: "#007BFF", color: "white", border: "none", borderRadius: "4px" }}
-                >
-                  {" "}
-                  delegate secp256 r1 public key: {delegateSignerIdentifier}
+                 id="delegateSigner" className="block text-2xl font-bold"            >
+                  delegate signer secp256 r1 public key: 
                 </span>
+                {delegateSignerIdentifier}
                 <br />
               </section>
             </span>

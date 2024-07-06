@@ -113,15 +113,14 @@ export default function VerifierPage() {
 
                 <li> To verify Decentralized Identifiers (DIDs) and
                   JSON Web Tokens (JWTs) using Ethereum-based DID (EthrDID).</li>
-                <li>
-                  <li> EthrDID only allows designated verifier ethereum account to verify the claim</li>
-                  It allows users to submit a form to process and
-                  verify a signed JWT retrieved from local storage, displaying the verification results and any associated
-                  verifiable claims.
-                </li>
+
+                <li> EthrDID only allows designated verifier ethereum account to verify the claim</li>
                 <li> This functionality is useful for ensuring the authenticity and integrity of claims in a
                   decentralized identity system</li>
-                <li> Use of OpenAI to perform decoded JWT data</li>
+                <li> Users can submit a form to process and verify a <b>verifiable credential</b> fetched from storage or a URL-based VC repository.
+                </li>
+                <li> <b>OpenAI (or Taiwan  trainded AI model) </b> can be used to replace human visual inspection and perform analysis on decoded JWT content</li>
+                <li> The system shows verification outcomes integrated with OpenAI Content Analysis instead of relying on rule-based methods or human visual inspection</li>
               </ul>
             </span>
           </h2>
@@ -161,9 +160,10 @@ export default function VerifierPage() {
             </span>
           </h1>
           <hr />
-          <span id="signedJWT" className="block text-2xl" >Signature Verified: {signedJWTVerified}</span>
+          <span id="signedJWT" className="block text-2xl font-bold" >Chip Fingerprint and Signature Verified: </span>
+          <div className="block text-4xl font-bold" >{signedJWTVerified}</div>
           <br />
-          <span className="block text-4xl font-bold">
+          <span className="block text-2xl font-bold">
             OpenAI Summary of DID Verifiable Claim:
           </span>
           <span id="signedJWT" className="block text-2xl">
