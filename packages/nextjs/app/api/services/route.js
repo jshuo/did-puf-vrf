@@ -33,9 +33,6 @@ Please review the details to determine if there is any indication that the item 
     status: 200, // Or an appropriate status code
     headers: { 
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "GET, POST, OPTION",
      },
   });
 }
