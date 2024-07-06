@@ -114,8 +114,8 @@ export default function VerifierPage() {
       setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
       const openaiAnalysis = await OpenAIAnalyze(JWTVerified.payload!.veriableClaim!);
       setOpenaiResult(openaiAnalysis);
-      const geminiAnalysis = await GeminiAIAnalyze(JWTVerified.payload!.veriableClaim!);
-      setGeminiResult(geminiAnalysis);
+      // const geminiAnalysis = await GeminiAIAnalyze(JWTVerified.payload!.veriableClaim!);
+      // setGeminiResult(geminiAnalysis);
     }
     if (signedJWT) {
       localStorage.removeItem("jwt");
