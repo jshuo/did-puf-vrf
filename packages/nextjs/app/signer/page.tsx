@@ -285,8 +285,8 @@ export default function IssuerPage() {
                       placeholder={JSON.stringify(jetsonData)}
                       onChange={e => setVeriableClaim(JSON.stringify(jetsonData))}
                       style={{
-                        width: "800px", // Adjust width as needed
-                        height: "200px", // Adjust width as needed
+                        width: "1000px", // Adjust width as needed
+                        height: "500px", // Adjust width as needed
                         padding: "8px", // Adjust padding for uniformity with the button
                         marginRight: "10px", // Optional: Provide spacing between input and button
                       }}
