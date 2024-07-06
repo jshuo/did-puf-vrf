@@ -151,7 +151,7 @@ export default function VerifierPage() {
                   decentralized identity system</li>
                 <li> Users can submit a form to process and verify a <b>verifiable credential</b> fetched from storage or a URL-based VC repository.
                 </li>
-                <li> <b>OpenAI, Gemini, (or future Taiwan's trainded AI model) </b> can be used to replace human visual inspection and perform analysis on decoded JWT content</li>
+                <li> <b>OpenAI, Gemini, (or future Taiwan trainded AI model) </b> can be used to replace human visual inspection and perform analysis on decoded JWT content</li>
                </ul>
             </span>
           </h2>
