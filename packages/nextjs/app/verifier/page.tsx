@@ -152,8 +152,7 @@ export default function VerifierPage() {
                 <li> Users can submit a form to process and verify a <b>verifiable credential</b> fetched from storage or a URL-based VC repository.
                 </li>
                 <li> <b>OpenAI, Gemini, (or future Taiwan's trainded AI model) </b> can be used to replace human visual inspection and perform analysis on decoded JWT content</li>
-                <li> The system shows verification outcomes integrated with OpenAI Content Analysis instead of relying on rule-based methods or human visual inspection</li>
-              </ul>
+               </ul>
             </span>
           </h2>
 
