@@ -26,9 +26,9 @@ export default function ReadContract() {
           </h1>
           <hr />
           <h2>
-            <span className="block text-2xl mb-2">
+            <span className="block text-4xl mb-2">
               <h2>
-                <b>RWA Token Investor:</b> <p></p> <Account />
+                <b>ERC3643 RWA Token Investor:</b> <p></p> <Account />
               </h2>
               <p></p>
               <hr />
@@ -36,8 +36,8 @@ export default function ReadContract() {
               <ul className="list-disc" style={{ marginLeft: '20px' }}>
 
                 <li style={{ marginBottom: '20px' }}> <STOSymbol /></li>
-                <li style={{ marginBottom: '20px' }}> <TotalSupply/></li>    
-                <li style={{ marginBottom: '20px' }}> <BalanceOf /></li>             
+                <li style={{ marginBottom: '20px' }}> <TotalSupply /></li>
+                <li style={{ marginBottom: '20px' }}> <BalanceOf /></li>
               </ul>
               <hr />
 
@@ -49,6 +49,17 @@ export default function ReadContract() {
 
         <br />
       </main>
+
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+        <Image src="/investorlost.png" alt="Example Image" width={800} height={600} />
+        <Image src="/erc3643-arch.png" alt="Example Image" width={800} height={600} />
+      </div>
+
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+        <Image src="/tokeny.png" alt="Example Image" width={800} height={600} />
+        <Image src="/iota.png" alt="Example Image" width={800} height={600} />
+      </div>
+
     </div>
   );
 
