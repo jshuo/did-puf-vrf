@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
+import Head from "next/head";
 import Image from "next/image";
-
+import { Account } from "../../components/Account";
 import { type Address } from "viem";
 import { useAccount, useBalance } from "wagmi";
 import { wagmiContractConfig } from './contracts';
@@ -12,24 +13,45 @@ import { wagmiContractConfig } from './contracts';
 export default function ReadContract() {
 
 
+
   return (
-    <div className="flex items-center flex-col flex-grow pt-10">
-      <div className="px-5">
-        <h1 className="text-center"><STOSymbol /></h1>
-        <br />
-        <h1 className="text-center"><BalanceOf /></h1>
-        <br />
-        <h1 className="text-center"> <TotalSupply /></h1>
-        <br />
+    <div>
+      <Head>
+        <title>Real World Asset Token Investor</title>
+      </Head>
+      <main>
+        <div className="px-5">
+          <h1 className="text-center">
+            <span className="block text-4xl font-bold">RWA Token Investor App</span>
+          </h1>
+          <hr />
+          <h2>
+            <span className="block text-2xl mb-2">
+              <h2>
+                <b>RWA Token Investor:</b> <p></p> <Account />
+              </h2>
+              <p></p>
+              <hr />
 
-      </div>
+              <ul className="list-disc" style={{ marginLeft: '20px' }}>
 
-      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-        <Image src="/investor.png" alt="Example Image" width={1200} height={900} />
-      </div>
+                <li style={{ marginBottom: '20px' }}> <STOSymbol /></li>
+                <li style={{ marginBottom: '20px' }}> <TotalSupply/></li>    
+                <li style={{ marginBottom: '20px' }}> <BalanceOf /></li>             
+              </ul>
+              <hr />
+
+            </span>
+          </h2>
+        </div>
+
+        <hr />
+
+        <br />
+      </main>
     </div>
-    
   );
+
 }
 
 const TotalSupply = () => {
@@ -41,12 +63,9 @@ const TotalSupply = () => {
   return (
     <div>
 
-      <b style={{ fontSize: '28px' }}>Total Supply: {data?.toString()}</b>
+      <b style={{ fontSize: '28px' }}>Total Supply: {data?.toString()} SET</b>
 
       <br />
-      <button disabled={isRefetching} onClick={() => refetch()} style={{ marginLeft: 4 }}>
-        {isRefetching ? 'loading...' : 'refetch'}
-      </button>
     </div>
   );
 };
@@ -68,18 +87,16 @@ const STOSymbol = () => {
 const BalanceOf = () => {
   const { address } = useAccount()
 
-  const { data, error, isLoading, isSuccess } = useReadContract({
+  const { data, isSuccess } = useReadContract({
     ...wagmiContractConfig,
     functionName: 'balanceOf',
     args: [address],
   });
 
 
-  const [value, setValue] = useState<string>(address);
-
   return (
     <div>
-      <b style={{ fontSize: '28px' }}>Token balance:{isSuccess && data?.toString()}</b>
+      <b style={{ fontSize: '28px' }}>Token balance:{isSuccess && data?.toString()} SET</b>
       <br />
     </div>
   );

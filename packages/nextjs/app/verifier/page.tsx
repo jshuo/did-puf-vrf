@@ -130,7 +130,7 @@ export default function VerifierPage() {
       <main>
         <div className="px-5">
           <h1 className="text-center">
-            <span className="block text-4xl font-bold">DID Verifier Page (Manufacturers / Agents) App</span>
+            <span className="block text-4xl font-bold">DID Verifier Page (Final Assembly/Resellers/Consumers) App</span>
             <span className="block text-4xl font-bold">For Enterprise Supply Chain Management</span>
           </h1>
           <hr />
