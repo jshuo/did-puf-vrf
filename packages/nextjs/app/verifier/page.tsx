@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
 import { Resolver } from "did-resolver";
@@ -19,6 +20,7 @@ export default function VerifierPage() {
   const audienceAddr = connectedAddress;
   const [signedJWTVerified, setSignedJWTVerified] = useState("");
   const [openaiResult, setOpenaiResult] = useState("");
+  const [openaiImage, setOpenaiImage] = useState("");
   const [geminiResult, setGeminiResult] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -68,7 +70,7 @@ export default function VerifierPage() {
       }
 
       const data = await response.json();
-      return data.message; // Extract the summary from the response
+      return data; // Extract the summary from the response
 
     } catch (error) {
       console.error("Error summarizing text:", error);
@@ -103,6 +105,7 @@ export default function VerifierPage() {
     setSignedJWTVerified("");
     setOpenaiResult("");
     setGeminiResult("");
+    setOpenaiImage("")
     setLoading(true); // Set loading state to true
     const signedJWT = localStorage.getItem("jwt");
     const chainNameOrId = await signer.getChainId();
@@ -113,7 +116,8 @@ export default function VerifierPage() {
     if (JWTVerified != undefined) {
       setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
       const openaiAnalysis = await OpenAIAnalyze(JWTVerified.payload!.veriableClaim!);
-      setOpenaiResult(openaiAnalysis);
+      setOpenaiResult(openaiAnalysis.message);
+      setOpenaiImage(openaiAnalysis.image);
       const geminiAnalysis = await GeminiAIAnalyze(JWTVerified.payload!.veriableClaim!);
       setGeminiResult(geminiAnalysis);
     }
@@ -152,7 +156,7 @@ export default function VerifierPage() {
                 <li> Users can submit a form to process and verify a <b>verifiable credential</b> fetched from storage or a URL-based VC repository.
                 </li>
                 <li> <b>OpenAI, Gemini, (or future Taiwan trainded AI model) </b> can be used to replace human visual inspection and perform analysis on decoded JWT content</li>
-               </ul>
+              </ul>
             </span>
           </h2>
 
@@ -188,7 +192,7 @@ export default function VerifierPage() {
           </span>
 
           <hr />
-          <span id="signedJWT" className="block text-2xl font-bold" >Chip Fingerprint and Signature Verified: </span>
+          <span id="signedJWT" className="block text-2xl font-bold" >NeoPUF Chip Fingerprint and Signature Verified: </span>
           {loading ? (
             <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
           ) : (
@@ -198,6 +202,7 @@ export default function VerifierPage() {
           <span className="block text-2xl font-bold">
             OpenAI Inspection Result of DID Verifiable Claim:
           </span>
+
           {loading ? (
             <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
           ) : (
@@ -206,7 +211,7 @@ export default function VerifierPage() {
             </span>
           )}
 
-          <span className="block text-2xl font-bold" style={{marginTop:"30px"}}>
+          <span className="block text-2xl font-bold" style={{ marginTop: "30px" }}>
             Gemini Inspection Result of DID Verifiable Claim:
           </span>
           {loading ? (
@@ -220,7 +225,15 @@ export default function VerifierPage() {
         </div>
       </main>
 
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+        <Image src="/openai-image.png" alt="Example Image" width={800} height={600} />
+        {loading ? (
+          <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
+        ) : (
+          <Image src={openaiImage} alt="OpenAI Dall-E Generative Image" width={800} height={600} />
+        )}
 
+      </div>
     </div>
   );
 }
