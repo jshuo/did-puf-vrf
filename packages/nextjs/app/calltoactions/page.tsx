@@ -27,7 +27,7 @@ export default function CallToActions() {
 
               <ul className="list-disc" style={{ marginLeft: '20px' }}>
 
-                <li style={{ marginBottom: '20px' }}> DID-PUF Proof of Business Grant - AI Assisted MODA 2025</li>
+                <li style={{ marginBottom: '20px' }}> DID-PUF Proof of Business (Supply Chain, Taiwan Ballot) Grant - AI Assisted MODA 2025</li>
                 <li style={{ marginBottom: '20px' }}> RWA STO(Fund Raising) Proof of Concept Grant/ NRE - Taiwan/Japan/Korea Small Business</li>
                 <li style={{ marginBottom: '20px' }}> PUF-HSM for RWA Investor Account</li>
 
