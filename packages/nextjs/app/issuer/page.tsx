@@ -89,11 +89,17 @@ export default function IssuerPage() {
               <ul className="list-disc" style={{ marginLeft: '20px' }}>
                 <li>Create a NeoPUF USB Dongle / HSM signing delegate for the connected DID Issuer Account</li>
                 <li>
-                    Bind DID Issuer EVM address (derivative of SECP256K1) with Signer SECP256R1 (or P-256) Public key
+                  Bind DID Issuer EVM address (derivative of SECP256K1) with Signer SECP256R1 (or P-256) Public key
                 </li>
                 <li> Delegation can be time-bound. The identity owner (i.e. its DID issuer) can set an expiration date for the delegates authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
                 <li> Register the binding to ERC1056 smart contract</li>
-                </ul>
+                <li> The identity owner has the power to revoke the delegation at any time, effectively removing the delegates authority to act on behalf of the identity.</li>
+                <li>
+                  This revocation is also recorded on the blockchain, ensuring transparency and security.
+                </li>
+                <li>  Delegate signers add a layer of security and flexibility, and with PUF USB, Delegate signers private keys are neither be exposed or accessed  </li>
+                <li>  The identity owner (i.e. its DID issuer) does not need to use their private key for every transaction, reducing the risk of key exposure.</li>
+              </ul>
               <hr />
 
               <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">

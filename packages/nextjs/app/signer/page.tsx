@@ -172,17 +172,9 @@ export default function IssuerPage() {
               <hr />
               <ul className="list-disc" style={{ marginLeft: '20px' }}>
                 <li> A delegate signer is an entity authorized to act on behalf of the identity owner (i.e. its DID issuer). <b>Our design modifies ethr-did to utilize a secp256r1 hardware/PUF-based USB dongle on the client side or an HSM on the server side as the delegate signer.</b></li>
-                <li>
                   This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
-                </li>
-                <li> Delegation can be time-bound. The identity owner (i.e. its DID issuer) can set an expiration date for the delegates authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
-                <li> The identity owner has the power to revoke the delegation at any time, effectively removing the delegates authority to act on behalf of the identity.</li>
-                <li>
-                  This revocation is also recorded on the blockchain, ensuring transparency and security.
-                </li>
                 <li>  Delegate signers add a layer of security and flexibility. The identity owner (i.e. its DID issuer) does not need to use their private key for every transaction, reducing the risk of key exposure.</li>
               </ul>
-
               <section>
                 <br />
                 <h2 className="block text-2xl mb-2 font-bold">Configure subject and audience DIDs</h2>
