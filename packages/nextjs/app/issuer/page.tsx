@@ -86,13 +86,14 @@ export default function IssuerPage() {
               <p></p>
               <hr />
 
-              <ol>
-                <li>1. Create a NeoPUF USB Dongle signing delegate for the connected DID Issuer Account</li>
+              <ul className="list-disc" style={{ marginLeft: '20px' }}>
+                <li>Create a NeoPUF USB Dongle / HSM signing delegate for the connected DID Issuer Account</li>
                 <li>
-                  2. Bind DID Issuer EVM address (derivative of SECP256K1) with Signer SECP256R1 (or P-256) Public key
+                    Bind DID Issuer EVM address (derivative of SECP256K1) with Signer SECP256R1 (or P-256) Public key
                 </li>
-                <li>3. Register the binding to ERC1056 smart contract</li>
-              </ol>
+                <li> Delegation can be time-bound. The identity owner (i.e. its DID issuer) can set an expiration date for the delegates authority, ensuring that the delegation is temporary and needs to be renewed periodically</li>
+                <li> Register the binding to ERC1056 smart contract</li>
+                </ul>
               <hr />
 
               <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
