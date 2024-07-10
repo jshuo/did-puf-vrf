@@ -7,35 +7,8 @@ export type ScaffoldConfig = {
   walletConnectProjectId: string;
   onlyLocalBurnerWallet: boolean;
 };
-
-
-// const chainAgence = {
-//   name: "Agence",
-//   id: 887,
-//   nativeCurrency: {
-//     name: "Agence",
-//     symbol: "HME",
-//     decimals: 2,
-//   },
-//   rpcUrls: {
-//     public: {
-//       http: ["https://takecopter.cloud.agence.network"],
-//       webSocket: ["wss://takecopter.cloud.agence.network"],
-//     },
-//     default: {
-//       http: ["https://takecopter.cloud.agence.network"],
-//       webSocket: ["wss://takecopter.cloud.agence.network"],
-//     },
-//   },
-//   blockExplorers: {
-//     default: {
-//       name: "Agence Blockscout",
-//       url: "https://blockscout.takecopter.cloud.agence.network/",
-//     },
-//   },
-//   testnet: true,
-// };
-
+ 
+const besuRpc = process.env.BESU_RPC ?? "http://100.76.52.18:8545";
 
 const scaffoldConfig = {
   // The network where your DApp lives in
@@ -63,6 +36,24 @@ const scaffoldConfig = {
       default: {
         name: "Agence Blockscout",
         url: "https://blockscout.takecopter.cloud.agence.network/",
+      },
+    },
+    testnet: true,
+  }, 
+  {
+    name: "Hyperledger Besu",
+    id: 1981,
+    nativeCurrency: {
+      name: "Besu",
+      symbol: "BESU",
+      decimals: 2,
+    },
+    rpcUrls: {
+      public: {
+        http: [besuRpc],
+      },
+      default: {
+        http: [besuRpc],
       },
     },
     testnet: true,

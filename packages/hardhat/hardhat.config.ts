@@ -31,9 +31,10 @@ const config: HardhatUserConfig = {
     },
   },
   // defaultNetwork: "localhost",
-  defaultNetwork: "agence",
+  // defaultNetwork: "agence",
   // defaultNetwork: "hardhat",
   // defaultNetwork: "polygonAmoy",
+  defaultNetwork: "besu",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -111,6 +112,10 @@ const config: HardhatUserConfig = {
     },
     agence: {
       url: "https://takecopter.cloud.agence.network",
+      accounts: [deployerPrivateKey],
+    },
+    besu: {
+      url: process.env.BESU_RPC,
       accounts: [deployerPrivateKey],
     },
   },

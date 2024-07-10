@@ -48,6 +48,7 @@ export default function IssuerPage() {
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
   const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
+  const BesuRegistryAddress = "0xF4a9DDc96DB10650445B03e66117baAdC4c88E66"; // besu
   const { targetNetwork } = useTargetNetwork();
 
 
@@ -75,6 +76,13 @@ export default function IssuerPage() {
         provider,
         registry: PolyAmoyRegistryAddress,
       },
+      {
+        name: "Besu",
+        rpcUrl: process.env.BESU_RPC,
+        chainId: 1981,
+        provider,
+        registry: BesuRegistryAddress,
+      },
     ],
   };
   const ethrDidResolver = getResolver(providerConfig);
@@ -99,6 +107,8 @@ export default function IssuerPage() {
       registryAddress = AgenceRegistryAddress;
     } else if (targetNetwork.id == 31337) {
       registryAddress = hardHatRegistryAddress;
+    } else if (targetNetwork.id == 1981) {
+      registryAddress = BesuRegistryAddress;
     }
 
     const issuerDid = new EthrDID({
