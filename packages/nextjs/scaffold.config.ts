@@ -7,57 +7,62 @@ export type ScaffoldConfig = {
   walletConnectProjectId: string;
   onlyLocalBurnerWallet: boolean;
 };
- 
+
 const besuRpc = process.env.BESU_RPC ?? "http://100.76.52.18:8545";
 
 const scaffoldConfig = {
   // The network where your DApp lives in
   // targetNetworks: [chains.hardhat],
 
-  targetNetworks: [{
-    name: "Agence",
-    id: 887,
-    nativeCurrency: {
+  targetNetworks: [
+    {
+      name: "Hyperledger Besu",
+      id: 1981,
+      nativeCurrency: {
+        name: "Besu",
+        symbol: "BESU",
+        decimals: 2,
+      },
+      rpcUrls: {
+        public: {
+          http: [besuRpc],
+        },
+        default: {
+          http: [besuRpc],
+        },
+      },
+      testnet: true,
+    },
+    {
       name: "Agence",
-      symbol: "HME",
-      decimals: 2,
-    },
-    rpcUrls: {
-      public: {
-        http: ["https://takecopter.cloud.agence.network"],
-        webSocket: ["wss://takecopter.cloud.agence.network"],
+      id: 887,
+      nativeCurrency: {
+        name: "Agence",
+        symbol: "HME",
+        decimals: 2,
       },
-      default: {
-        http: ["https://takecopter.cloud.agence.network"],
-        webSocket: ["wss://takecopter.cloud.agence.network"],
+      rpcUrls: {
+        public: {
+          http: ["https://takecopter.cloud.agence.network"],
+          webSocket: ["wss://takecopter.cloud.agence.network"],
+        },
+        default: {
+          http: ["https://takecopter.cloud.agence.network"],
+          webSocket: ["wss://takecopter.cloud.agence.network"],
+        },
       },
-    },
-    blockExplorers: {
-      default: {
-        name: "Agence Blockscout",
-        url: "https://blockscout.takecopter.cloud.agence.network/",
+      blockExplorers: {
+        default: {
+          name: "Agence Blockscout",
+          url: "https://blockscout.takecopter.cloud.agence.network/",
+        },
       },
+      testnet: true,
     },
-    testnet: true,
-  }, 
-  {
-    name: "Hyperledger Besu",
-    id: 1981,
-    nativeCurrency: {
-      name: "Besu",
-      symbol: "BESU",
-      decimals: 2,
-    },
-    rpcUrls: {
-      public: {
-        http: [besuRpc],
-      },
-      default: {
-        http: [besuRpc],
-      },
-    },
-    testnet: true,
-  }, chains.polygonAmoy, chains.shimmer, chains.shimmerTestnet],
+    chains.polygonAmoy,
+    chains.shimmer,
+    chains.shimmerTestnet,
+  ],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)
