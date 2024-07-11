@@ -1,0 +1,41 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Lottery.sol": {
+      "content": "interface Oracle {\n    event RandomRequested(address indexed requester, uint256 indexed id);\n    event RandomIssued(uint256 indexed id, uint256 entropy);\n    function getEntropy(uint256 id) external view returns (address, uint256);\n    function requestRandom(address contractAddress) external returns (uint256);\n}\n\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.9;\nimport \"./RandomConsumerBase.sol\";\n\ncontract Lottery is RandomConsumerBase {\n    event RandomReceived(uint256 requestId, uint256 PUFentropy, uint256 currentEntropy);\n    uint256 public currentRequestId = 0;\n    uint256 public currentEntropy = 0;\n    uint256 public tempEntropy = 0;\n    address public manager;\n    address payable[] public players;\n    Oracle public oracle = Oracle(0x0000000000000000000000000000000000000801); // Add Oracle contract address as a constant\n\n    constructor() {\n        manager = msg.sender;\n    }\n\n    function enter() public payable {\n        require(msg.value > .005 ether);\n        players.push(payable(msg.sender));\n    }\n\n    function random() private view returns (uint) {\n        return uint(keccak256(abi.encodePacked(block.timestamp, players, tempEntropy)));\n    }\n\n    function pickWinner() public restricted {\n            oracle.requestRandom(address(this));\n            // uint256 requestId = oracle.requestRandom(address(this));\n            // currentRequestId = random()+requestId;\n            // uint index = currentRequestId % players.length;\n            // players[index].transfer(address(this).balance);\n            // players = new address payable[](0);\n            // emit RandomReceived(currentRequestId, currentRequestId, address(this));\n\n    }\n\n    modifier restricted() {\n        require(msg.sender == manager);\n        _;\n    }\n\n    function getPlayers() public view returns (address payable[] memory) {\n        return players;\n    }\n\n    function executeImpl(uint256 requestId, uint256 PUFentropy) internal virtual override {\n\n        currentRequestId = requestId;\n        tempEntropy = PUFentropy;\n        currentEntropy = random();\n        uint index = currentEntropy % players.length;\n        players[index].transfer(address(this).balance);\n        players = new address payable[](0);\n        emit RandomReceived(currentRequestId, PUFentropy, currentEntropy);\n    }\n}"
+    },
+    "contracts/RandomConsumerBase.sol": {
+      "content": "// SPDX-License-Identifier: GPL-3.0\n\npragma solidity ^0.8.9;\n\nabstract contract Context {\n    function _msgSender() internal view virtual returns (address) {\n        return msg.sender;\n    }\n\n    function _msgData() internal view virtual returns (bytes calldata) {\n        return msg.data;\n    }\n}\n\n/**\n * *****************************************************************************\n * @dev USAGE\n *\n * @dev Randomness Consumer contracts must inherit from RandomConsumerBase and\n * implement `randomCallbackImpl` to override the virtual base function.\n *\n * @dev   contract MyContract is RandomConsumerBase {\n * @dev     function executeImpl(uint256 requestId, uint256 entropy) internal override(RandomConsumerBase) {\n * @dev       // YOUR CUSTOM CODE HERE\n * @dev     }\n * @dev   }\n * */\nabstract contract RandomConsumerBase is Context {\n    error CanOnlyBeCalledByPrecompile(address have, address want);\n\n    /**\n     * @dev Receives `entropy` for `requestId`.  Contract must override this function\n     *\n     * Returns null\n     */\n    function executeImpl(uint256 requestId, uint256 entropy) internal virtual;\n\n    /**\n     * @dev `executeEntropy` delegates the data to the `executeImpl`\n     *\n     * Returns null\n     */\n    function executeEntropy(uint256 requestId, uint256 entropy) external {\n        if (msg.sender != 0x0000000000000000000000000000000000000801) {\n            revert CanOnlyBeCalledByPrecompile(\n                msg.sender,\n                0x0000000000000000000000000000000000000801\n            );\n        }\n        executeImpl(requestId, entropy);\n    }\n}"
+    },
+    "contracts/VerifiableRandomService.sol": {
+      "content": "interface Oracle {\n    event RandomRequested(address indexed requester, uint256 indexed id);\n    event RandomIssued(uint256 indexed id, uint256 entropy);\n    function getEntropy(uint256 id) external view returns (address, uint256);\n    function requestRandom(address contractAddress) external returns (uint256);\n}\n\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.9;\nimport \"./RandomConsumerBase.sol\";\n\ncontract VerifiableRandomService is RandomConsumerBase {\n    event RandomReceived(uint256 requestId, uint256 PUFentropy, uint256 currentEntropy);\n    uint256 public currentRequestId = 0;\n    uint256 public currentEntropy = 0;\n    uint256 public tempEntropy = 0;\n    address public manager;\n    address payable[] public players;\n    Oracle public oracle = Oracle(0x0000000000000000000000000000000000000801); // Add Oracle contract address as a constant\n\n    constructor() {\n        manager = msg.sender;\n    }\n\n    function enter() public payable {\n        require(msg.value > .005 ether);\n        players.push(payable(msg.sender));\n    }\n\n    function random() private view returns (uint) {\n        return uint(keccak256(abi.encodePacked(block.timestamp, players, tempEntropy)));\n    }\n\n    function pickWinner() public restricted {\n            oracle.requestRandom(address(this));\n            // uint256 requestId = oracle.requestRandom(address(this));\n            // currentRequestId = random()+requestId;\n            // uint index = currentRequestId % players.length;\n            // players[index].transfer(address(this).balance);\n            // players = new address payable[](0);\n            // emit RandomReceived(currentRequestId, currentRequestId, address(this));\n\n    }\n\n    modifier restricted() {\n        require(msg.sender == manager);\n        _;\n    }\n\n    function getPlayers() public view returns (address payable[] memory) {\n        return players;\n    }\n\n    function executeImpl(uint256 requestId, uint256 PUFentropy) internal virtual override {\n\n        currentRequestId = requestId;\n        tempEntropy = PUFentropy;\n        currentEntropy = random();\n        uint index = currentEntropy % players.length;\n        players[index].transfer(address(this).balance);\n        players = new address payable[](0);\n        emit RandomReceived(currentRequestId, PUFentropy, currentEntropy);\n    }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
