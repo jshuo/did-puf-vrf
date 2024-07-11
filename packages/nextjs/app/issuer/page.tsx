@@ -23,7 +23,7 @@ export default function IssuerPage() {
   const provider = useEthersProvider();
   const signer = useEthersSigner();
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
-  const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
+  const PolyAmoyRegistryAddress = "0xF1DcE5bfc5A9732C638962EF9b54943B112BE4f2"; // polygon
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
   const BesuRegistryAddress = "0xF4a9DDc96DB10650445B03e66117baAdC4c88E66"; // besu
   const { targetNetwork } = useTargetNetwork();
