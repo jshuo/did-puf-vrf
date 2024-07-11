@@ -32,7 +32,7 @@ export default function VerifierPage() {
     networks: [
       {
         name: "development",
-        rpcUrl: "http://localhost:7545",
+        rpcUrl: "http://127.0.0.1:7545",
         chainId: 31337,
         provider,
         registry: hardHatRegistryAddress,

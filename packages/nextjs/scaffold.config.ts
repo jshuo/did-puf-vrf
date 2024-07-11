@@ -8,7 +8,8 @@ export type ScaffoldConfig = {
   onlyLocalBurnerWallet: boolean;
 };
 
-const besuRpc = process.env.BESU_RPC ?? "http://100.76.52.18:8545";
+const BESU_RPC = "http://127.0.0.1:8545";
+// const besuRpc = process.env.BESU_RPC;
 
 const scaffoldConfig = {
   // The network where your DApp lives in
@@ -25,10 +26,10 @@ const scaffoldConfig = {
       },
       rpcUrls: {
         public: {
-          http: [besuRpc],
+          http: ["http://127.0.0.1:8545"],
         },
         default: {
-          http: [besuRpc],
+          http: ["http://127.0.0.1:8545"],
         },
       },
       testnet: true,

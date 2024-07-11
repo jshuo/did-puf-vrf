@@ -12,12 +12,12 @@ export default function RWATokenIssuerPage() {
   return (
     <div>
       <Head>
-        <title>DID Issuers Page</title>
+        <title>RWA Token Issuer Page</title>
       </Head>
       <main>
         <div className="px-5">
           <h1 className="text-center">
-            <span className="block text-4xl font-bold">DID Token Issuer Page App</span>
+            <span className="block text-4xl font-bold">RWA Token Issuer Page App</span>
           </h1>
           <hr />
           <h2>
