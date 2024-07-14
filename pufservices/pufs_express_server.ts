@@ -1,3 +1,5 @@
+// Express server using ffi-napi to interact with PUFS library"
+
 import express from 'express';
 import ffi from 'ffi-napi';
 import ref from 'ref-napi';

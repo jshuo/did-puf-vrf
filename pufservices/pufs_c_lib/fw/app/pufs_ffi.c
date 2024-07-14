@@ -24,7 +24,6 @@ pufs_status_t pufs_rand_js(void)
     status = pufs_rand((uint8_t *)&r1, 1);
     if (status != SUCCESS)
     {
-        printf("Random number generation failed: %d\n", status);
         pufs_cmd_iface_deinit();
         return status;
     }
@@ -38,7 +37,7 @@ char *pufs_get_uid_js(void)
     pufs_status_t status;
     static char uid_str[UID_LENGTH * 2 + 1]; // Static buffer for UID string
     pufs_uid_st uid;
-    pufs_get_uid(&uid, 0);
+    status = pufs_get_uid(&uid, 0);
 
     // Converting each byte to its hexadecimal representation and storing it in the static string buffer
     for (int i = 0; i < UID_LENGTH; ++i)
@@ -49,15 +48,24 @@ char *pufs_get_uid_js(void)
     // Null-terminating the string
     uid_str[UID_LENGTH * 2] = '\0';
 
-    /* PUFse cmd interface de-init */
-    status = pufs_cmd_iface_deinit();
     if (status != SUCCESS)
     {
-        printf("PUFse cmd interface de-init failed: %d\n", status);
-        return NULL;
+        pufs_cmd_iface_deinit();
     }
 
     return uid_str;
+}
+
+
+char *pufs_p256sign_js(char *hash)
+{
+    return hash;
+}
+
+const char *pufs_get_pubkey_js(void)
+{
+    const char *pubkey = "0414c58e581c7656ba153195669fe4ce53ff78dd5ede60a4039771a90c58cb41deec41869995bd661849414c523c7dff9a96f1c8dbc2e5e78172118f91c7199869";
+    return pubkey;
 }
 
 pufs_status_t pufs_cmd_iface_deinit_js(void)
