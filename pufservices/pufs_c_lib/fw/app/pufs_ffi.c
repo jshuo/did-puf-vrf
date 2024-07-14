@@ -17,6 +17,14 @@ pufs_status_t pufs_cmd_iface_init_js(void)
     return status;
 }
 
+void pufs_outnumber_js(int * outnumber){
+ *outnumber = 168;  
+}
+
+void pufs_outString_js(char ** outstring){
+ * outstring = "0414c58e581c7656ba153195669fe4ce53ff78dd5ede60a4039771a90c58cb41deec41869995bd661849414c523c7dff9a96f1c8dbc2e5e78172118f91c7199869";  
+}
+
 pufs_status_t pufs_rand_js(void)
 {
     pufs_status_t status;
