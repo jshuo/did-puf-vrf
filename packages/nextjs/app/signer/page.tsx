@@ -3,11 +3,9 @@
 import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { Account } from "../../components/Account";
 import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
 import * as didJWT from "did-jwt";
-import { Resolver } from "did-resolver";
 import { EthrDID } from "ethr-did";
 import { getResolver } from "ethr-did-resolver";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
@@ -86,7 +84,6 @@ export default function IssuerPage() {
     ],
   };
   const ethrDidResolver = getResolver(providerConfig);
-  const didResolver = new Resolver(ethrDidResolver);
   let issuerAddress: string, chainNameOrId: number;
 
   const processDid = async () => {
@@ -113,11 +110,7 @@ export default function IssuerPage() {
 
     const issuerDid = new EthrDID({
       identifier: issuerAddress,
-      provider,
-      chainNameOrId,
-      registry: registryAddress,
-      txSigner: signer,
-      alg: "ES256K",
+      chainNameOrId
     });
 
     setSubjectDID(subjectDid.did);

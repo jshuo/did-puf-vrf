@@ -16,8 +16,8 @@ try {
     pufs_cmd_iface_deinit_js: ["int", []] ,
     pufs_rand_js: ["int", []] ,
     pufs_get_uid_js: [charPtr, []] ,
-    pufs_p256sign_js: [charPtr, [charPtr]],
-    pufs_get_pubkey_js: [charPtr, []] ,
+    pufs_p256_sign_js: [charPtr, [charPtr]],
+    pufs_get_p256_pubkey_js: [charPtr, []] ,
     pufs_outnumber_js: [ 'void', [ intPtr ] ],
     pufs_outString_js: [ 'void', [ strPtr ] ]
   });
@@ -40,9 +40,9 @@ try {
 
   const uid = pufs.pufs_get_uid_js();
   console.log(uid)
-  const sig = pufs.pufs_p256sign_js(uid)
+  const sig = pufs.pufs_p256_sign_js(uid)
   console.log(sig)
-  const pubkey = pufs.pufs_get_pubkey_js()
+  const pubkey = pufs.pufs_get_p256_pubkey_js()
   console.log(pubkey)
   pufs.pufs_cmd_iface_deinit_js();
 } catch (error) {

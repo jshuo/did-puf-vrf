@@ -11,6 +11,10 @@ interface PufsLibrary {
   pufs_cmd_iface_deinit_js: () => number;
   pufs_rand_js: () => number;
   pufs_get_uid_js: () => string;
+  pufs_p256_sign_js: (input: string) => string;
+  pufs_get_p256_pubkey_js: () => string;
+  pufs_outnumber_js: (output: Buffer) => void;
+  pufs_outString_js: (output: Buffer) => void;
 }
 
 // Create an instance of the express application
@@ -18,14 +22,22 @@ const app = express();
 const port = 8088;
 app.use(cors());
 
+const charPtr = ref.types.CString;  // Assuming CString for null-terminated string in C
+var intPtr = ref.refType('int');
+var strPtr = ref.refType('string');
+
 // Try to load the library and handle any errors
 let pufs: PufsLibrary;
 try {
   pufs = ffi.Library('./pufs_c_lib/fw/bin/libpufse_ffi.so', {
-    pufs_cmd_iface_init_js: ["int", []],
-    pufs_cmd_iface_deinit_js: ["int", []],
-    pufs_rand_js: ["int", []],
-    pufs_get_uid_js: [ref.types.CString, []],
+    pufs_cmd_iface_init_js: ["int", []] ,
+    pufs_cmd_iface_deinit_js: ["int", []] ,
+    pufs_rand_js: ["int", []] ,
+    pufs_get_uid_js: [charPtr, []] ,
+    pufs_p256_sign_js: [charPtr, [charPtr]],
+    pufs_get_p256_pubkey_js: [charPtr, []] ,
+    pufs_outnumber_js: [ 'void', [ intPtr ] ],
+    pufs_outString_js: [ 'void', [ strPtr ] ]
   }) as PufsLibrary;
 } catch (error: unknown) {
   const err = error as Error;
@@ -69,6 +81,19 @@ app.get('/get-uid', (req, res) => {
     const uid = pufs.pufs_get_uid_js();
     console.log(`UID: ${uid}`);
     res.json({ uid });
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error(`pufs_get_uid_js failed with error: ${err.message}`);
+    res.status(500).send(`Error: ${err.message}`);
+  }
+});
+
+app.get('/pufs_get_p256_pubkey_js', (req, res) => {
+  console.log('Received request for /pufs_get_p256_pubkey_js');
+  try {
+    const pubkey = pufs.pufs_get_p256_pubkey_js();
+    console.log(`public key: ${pubkey}`);
+    res.json({ pubkey });
   } catch (error: unknown) {
     const err = error as Error;
     console.error(`pufs_get_uid_js failed with error: ${err.message}`);
