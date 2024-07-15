@@ -109,16 +109,20 @@ char *pufs_get_uid_js(void)
 char *pufs_p256_sign_js(char *msgdigest)
 {
     static char signature[129];
-    pufs_ecdsa_sig_st sig;
-    pufs_dgst_st md;
     pufs_status_t status;
+    pufs_dgst_st md;
+    pufs_ka_slot_t prvslot = PRK_0;
+    const char *salt = "pufsecurity salt";
+    const char *info = "pufsecurity info";
+    pufs_rt_slot_t pufslot = PUFSLOT_1;
+    pufs_ecdsa_sig_st sig;
+
     // Ensure the message digest length is correct
     if (strlen(msgdigest) != 64)
     {
         fprintf(stderr, "Invalid message digest length\n");
         return NULL;
     }
-
     // Convert the message digest from hex string to bytes
     md.dlen = 32;
     for (int i = 0; i < 32; i++)
@@ -130,12 +134,20 @@ char *pufs_p256_sign_js(char *msgdigest)
     {
         pufs_cmd_iface_deinit();
     }
+    pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16, (uint8_t *)info, 16, HASH_DEFAULT);
+
     pufs_ecp_ecdsa_sign_dgst(&sig, md, PRKEY, PRK_0, NULL);
 
     if (status != SUCCESS)
     {
         pufs_cmd_iface_deinit();
     }
+
+    if (status == SUCCESS) {
+      status = pufs_clear_key(PRKEY, PRK_0, 32);
+    }
+
+
     // Convert the signature to a 128-byte string (hex format)
     for (uint32_t i = 0; i < sig.qlen; i++)
     {
@@ -167,15 +179,13 @@ const char *pufs_get_p256_pubkey_js(void)
     }
     status = pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16, (uint8_t *)info, 16, HASH_DEFAULT); 
     pufs_ecp_gen_puk(&puk, PRKEY, PRK_0);
-    pufs_clear_key(PRKEY, PRK_0, 32);
     if (status != SUCCESS)
     {
         pufs_cmd_iface_deinit();
     }
-
-    pubkey[0] = '0';
-    pubkey[1] = '4';
-
+    if (status == SUCCESS) {
+      status = pufs_clear_key(PRKEY, PRK_0, 32);
+    }
     pubkey[0] = '0';
     pubkey[1] = '4';
     for (uint32_t i = 0; i < puk.qlen; i++)
@@ -214,63 +224,3 @@ pufs_status_t pufs_cmd_iface_deinit_js(void)
 }
 
 
-// pufs_status_t pufs_jeff(void)
-// {
-//     pufs_status_t check = SUCCESS;
-//  
-//   // 使用PUFKEY，Private key不會出來，所以只會有Public key的產出
-//     pufs_ec_point_st puk;
-//  
-//   // 將產生得Private Key放到KA上，方可給後面的function來取並使用
-//     pufs_ka_slot_t prvslot = PRK_0;
-//  
-//   // 產生Private Key，使用PUFSLOT_1, PUFSLOT_2, PUFSLOT_3作為base，可自行決定salt and info >> 需記錄起來
-//     pufs_rt_slot_t pufslot = PUFSLOT_1;
-//     const char *salt = "pufsecurity salt";
-//     const char *info = "pufsecurity info";
-//  
-//   // md - sha的規則要跟著pufs_ecp_set_curve_byname and pufs_ecp_gen_sprk 內的參數
-//     uint8_t message[32] = {0};
-//     uint32_t msglen = 32;
-//     pufs_dgst_st md;
-//     pufs_ecdsa_sig_st sig;
-//  
-// // Get Public Key
-// // pufs_ecp_set_curve_byname >> pufs_ecp_gen_sprk >> pufs_ecp_gen_puk >> pufs_clear_key
-// #ifdef get_public_key 1
-//     pufs_ecp_set_curve_byname(NISTP256);
-//     if ((check = pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16,
-//                                    (uint8_t *)info, 16, HASH_DEFAULT)) == SUCCESS) {
-//    
-//       // 產生Public Key
-//         check = pufs_ecp_gen_puk(&puk, PRKEY, PRK_0);
-//     }
-//  
-//     if (check = SUCCESS) {
-//         check = pufs_clear_key(PRKEY, PRK_0, 32);
-//     }
-//  
-//     return check;
-//  
-// // Sign message
-// // pufs_hash >> pufs_ecp_set_curve_byname >> pufs_ecp_gen_sprk >> pufs_ecp_ecdsa_sign_dgst >> pufs_clear_key
-// #else // sign_message
-//  
-//     if ((check = pufs_hash(&md, message, msglen, HASH_DEFAULT)) != SUCCESS) {
-//            
-//         pufs_ecp_set_curve_byname(NISTP256);
-//         if ((check = pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16,
-//                                    (uint8_t *)info, 16, HASH_DEFAULT)) == SUCCESS) {
-//            
-//             check = pufs_ecp_ecdsa_sign_dgst(&sig, md, PRKEY, PRK_0, NULL)
-//         }
-//     }
-//  
-//     if (check = SUCCESS) {
-//         check = pufs_clear_key(PRKEY, PRK_0, 32);
-//     }
-//  
-// #endif
-//  
-//     return check;
-// }

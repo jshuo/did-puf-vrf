@@ -22,7 +22,7 @@ const app = express();
 const port = 8088;
 app.use(cors());
 
-const charPtr = ref.types.CString;  // Assuming CString for null-terminated string in C
+const charPtr = ref.types.CString; // Assuming CString for null-terminated string in C
 var intPtr = ref.refType('int');
 var strPtr = ref.refType('string');
 
@@ -30,14 +30,14 @@ var strPtr = ref.refType('string');
 let pufs: PufsLibrary;
 try {
   pufs = ffi.Library('./pufs_c_lib/fw/bin/libpufse_ffi.so', {
-    pufs_cmd_iface_init_js: ["int", []] ,
-    pufs_cmd_iface_deinit_js: ["int", []] ,
-    pufs_rand_js: ["int", []] ,
-    pufs_get_uid_js: [charPtr, []] ,
+    pufs_cmd_iface_init_js: ['int', []],
+    pufs_cmd_iface_deinit_js: ['int', []],
+    pufs_rand_js: ['int', []],
+    pufs_get_uid_js: [charPtr, []],
     pufs_p256_sign_js: [charPtr, [charPtr]],
-    pufs_get_p256_pubkey_js: [charPtr, []] ,
-    pufs_outnumber_js: [ 'void', [ intPtr ] ],
-    pufs_outString_js: [ 'void', [ strPtr ] ]
+    pufs_get_p256_pubkey_js: [charPtr, []],
+    pufs_outnumber_js: ['void', [intPtr]],
+    pufs_outString_js: ['void', [strPtr]],
   }) as PufsLibrary;
 } catch (error: unknown) {
   const err = error as Error;
@@ -64,10 +64,22 @@ app.use(express.json());
 // Define the POST endpoint for pufs_p256_sign_js
 app.post('/pufs_p256_sign_js', (req, res) => {
   console.log('Received request for /pufs_p256_sign_js');
+  const { hash } = req.body;
   try {
-    const sig = pufs.pufs_p256_sign_js(req.json().hash);
-    res.json({ sig });
-    console.log(sig)
+    const sig = pufs.pufs_p256_sign_js(hash);
+
+    // Ensure sig is a hex string, and split it into r and s
+    const r = sig.substring(0, 64); // First 32 bytes (64 hex characters)
+    const s = sig.substring(64, 128); // Second 32 bytes (64 hex characters)
+
+    // Return the response in the required format
+    res.json({
+      sig: {
+        r,
+        s,
+      },
+    });
+    console.log(sig);
   } catch (error: unknown) {
     const err = error as Error;
     console.error(`pufs_p256_sign_js failed with error: ${err.message}`);
