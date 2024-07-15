@@ -27,6 +27,7 @@ try {
 }
 
 try {
+  pufs.pufs_cmd_iface_deinit_js();
   pufs.pufs_cmd_iface_init_js();
   var outNumber = ref.alloc('int'); // allocate a 4-byte (32-bit) chunk for the output data
   pufs.pufs_outnumber_js(outNumber);
@@ -40,8 +41,8 @@ try {
 
   const uid = pufs.pufs_get_uid_js();
   console.log(uid)
-  const sig = pufs.pufs_p256_sign_js(uid)
-  console.log(sig)
+  // const sig = pufs.pufs_p256_sign_js(uid)
+  // console.log(sig)
   const pubkey = pufs.pufs_get_p256_pubkey_js()
   console.log(pubkey)
   pufs.pufs_cmd_iface_deinit_js();

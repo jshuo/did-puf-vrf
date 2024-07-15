@@ -4,15 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { NetworkSwitcher } from "../components/NetworkSwitcher";
 import type { NextPage } from "next";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount } from "wagmi";
 import { Address } from "~~/components/scaffold-eth";
-
-// import ImageGrid from "../components/ImageGrid";
-// import { FaUsb } from "react-icons/fa";
-// import { SiEthereum } from "react-icons/si";
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
-
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">

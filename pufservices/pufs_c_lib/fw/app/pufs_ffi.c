@@ -154,50 +154,40 @@ const char *pufs_get_p256_pubkey_js(void)
 {
     static char pubkey[131]; // 1 byte for 0x04 + 2*32 bytes for x and y + 1 byte for null terminator
     pufs_status_t status;
-    pufs_ec_point_st puk0;
+    pufs_ec_point_st puk;
+    pufs_ka_slot_t prvslot = PRK_0;
+    const char *salt = "pufsecurity salt";
+    const char *info = "pufsecurity info";
+    pufs_rt_slot_t pufslot = PUFSLOT_1;
 
     status = pufs_ecp_set_curve_byname(NISTP256);
     if (status != SUCCESS)
     {
         pufs_cmd_iface_deinit();
     }
-    status = pufs_ecp_gen_puk(&puk0, PRKEY, PRK_0);
+    status = pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16, (uint8_t *)info, 16, HASH_DEFAULT); 
+    pufs_ecp_gen_puk(&puk, PRKEY, PRK_0);
+    pufs_clear_key(PRKEY, PRK_0, 32);
     if (status != SUCCESS)
     {
         pufs_cmd_iface_deinit();
     }
 
-    // Set the qlen to 32 bytes (length of x and y)
-    puk0.qlen = 32;
-
-    uint8_t x_data[32] = {
-        0x14, 0xc5, 0x8e, 0x58, 0x1c, 0x76, 0x56, 0xba,
-        0x15, 0x31, 0x95, 0x66, 0x9f, 0xe4, 0xce, 0x53,
-        0xff, 0x78, 0xdd, 0x5e, 0xde, 0x60, 0xa4, 0x03,
-        0x97, 0x71, 0xa9, 0x0c, 0x58, 0xcb, 0x41, 0xde};
-
-    // Example data for y-coordinate
-    uint8_t y_data[32] = {
-        0xec, 0x41, 0x86, 0x99, 0x95, 0xbd, 0x66, 0x18,
-        0x49, 0x41, 0x4c, 0x52, 0x3c, 0x7d, 0xff, 0x9a,
-        0x96, 0xf1, 0xc8, 0xdb, 0xc2, 0xe5, 0xe7, 0x81,
-        0x72, 0x11, 0x8f, 0x91, 0xc7, 0x19, 0x98, 0x69};
-
-    // Copy data into the structure
-    memcpy(puk0.x, x_data, 32);
-    memcpy(puk0.y, y_data, 32);
-    // Construct the uncompressed public key
     pubkey[0] = '0';
     pubkey[1] = '4';
-    for (uint32_t i = 0; i < puk0.qlen; i++)
+
+    pubkey[0] = '0';
+    pubkey[1] = '4';
+    for (uint32_t i = 0; i < puk.qlen; i++)
     {
-        sprintf(&pubkey[2 + i * 2], "%02x", puk0.x[i]);
+        sprintf(&pubkey[2 + i * 2], "%02x", puk.x[i]);
     }
-    for (uint32_t i = 0; i < puk0.qlen; i++)
+    for (uint32_t i = 0; i < puk.qlen; i++)
     {
-        sprintf(&pubkey[2 + 2 * puk0.qlen + i * 2], "%02x", puk0.y[i]);
+        sprintf(&pubkey[2 + 2 * puk.qlen + i * 2], "%02x", puk.y[i]);
     }
     pubkey[130] = '\0';
+
     return pubkey;
 }
 
@@ -222,3 +212,65 @@ pufs_status_t pufs_cmd_iface_deinit_js(void)
     }
     return status;
 }
+
+
+// pufs_status_t pufs_jeff(void)
+// {
+//     pufs_status_t check = SUCCESS;
+//  
+//   // 使用PUFKEY，Private key不會出來，所以只會有Public key的產出
+//     pufs_ec_point_st puk;
+//  
+//   // 將產生得Private Key放到KA上，方可給後面的function來取並使用
+//     pufs_ka_slot_t prvslot = PRK_0;
+//  
+//   // 產生Private Key，使用PUFSLOT_1, PUFSLOT_2, PUFSLOT_3作為base，可自行決定salt and info >> 需記錄起來
+//     pufs_rt_slot_t pufslot = PUFSLOT_1;
+//     const char *salt = "pufsecurity salt";
+//     const char *info = "pufsecurity info";
+//  
+//   // md - sha的規則要跟著pufs_ecp_set_curve_byname and pufs_ecp_gen_sprk 內的參數
+//     uint8_t message[32] = {0};
+//     uint32_t msglen = 32;
+//     pufs_dgst_st md;
+//     pufs_ecdsa_sig_st sig;
+//  
+// // Get Public Key
+// // pufs_ecp_set_curve_byname >> pufs_ecp_gen_sprk >> pufs_ecp_gen_puk >> pufs_clear_key
+// #ifdef get_public_key 1
+//     pufs_ecp_set_curve_byname(NISTP256);
+//     if ((check = pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16,
+//                                    (uint8_t *)info, 16, HASH_DEFAULT)) == SUCCESS) {
+//    
+//       // 產生Public Key
+//         check = pufs_ecp_gen_puk(&puk, PRKEY, PRK_0);
+//     }
+//  
+//     if (check = SUCCESS) {
+//         check = pufs_clear_key(PRKEY, PRK_0, 32);
+//     }
+//  
+//     return check;
+//  
+// // Sign message
+// // pufs_hash >> pufs_ecp_set_curve_byname >> pufs_ecp_gen_sprk >> pufs_ecp_ecdsa_sign_dgst >> pufs_clear_key
+// #else // sign_message
+//  
+//     if ((check = pufs_hash(&md, message, msglen, HASH_DEFAULT)) != SUCCESS) {
+//            
+//         pufs_ecp_set_curve_byname(NISTP256);
+//         if ((check = pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16,
+//                                    (uint8_t *)info, 16, HASH_DEFAULT)) == SUCCESS) {
+//            
+//             check = pufs_ecp_ecdsa_sign_dgst(&sig, md, PRKEY, PRK_0, NULL)
+//         }
+//     }
+//  
+//     if (check = SUCCESS) {
+//         check = pufs_clear_key(PRKEY, PRK_0, 32);
+//     }
+//  
+// #endif
+//  
+//     return check;
+// }

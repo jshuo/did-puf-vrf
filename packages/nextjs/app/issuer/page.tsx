@@ -8,6 +8,10 @@ import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
 import { EthrDID } from "ethr-did";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import {
+  Signer as JWTSigner,
+  ES256HSMSigner
+} from 'did-jwt'
 
 export default function IssuerPage() {
   const [delegateSigner, setDelegateSigner] = useState("");
@@ -21,14 +25,17 @@ export default function IssuerPage() {
     setExpireIn(e.target.value);
   };
   const provider = useEthersProvider();
-  const signer = useEthersSigner();
+  const rpcSigner = useEthersSigner();
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
   const PolyAmoyRegistryAddress = "0xEd9950CAfa9F5c148f0830aFfa27B521cea22906"; // polygon
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
   const BesuRegistryAddress = "0xF4a9DDc96DB10650445B03e66117baAdC4c88E66"; // besu
   const { targetNetwork } = useTargetNetwork();
+  const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || "http://192.168.0.161:8088/"
 
   let issuerAddress: string, chainNameOrId: number;
+  let signer: JWTSigner = ES256HSMSigner(pufHsmRemoteUrl)
+
 
   const createDelegate = async (expiresIn: string) => {
     enum DelegateTypes {
@@ -38,7 +45,7 @@ export default function IssuerPage() {
     }
 
     setLoading(true); // Set loading state to true
-    if (signer) {
+    if (rpcSigner) {
       let registryAddress;
       if (targetNetwork.id == 80002) {
         registryAddress = PolyAmoyRegistryAddress;
@@ -50,21 +57,22 @@ export default function IssuerPage() {
       else if (targetNetwork.id == 1981) {
         registryAddress = BesuRegistryAddress;
       }
-      issuerAddress = await signer.getAddress();
-      chainNameOrId = await signer.getChainId();
+      issuerAddress = await rpcSigner.getAddress();
+      chainNameOrId = await rpcSigner.getChainId();
       const issuerDid = new EthrDID({
         identifier: issuerAddress,
         provider,
         chainNameOrId,
         registry: registryAddress,
-        txSigner: signer,
+        txSigner: rpcSigner,
         alg: "ES256K",
+        signer
       });
-      const { kp, txHash } = (await issuerDid?.createSigningDelegate(DelegateTypes.veriKey, parseInt(expiresIn))) || { kp: undefined };
-      if (kp !== undefined) {
+      const { address, pubkey, txHash } = (await issuerDid?.createSigningDelegate(DelegateTypes.veriKey, parseInt(expiresIn), pufHsmRemoteUrl));
+      if (address !== undefined) {
         console.log(txHash);
-        setDelegateSigner(kp.address);
-        setDelegateSignerIdentifier(kp.identifier);
+        setDelegateSigner(address);
+        setDelegateSignerIdentifier(pubkey);
         setLoading(false); // Set loading state to false after processing
       }
     }

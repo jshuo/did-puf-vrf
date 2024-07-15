@@ -10,6 +10,10 @@ import { EthrDID } from "ethr-did";
 import { getResolver } from "ethr-did-resolver";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import {jetsonData, teslaBatt, clife} from "./claimData"
+import {
+  Signer as JWTSigner,
+  ES256HSMSigner
+} from 'did-jwt'
 
 function getRandomClaimData(): string {
   const dataOptions = [jetsonData, teslaBatt, clife];
@@ -42,13 +46,15 @@ export default function IssuerPage() {
   const [signedJWT, setSignedJWT] = useState<string | undefined>("");
   const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
   const provider = useEthersProvider();
-  const signer = useEthersSigner();
+  const rpcSigner = useEthersSigner();
   const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
   const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
   const BesuRegistryAddress = "0xF4a9DDc96DB10650445B03e66117baAdC4c88E66"; // besu
   const { targetNetwork } = useTargetNetwork();
 
+  const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || "http://192.168.0.161:8088/"
+  let signer: JWTSigner = ES256HSMSigner(pufHsmRemoteUrl)
 
 
   const providerConfig = {
@@ -83,14 +89,14 @@ export default function IssuerPage() {
       },
     ],
   };
-  const ethrDidResolver = getResolver(providerConfig);
+
   let issuerAddress: string, chainNameOrId: number;
 
   const processDid = async () => {
 
-    if (signer) {
-      issuerAddress = await signer.getAddress();
-      chainNameOrId = await signer.getChainId();
+    if (rpcSigner) {
+      issuerAddress = await rpcSigner.getAddress();
+      chainNameOrId = await rpcSigner.getChainId();
     }
     const subjectAddr = subjectAddress || "0xDBB3d90156fC23c28C709eB68af8403836951AF8";
     const audienceAddr = audienceAddress || "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
@@ -110,7 +116,8 @@ export default function IssuerPage() {
 
     const issuerDid = new EthrDID({
       identifier: issuerAddress,
-      chainNameOrId
+      chainNameOrId,
+      signer
     });
 
     setSubjectDID(subjectDid.did);
@@ -122,9 +129,9 @@ export default function IssuerPage() {
   };
 
   const prepareJWT = async () => {
-    if (signer) {
-      issuerAddress = await signer.getAddress();
-      chainNameOrId = await signer.getChainId();
+    if (rpcSigner) {
+      issuerAddress = await rpcSigner.getAddress();
+      chainNameOrId = await rpcSigner.getChainId();
     }
 
     const buildJWT = {
@@ -148,7 +155,7 @@ export default function IssuerPage() {
     //   const issuerDoc = await didResolver.resolve(issuerDid.did);
     //   console.log(issuerDoc);
     // }
-    const signedJWT: string | undefined = await issuerDid?.signJWT(JWTMessage.payload);
+    const signedJWT: string | undefined = await issuerDid?.signJWT(JWTMessage.payload, undefined, pufHsmRemoteUrl);
     if (signedJWT != undefined) localStorage.setItem('jwt', signedJWT);
     setSignedJWT(signedJWT);
 

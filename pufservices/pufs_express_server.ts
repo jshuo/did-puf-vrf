@@ -61,22 +61,23 @@ try {
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// // Define the POST endpoint for pufs_get_uid_js
-// app.post('/get-uid', (req, res) => {
-//   try {
-//     const uid = pufs.pufs_get_uid_js();
-//     res.json({ uid });
-//     console.log(uid)
-//   } catch (error: unknown) {
-//     const err = error as Error;
-//     console.error(`pufs_get_uid_js failed with error: ${err.message}`);
-//     res.status(500).send(`Error: ${err.message}`);
-//   }
-// });
+// Define the POST endpoint for pufs_p256_sign_js
+app.post('/pufs_p256_sign_js', (req, res) => {
+  console.log('Received request for /pufs_p256_sign_js');
+  try {
+    const sig = pufs.pufs_p256_sign_js(req.json().hash);
+    res.json({ sig });
+    console.log(sig)
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error(`pufs_p256_sign_js failed with error: ${err.message}`);
+    res.status(500).send(`Error: ${err.message}`);
+  }
+});
 
 // Define the GET endpoint for pufs_get_uid_js
-app.get('/get-uid', (req, res) => {
-  console.log('Received request for /get-uid');
+app.get('/pufs_get_uid_js', (req, res) => {
+  console.log('Received request for /pufs_get_uid_js');
   try {
     const uid = pufs.pufs_get_uid_js();
     console.log(`UID: ${uid}`);
@@ -96,7 +97,7 @@ app.get('/pufs_get_p256_pubkey_js', (req, res) => {
     res.json({ pubkey });
   } catch (error: unknown) {
     const err = error as Error;
-    console.error(`pufs_get_uid_js failed with error: ${err.message}`);
+    console.error(`pufs_get_p256_pubkey_js failed with error: ${err.message}`);
     res.status(500).send(`Error: ${err.message}`);
   }
 });
