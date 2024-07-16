@@ -81,7 +81,7 @@ export default function IssuerPage() {
     setJWTMessage(buildJWT);
   };
 
-  let pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL 
+ const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL 
 
   const signJWT = async () => {
     if (!JWTMessage) return;
