@@ -31,10 +31,11 @@ export default function IssuerPage() {
   const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
   const BesuRegistryAddress = "0xF4a9DDc96DB10650445B03e66117baAdC4c88E66"; // besu
   const { targetNetwork } = useTargetNetwork();
-  const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || "http://192.168.0.161:8088/"
+
+  let pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || undefined;
 
   let issuerAddress: string, chainNameOrId: number;
-  let signer: JWTSigner = ES256HSMSigner(pufHsmRemoteUrl)
+
 
 
   const createDelegate = async (expiresIn: string) => {
@@ -59,6 +60,11 @@ export default function IssuerPage() {
       }
       issuerAddress = await rpcSigner.getAddress();
       chainNameOrId = await rpcSigner.getChainId();
+
+      let signer: JWTSigner | undefined;
+      if (typeof pufHsmRemoteUrl === 'string') {
+        signer = ES256HSMSigner(pufHsmRemoteUrl);
+      }
       const issuerDid = new EthrDID({
         identifier: issuerAddress,
         provider,

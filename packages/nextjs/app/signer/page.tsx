@@ -7,8 +7,6 @@ import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
 import * as didJWT from "did-jwt";
 import { EthrDID } from "ethr-did";
-import { getResolver } from "ethr-did-resolver";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import {jetsonData, teslaBatt, clife} from "./claimData"
 import {
   Signer as JWTSigner,
@@ -31,8 +29,6 @@ type unsignedJWT = {
   };
 };
 
-
-
 export default function IssuerPage() {
   const [subjectAddress, setSubjectAddress] = useState("");
   const [audienceAddress, setAudienceAddress] = useState("");
@@ -47,48 +43,7 @@ export default function IssuerPage() {
   const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
   const provider = useEthersProvider();
   const rpcSigner = useEthersSigner();
-  const hardHatRegistryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // hardhat localhost
-  const PolyAmoyRegistryAddress = "0x87dB91CE729dB1E1f7F5d830a4C7348De1931c2D"; // polygon
-  const AgenceRegistryAddress = "0xed7D83a174AfC0C148588dc8028225A3cc7e91AB"; // agence
-  const BesuRegistryAddress = "0xF4a9DDc96DB10650445B03e66117baAdC4c88E66"; // besu
-  const { targetNetwork } = useTargetNetwork();
-
-  const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || "http://192.168.0.161:8088/"
-  let signer: JWTSigner = ES256HSMSigner(pufHsmRemoteUrl)
-
-
-  const providerConfig = {
-    networks: [
-      {
-        name: "development",
-        rpcUrl: "http://127.0.0.1:7545",
-        chainId: 31337,
-        provider,
-        registry: hardHatRegistryAddress,
-      },
-      {
-        name: "agence",
-        rpcUrl: "https://takecopter.cloud.agence.network",
-        chainId: 887,
-        provider,
-        registry: AgenceRegistryAddress,
-      },
-      {
-        name: "PolygonAmoy",
-        rpcUrl: "https://rpc-amoy.polygon.technology",
-        chainId: 80002,
-        provider,
-        registry: PolyAmoyRegistryAddress,
-      },
-      {
-        name: "Besu",
-        rpcUrl: process.env.BESU_RPC,
-        chainId: 1981,
-        provider,
-        registry: BesuRegistryAddress,
-      },
-    ],
-  };
+ 
 
   let issuerAddress: string, chainNameOrId: number;
 
@@ -103,22 +58,7 @@ export default function IssuerPage() {
 
     const subjectDid = new EthrDID({ identifier: subjectAddr, provider, chainNameOrId });
     const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
-    let registryAddress;
-    if (targetNetwork.id == 80002) {
-      registryAddress = PolyAmoyRegistryAddress;
-    } else if (targetNetwork.id == 887) {
-      registryAddress = AgenceRegistryAddress;
-    } else if (targetNetwork.id == 31337) {
-      registryAddress = hardHatRegistryAddress;
-    } else if (targetNetwork.id == 1981) {
-      registryAddress = BesuRegistryAddress;
-    }
-
-    const issuerDid = new EthrDID({
-      identifier: issuerAddress,
-      chainNameOrId,
-      signer
-    });
+    const issuerDid = new EthrDID({ identifier: issuerAddress, chainNameOrId });
 
     setSubjectDID(subjectDid.did);
     setAudienceDID(audienceDid.did);
@@ -129,11 +69,7 @@ export default function IssuerPage() {
   };
 
   const prepareJWT = async () => {
-    if (rpcSigner) {
-      issuerAddress = await rpcSigner.getAddress();
-      chainNameOrId = await rpcSigner.getChainId();
-    }
-
+ 
     const buildJWT = {
       payload: {
         iss: issuerDid?.did,
@@ -145,6 +81,7 @@ export default function IssuerPage() {
     setJWTMessage(buildJWT);
   };
 
+  let pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL 
 
   const signJWT = async () => {
     if (!JWTMessage) return;
