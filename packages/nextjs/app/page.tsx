@@ -16,7 +16,7 @@ const Home: NextPage = () => {
             <span className="block text-2xl mb-2">Welcome to</span>
             <span className="block text-4xl font-bold">Cutting-Edge EVM-Compatible dApps</span>
             <span className="block text-4xl font-bold">for Enterprise Supply Chain, RWA Management and VRF</span>
-            <span className="block text-4xl font-bold">featuring NeoPUF USB Dongle/HSM
+            <span className="block text-4xl font-bold">featuring NeoPUF Chip Fingerprint and Crypto Signer
             </span>
           </h1>
           <div className="flex justify-center items-center space-x-2">
