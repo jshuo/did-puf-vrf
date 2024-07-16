@@ -32,7 +32,7 @@ export default function IssuerPage() {
   const BesuRegistryAddress = "0xF4a9DDc96DB10650445B03e66117baAdC4c88E66"; // besu
   const { targetNetwork } = useTargetNetwork();
 
-  let pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || undefined;
+  const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || undefined;
 
   let issuerAddress: string, chainNameOrId: number;
 
