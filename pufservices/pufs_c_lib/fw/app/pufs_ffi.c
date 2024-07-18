@@ -67,17 +67,45 @@ void pufs_outString_js(char **outstring)
     *outstring = "0414c58e581c7656ba153195669fe4ce53ff78dd5ede60a4039771a90c58cb41deec41869995bd661849414c523c7dff9a96f1c8dbc2e5e78172118f91c7199869";
 }
 
-pufs_status_t pufs_rand_js(void)
+#define RAND_LENGTH 32
+#define MEMORY_ALLOCATION_FAILURE -1
+
+pufs_status_t pufs_rand_js(int blk, char **rand)
 {
     pufs_status_t status;
-    uint32_t r1;
-    status = pufs_rand((uint8_t *)&r1, 1);
+    uint8_t privkey[RAND_LENGTH];
+    static char random[RAND_LENGTH * 2 + 1]; // Added missing semicolon
+
+    status = pufs_rand(privkey, blk);
     if (status != SUCCESS)
     {
         pufs_cmd_iface_deinit();
         return status;
     }
-    return status;
+
+    // Convert privkey to hex string
+    for (int i = 0; i < RAND_LENGTH; ++i)
+    {
+        sprintf(&random[i * 2], "%02x", privkey[i]);
+    }
+    random[RAND_LENGTH * 2] = '\0'; // Corrected to use RAND_LENGTH
+
+    // Allocate memory for rand if not already allocated by the caller
+    if (*rand == NULL)
+    {
+        *rand = (char *)malloc((RAND_LENGTH * 2 + 1) * sizeof(char));
+        if (*rand == NULL)
+        {
+            // Handle memory allocation failure
+            pufs_cmd_iface_deinit();
+            return MEMORY_ALLOCATION_FAILURE; // Define appropriate error code
+        }
+    }
+
+    // Copy the generated hex string to rand
+    strcpy(*rand, random);
+
+    return SUCCESS;
 }
 
 #define UID_LENGTH 32

@@ -9,7 +9,7 @@ import cors from 'cors';
 interface PufsLibrary {
   pufs_cmd_iface_init_js: () => number;
   pufs_cmd_iface_deinit_js: () => number;
-  pufs_rand_js: () => number;
+  pufs_rand_js: (blk: number, rand: Buffer ) => number;
   pufs_get_uid_js: () => string;
   pufs_p256_sign_js: (input: string) => string;
   pufs_get_p256_pubkey_js: () => string;
@@ -32,7 +32,7 @@ try {
   pufs = ffi.Library('./pufs_c_lib/fw/bin/libpufse_ffi.so', {
     pufs_cmd_iface_init_js: ['int', []],
     pufs_cmd_iface_deinit_js: ['int', []],
-    pufs_rand_js: ['int', []],
+    pufs_rand_js: ['int', ['int', strPtr]],
     pufs_get_uid_js: [charPtr, []],
     pufs_p256_sign_js: [charPtr, [charPtr]],
     pufs_get_p256_pubkey_js: [charPtr, []],
@@ -97,6 +97,21 @@ app.get('/pufs_get_uid_js', (req, res) => {
   } catch (error: unknown) {
     const err = error as Error;
     console.error(`pufs_get_uid_js failed with error: ${err.message}`);
+    res.status(500).send(`Error: ${err.message}`);
+  }
+});
+
+app.get('/pufs_get_privkey_js', (req, res) => {
+  console.log('Received request for /pufs_get_privkey_js');
+  try {
+    let privKey = ref.alloc('string'); 
+    pufs.pufs_rand_js(8, privKey);
+    var actualPrivKey = privKey.deref();
+    console.log(`private key: ${actualPrivKey}`);
+    res.json({ actualPrivKey });
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error(`pufs_get_privkey_js failed with error: ${err.message}`);
     res.status(500).send(`Error: ${err.message}`);
   }
 });

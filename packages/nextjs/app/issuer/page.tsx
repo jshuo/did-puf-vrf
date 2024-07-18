@@ -134,6 +134,7 @@ export default function IssuerPage() {
                       backgroundColor: "#007BFF",
                       color: "white",
                       border: "none",
+                      margin: "20px",
                       borderRadius: "4px",
                       padding: "10px 20px",
                       cursor: "pointer",

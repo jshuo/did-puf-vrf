@@ -235,6 +235,7 @@ export default function VerifierPage() {
 
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
         <Image src="/openai-image.png" alt="Example Image" width={800} height={600} />
+        <Image src="/did-puf-result.png" alt="Example Image" width={1600} height={1600} />
         {loading ? (
           <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
         ) : (

@@ -30,11 +30,11 @@ type unsignedJWT = {
 export default function IssuerPage() {
   const [subjectAddress, setSubjectAddress] = useState("");
   const [audienceAddress, setAudienceAddress] = useState("");
-  const [verifiableClaim, setVerifiableClaim] = useState(getRandomClaimData());
+  const [randomClaimData, setRandomClaimData] = useState(getRandomClaimData());
   const [subjectDID, setSubjectDID] = useState("");
   const [audienceDID, setAudienceDID] = useState("");
   const [issuerDID, setIssuerDID] = useState("");
-   const [signedJWT, setSignedJWT] = useState<string | undefined>("");
+  const [signedJWT, setSignedJWT] = useState<string | undefined>("");
   const provider = useEthersProvider();
   const rpcSigner = useEthersSigner();
 
@@ -43,16 +43,44 @@ export default function IssuerPage() {
 
 
   const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || undefined
+  const getPrivateKey = async () => {
+    let privateKey = "9823456789012345668901234567870233456789012345678901a3456789012a";
+    if (pufHsmRemoteUrl !== undefined) {
+      const response = await fetch(`${pufHsmRemoteUrl}pufs_get_privkey_js`)
+      if (!response.ok) {
+        throw new Error(`getPrivateKey HTTP error! status: ${response.status}`);
+      }
+      const jsonString: string = await response.text()
+      privateKey = JSON.parse(jsonString).actualPrivKey;
+    }
 
+    return privateKey;
+  }
+
+  const getPufUid = async () => {
+    let pufUid = "9823456789012345668901234567870233456789012345678901a3456789012a";
+    if (pufHsmRemoteUrl !== undefined) {
+      const response = await fetch(`${pufHsmRemoteUrl}pufs_get_uid_js`)
+      if (!response.ok) {
+        throw new Error(`getPufUid HTTP error! status: ${response.status}`);
+      }
+      const jsonString: string = await response.text()
+      pufUid = JSON.parse(jsonString).uid;
+    }
+
+    return pufUid;
+  }
   const signJWT = async () => {
 
     if (rpcSigner) {
       issuerAddress = await rpcSigner.getAddress();
       chainNameOrId = await rpcSigner.getChainId();
     }
-    const privateKey = '0x9823456789012345668901234567870233456789012345678901a3456789012a';
+    const privateKey = await getPrivateKey();
     // Create wallet instance from private key
     const wallet = new Wallet(privateKey);
+
+    const pufUid = await getPufUid()
 
     const subjectAddr = subjectAddress || wallet.address;
     const audienceAddr = audienceAddress || "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
@@ -74,8 +102,8 @@ export default function IssuerPage() {
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiableCredential'],
           credentialSubject: {
-            deviceId: 'did:example:456',
-            claim: verifiableClaim  // Assuming verifiableClaim is an object or data structure
+            deviceId: `did:neopuf:uid:${pufUid}`,
+            claim: randomClaimData  // Assuming verifiableClaim is an object or data structure
 
           }
         },
@@ -129,13 +157,13 @@ export default function IssuerPage() {
                 >
                   <label>
                     <textarea
-                      value={verifiableClaim}
-                      placeholder={verifiableClaim}
-                      onChange={e => setVerifiableClaim(verifiableClaim)}
+                      value={randomClaimData}
+                      placeholder="Enter claim data..." // Placeholder text to hint user
+                      onChange={e => setRandomClaimData(e.target.value)} // Use e.target.value to update state
                       style={{
                         width: "1000px", // Adjust width as needed
-                        height: "500px", // Adjust width as needed
-                        padding: "8px", // Adjust padding for uniformity with the button
+                        height: "500px", // Adjust height as needed
+                        padding: "8px", // Adjust padding for uniformity
                         marginRight: "10px", // Optional: Provide spacing between input and button
                       }}
                     />
@@ -147,7 +175,7 @@ export default function IssuerPage() {
                   </label>
                   <br />
                   <label>
-                  Audience/Verifier Address:
+                    Audience/Verifier Address:
                     <input type="text" value={audienceAddress} onChange={e => setAudienceAddress(e.target.value)} />
                   </label>
                   <br />
@@ -157,6 +185,7 @@ export default function IssuerPage() {
                       backgroundColor: "#007BFF",
                       color: "white",
                       border: "none",
+                      marginTop: "20px",
                       borderRadius: "4px",
                       padding: "10px 20px",
                       cursor: "pointer",
@@ -167,11 +196,11 @@ export default function IssuerPage() {
                     }}
                     onMouseOut={e => {
                       e.target.style.backgroundColor = "#007BFF";
-                    }}                   >DID Credential Sign
+                    }}                   > <b>Sign Credential/Claim</b>
                   </button>
                 </form>
                 <br />
-                <span id="subjectDID"><b>Subject Address:</b> {subjectDID}</span>
+                <span id="subjectDID"><b>Subject Address (generated from PUFse):</b> {subjectDID}</span>
                 <br />
                 <span id="audienceDID"><b>Audience/Verifier Address: </b>{audienceDID}</span>
                 <br />
