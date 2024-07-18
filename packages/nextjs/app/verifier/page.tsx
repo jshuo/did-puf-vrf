@@ -123,10 +123,10 @@ export default function VerifierPage() {
     console.log(JWTVerified);
     if (JWTVerified != undefined) {
       setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
-      const openaiAnalysis = await OpenAIAnalyze(JWTVerified.payload!.veriableClaim!);
+      const openaiAnalysis = await OpenAIAnalyze(JWTVerified.payload!.verifiableClaim!);
       setOpenaiResult(openaiAnalysis.message);
       setOpenaiImage(openaiAnalysis.image);
-      const geminiAnalysis = await GeminiAIAnalyze(JWTVerified.payload!.veriableClaim!);
+      const geminiAnalysis = await GeminiAIAnalyze(JWTVerified.payload!.verifiableClaim!);
       setGeminiResult(geminiAnalysis);
     }
     if (signedJWT) {

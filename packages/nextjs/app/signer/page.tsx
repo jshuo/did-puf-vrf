@@ -7,11 +7,9 @@ import { useEthersProvider } from "../ethers/useEthersProvider";
 import { useEthersSigner } from "../ethers/useEthersSigner";
 import * as didJWT from "did-jwt";
 import { EthrDID } from "ethr-did";
-import {jetsonData, teslaBatt, clife} from "./claimData"
-import {
-  Signer as JWTSigner,
-  ES256HSMSigner
-} from 'did-jwt'
+import { jetsonData, teslaBatt, clife } from "./claimData"
+
+import { Wallet } from "ethers";
 
 function getRandomClaimData(): string {
   const dataOptions = [jetsonData, teslaBatt, clife];
@@ -32,28 +30,31 @@ type unsignedJWT = {
 export default function IssuerPage() {
   const [subjectAddress, setSubjectAddress] = useState("");
   const [audienceAddress, setAudienceAddress] = useState("");
-  const [veriableClaim, setVeriableClaim] = useState(getRandomClaimData());
+  const [verifiableClaim, setVerifiableClaim] = useState(getRandomClaimData());
   const [subjectDID, setSubjectDID] = useState("");
   const [audienceDID, setAudienceDID] = useState("");
   const [issuerDID, setIssuerDID] = useState("");
-  const [issuerDid, setIssuerDid] = useState<EthrDID>();
-  const [audienceDid, setAudienceDid] = useState<EthrDID>();
-  const [subjectDid, setSubjectDid] = useState<EthrDID>();
-  const [signedJWT, setSignedJWT] = useState<string | undefined>("");
-  const [JWTMessage, setJWTMessage] = useState<unsignedJWT | null>(null);
+   const [signedJWT, setSignedJWT] = useState<string | undefined>("");
   const provider = useEthersProvider();
   const rpcSigner = useEthersSigner();
- 
+
 
   let issuerAddress: string, chainNameOrId: number;
 
-  const processDid = async () => {
+
+  const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || undefined
+
+  const signJWT = async () => {
 
     if (rpcSigner) {
       issuerAddress = await rpcSigner.getAddress();
       chainNameOrId = await rpcSigner.getChainId();
     }
-    const subjectAddr = subjectAddress || "0xDBB3d90156fC23c28C709eB68af8403836951AF8";
+    const privateKey = '0x9823456789012345668901234567870233456789012345678901a3456789012a';
+    // Create wallet instance from private key
+    const wallet = new Wallet(privateKey);
+
+    const subjectAddr = subjectAddress || wallet.address;
     const audienceAddr = audienceAddress || "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 
     const subjectDid = new EthrDID({ identifier: subjectAddr, provider, chainNameOrId });
@@ -63,28 +64,24 @@ export default function IssuerPage() {
     setSubjectDID(subjectDid.did);
     setAudienceDID(audienceDid.did);
     setIssuerDID(issuerDid.did);
-    setIssuerDid(issuerDid);
-    setSubjectDid(subjectDid);
-    setAudienceDid(audienceDid);
-  };
 
-  const prepareJWT = async () => {
- 
     const buildJWT = {
       payload: {
         iss: issuerDid?.did,
         sub: subjectDid?.did,
         aud: audienceDid?.did,
-        veriableClaim: veriableClaim,
+        verifiableClaim: {
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiableCredential'],
+          credentialSubject: {
+            deviceId: 'did:example:456',
+            claim: verifiableClaim  // Assuming verifiableClaim is an object or data structure
+
+          }
+        },
       },
     };
-    setJWTMessage(buildJWT);
-  };
 
- const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL 
-
-  const signJWT = async () => {
-    if (!JWTMessage) return;
     //  should check if delegate signer is one of the issuer delegates 
     // the following operation is expensive;  should be cached 
     // comment it out for now for response time 
@@ -92,7 +89,7 @@ export default function IssuerPage() {
     //   const issuerDoc = await didResolver.resolve(issuerDid.did);
     //   console.log(issuerDoc);
     // }
-    const signedJWT: string | undefined = await issuerDid?.signJWT(JWTMessage.payload, undefined, pufHsmRemoteUrl);
+    const signedJWT: string | undefined = await issuerDid?.signJWT(buildJWT.payload, undefined, pufHsmRemoteUrl);
     if (signedJWT != undefined) localStorage.setItem('jwt', signedJWT);
     setSignedJWT(signedJWT);
 
@@ -119,25 +116,38 @@ export default function IssuerPage() {
               <hr />
               <ul className="list-disc" style={{ marginLeft: '20px' }}>
                 <li> A delegate signer is an entity authorized to act on behalf of the identity owner (i.e. its DID issuer). <b>Our design modifies ethr-did to utilize a secp256r1 hardware/PUF-based USB dongle on the client side or an HSM on the server side as the delegate signer.</b></li>
-                  This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
+                This authorization is managed by the identity owner  (i.e. its DID issuer) and is recorded on the blockchain.
                 <li>  Delegate signers add a layer of security and flexibility. The identity owner (i.e. its DID issuer) does not need to use their private key for every transaction, reducing the risk of key exposure.</li>
               </ul>
               <section>
-                <br />
-                <h2 className="block text-2xl mb-2 font-bold">Configure subject and audience DIDs</h2>
+                <h2 className="block text-2xl mb-2 font-bold"> Enter Raw Claim, and then prepare JWT Token for Signing</h2>
                 <form
                   onSubmit={e => {
                     e.preventDefault();
-                    processDid();
+                    signJWT();
                   }}
                 >
+                  <label>
+                    <textarea
+                      value={verifiableClaim}
+                      placeholder={verifiableClaim}
+                      onChange={e => setVerifiableClaim(verifiableClaim)}
+                      style={{
+                        width: "1000px", // Adjust width as needed
+                        height: "500px", // Adjust width as needed
+                        padding: "8px", // Adjust padding for uniformity with the button
+                        marginRight: "10px", // Optional: Provide spacing between input and button
+                      }}
+                    />
+                  </label>
+                  <br />
                   <label>
                     Subject Address:
                     <input type="text" value={subjectAddress} onChange={e => setSubjectAddress(e.target.value)} />
                   </label>
                   <br />
                   <label>
-                    Audience Address:
+                  Audience/Verifier Address:
                     <input type="text" value={audienceAddress} onChange={e => setAudienceAddress(e.target.value)} />
                   </label>
                   <br />
@@ -157,97 +167,20 @@ export default function IssuerPage() {
                     }}
                     onMouseOut={e => {
                       e.target.style.backgroundColor = "#007BFF";
-                    }}                  >
-                    Configure Addresses
+                    }}                   >DID Credential Sign
                   </button>
                 </form>
                 <br />
-                <span id="subjectDID">Subject Address: {subjectDID}</span>
+                <span id="subjectDID"><b>Subject Address:</b> {subjectDID}</span>
                 <br />
-                <span id="audienceDID">Verifier Address: {audienceDID}</span>
+                <span id="audienceDID"><b>Audience/Verifier Address: </b>{audienceDID}</span>
                 <br />
-                <span id="issuerDID">Issuer Address: {issuerDID}</span>
+                <span id="issuerDID"><b>Issuer Address: </b>{issuerDID}</span>
+                <br />
+                <span id="issuerDID"><b>Signed JWT: </b>{signedJWT}</span>
                 <br />
               </section>
-              <section>
-                <h2 className="block text-2xl mb-2 font-bold"> Enter Raw Claim, and then prepare JWT Token for Signing</h2>
-                <form
-                  onSubmit={e => {
-                    e.preventDefault();
-                    prepareJWT();
-                  }}
-                >
-                  <label>
-                    <textarea
-                      value={veriableClaim}
-                      placeholder={(veriableClaim)}
-                      onChange={e => setVeriableClaim(veriableClaim)}
-                      style={{
-                        width: "1000px", // Adjust width as needed
-                        height: "500px", // Adjust width as needed
-                        padding: "8px", // Adjust padding for uniformity with the button
-                        marginRight: "10px", // Optional: Provide spacing between input and button
-                      }}
-                    />
-                  </label>
-                  <br />
-                  <button
-                    type="submit"
-                    style={{
-                      backgroundColor: "#007BFF",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      padding: "10px 20px",
-                      cursor: "pointer",
-                      fontSize: "16px",
-                    }}
-                    onMouseOver={e => {
-                      e.target.style.backgroundColor = "#0056b3";
-                    }}
-                    onMouseOut={e => {
-                      e.target.style.backgroundColor = "#007BFF";
-                    }}                   >
-                    Prepare JWT
-                  </button>
-                </form>
 
-              </section>
-              <section>
-                <h2></h2>
-                <button
-                  onClick={signJWT}
-                  style={{
-                    backgroundColor: "#007BFF",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                    fontSize: "16px",
-                  }}
-                  onMouseOver={e => {
-                    e.target.style.backgroundColor = "#0056b3";
-                  }}
-                  onMouseOut={e => {
-                    e.target.style.backgroundColor = "#007BFF";
-                  }}                 >
-                  Sign JWT
-                </button>
-                <span style={{
-                  display: 'inline-block',
-                  maxWidth: '100%',
-                  maxHeight: '1000px',
-                  overflow: 'auto',
-                  padding: '8px',
-                  whiteSpace: 'pre-wrap',
-                  wordWrap: 'break-word',
-                  marginRight: '10px'
-                }}>
-                  {signedJWT}
-                </span>
-                <br />
-              </section>
             </span>
           </h2>
         </div>
