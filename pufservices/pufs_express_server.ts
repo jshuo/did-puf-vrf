@@ -56,7 +56,7 @@ try {
 
   console.log('PUFS interface initialized successfully');
   let vrf = ref.alloc('string');
-  pufs.pufs_puf_vrf_service(8, vrf);
+  pufs.pufs_puf_vrf_service(2, vrf);
   var actualVrf = vrf.deref();
   console.log(`vrf: ${actualVrf}`);
 

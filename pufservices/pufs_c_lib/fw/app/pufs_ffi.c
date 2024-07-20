@@ -4,11 +4,8 @@
 #include "pufs_rt.h"
 #include "pufs_pkc.h"
 #include <string.h>
-#include <openssl/sha.h>
 #include <json-c/json.h>
-
-
-
+#include <openssl/sha.h>
 
 
 pufs_status_t pufs_cmd_iface_init_js(void)
@@ -34,44 +31,35 @@ void pufs_outString_js(char **outstring)
     *outstring = "0414c58e581c7656ba153195669fe4ce53ff78dd5ede60a4039771a90c58cb41deec41869995bd661849414c523c7dff9a96f1c8dbc2e5e78172118f91c7199869";
 }
 
-#define RAND_LENGTH 32
+
 #define MEMORY_ALLOCATION_FAILURE -1
 
 pufs_status_t pufs_rand_js(int blk, char **rand)
 {
 
    pufs_status_t status;
-    uint8_t privkey[RAND_LENGTH];
-    static char random[RAND_LENGTH * 2 + 1]; // Added missing semicolon
-
-    status = pufs_rand(privkey, blk);
-    if (status != SUCCESS)
-    {
-        pufs_cmd_iface_deinit();
-        return status;
-    }
-
-    // Convert privkey to hex string
-    for (int i = 0; i < RAND_LENGTH; ++i)
-    {
-        sprintf(&random[i * 2], "%02x", privkey[i]);
-    }
-    random[RAND_LENGTH * 2] = '\0'; // Corrected to use RAND_LENGTH
-
-    // Allocate memory for rand if not already allocated by the caller
-    if (*rand == NULL)
-    {
-        *rand = (char *)malloc((RAND_LENGTH * 2 + 1) * sizeof(char));
+    uint8_t rand_uint8[blk * 4];
+    *rand = (char *)malloc((blk * 4 * 2 + 1) * sizeof(char));
         if (*rand == NULL)
         {
             // Handle memory allocation failure
             pufs_cmd_iface_deinit();
             return MEMORY_ALLOCATION_FAILURE; // Define appropriate error code
         }
+
+    status = pufs_rand(rand_uint8, blk);
+    if (status != SUCCESS)
+    {
+        pufs_cmd_iface_deinit();
+        return status;
     }
 
-    // Copy the generated hex string to rand
-    strcpy(*rand, random);
+    for (int i = 0; i < blk * 4; ++i)
+    {
+        sprintf((*rand) + (i * 2), "%02x", rand_uint8[i]);
+    }   
+    (*rand)[blk * 4 * 2] = '\0';
+
 
     return SUCCESS;
 }
@@ -102,41 +90,30 @@ char *pufs_get_uid_js(void)
     return uid_str;
 }
 
-
 pufs_status_t pufs_puf_vrf_service(int blk, char **rand) {
 
-   pufs_status_t status;
-    uint8_t privkey[RAND_LENGTH];
-    static char random[RAND_LENGTH * 2 + 1]; // Added missing semicolon
-
-    status = pufs_rand(privkey, blk);
-    if (status != SUCCESS)
-    {
-        pufs_cmd_iface_deinit();
-        return status;
-    }
-
-    // Convert privkey to hex string
-    for (int i = 0; i < RAND_LENGTH; ++i)
-    {
-        sprintf(&random[i * 2], "%02x", privkey[i]);
-    }
-    random[RAND_LENGTH * 2] = '\0'; // Corrected to use RAND_LENGTH
-
-    // Allocate memory for rand if not already allocated by the caller
-    if (*rand == NULL)
-    {
-        *rand = (char *)malloc((RAND_LENGTH * 2 + 1) * sizeof(char));
+    pufs_status_t status;
+    uint8_t rand_uint8[blk * 4];
+    *rand = (char *)malloc((blk * 4 * 2 + 1) * sizeof(char));
         if (*rand == NULL)
         {
             // Handle memory allocation failure
             pufs_cmd_iface_deinit();
             return MEMORY_ALLOCATION_FAILURE; // Define appropriate error code
         }
+
+    status = pufs_rand(rand_uint8, blk);
+    if (status != SUCCESS)
+    {
+        pufs_cmd_iface_deinit();
+        return status;
     }
 
-    // Copy the generated hex string to rand
-    // strcpy(*rand, random);
+    for (int i = 0; i < blk * 4; ++i)
+    {
+        sprintf((*rand) + (i * 2), "%02x", rand_uint8[i]);
+    }   
+    (*rand)[blk * 4 * 2] = '\0';
 
     pufs_dgst_st md;
     pufs_ka_slot_t prvslot = PRK_0;
@@ -146,19 +123,10 @@ pufs_status_t pufs_puf_vrf_service(int blk, char **rand) {
     pufs_ecdsa_sig_st sig;
     md.dlen = 32;
 
-        // Create a buffer for the SHA-256 hash
-    // unsigned char hash[SHA256_DIGEST_LENGTH];
-     char hash[SHA256_DIGEST_LENGTH];
 
-    // Create and initialize the SHA256 context
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
+    char hash[SHA256_DIGEST_LENGTH];
 
-    // Update the context with the message
-    SHA256_Update(&sha256, *rand, strlen(*rand));
-
-    // Finalize the hash and store it in the 'hash' buffer
-    SHA256_Final((unsigned char*) hash, &sha256);
+    SHA256((const unsigned char *)*rand, strlen(*rand), (unsigned char *)hash);
 
     md.dlen = 32;
     for (int i = 0; i < 32; i++)
@@ -199,8 +167,8 @@ pufs_status_t pufs_puf_vrf_service(int blk, char **rand) {
 
 
     json_object *root = json_object_new_object();
-    json_object_object_add(root, "signature", json_object_new_string(signature));
-    json_object_object_add(root, "random", json_object_new_string(random));
+    json_object_object_add(root, "rn", json_object_new_string(*rand));
+    json_object_object_add(root, "signature_payload", json_object_new_string(signature));
 
     const char *json_str = json_object_to_json_string_ext(root, JSON_C_TO_STRING_PRETTY);
     size_t json_string_length = strlen(json_str) + 1;
