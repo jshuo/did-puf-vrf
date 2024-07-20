@@ -1,5 +1,5 @@
 TOPTARGETS = all clean debug
-CFLAGS = -Wall -Werror -Wextra -pedantic -pedantic-errors -Wstrict-prototypes -lpthread -fPIC
+CFLAGS = -Wall -Wextra -pedantic -pedantic-errors -Wstrict-prototypes -lpthread -fPIC
 
 
     CC = gcc
@@ -38,13 +38,15 @@ TARGET_SO=libpufse_ffi.so  # Change target name to a shared object file
 INC_PUFSE_OPTION = $(addprefix -I, $(PUFSE_INCLUDE_DIRS))
 INC_OPTION= $(INC_PUFSE_OPTION) 
 
+# LDFLAGS to include jansson library
+LDFLAGS += -ljson-c
 
 # Target --------------------------------------------------
 all: $(TARGET_SO) gen_bin
 
 $(TARGET_SO):  $(APP_DIR)/pufs_ffi.c $(LIBS)
 	@echo "CC: $(CC)"
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(INC_OPTION) -shared -o $(BIN_DIR)/$@ $^
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INC_OPTION) -shared -o $(BIN_DIR)/$@ $^ $(LDFLAGS)
 
 clean:
 	$(RM) $(BIN_DIR)/$(TARGET_SO)

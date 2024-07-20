@@ -10,6 +10,7 @@ interface PufsLibrary {
   pufs_cmd_iface_init_js: () => number;
   pufs_cmd_iface_deinit_js: () => number;
   pufs_rand_js: (blk: number, rand: Buffer ) => number;
+  pufs_puf_vrf_service: (blk: number, rand: Buffer ) => number;
   pufs_get_uid_js: () => string;
   pufs_p256_sign_js: (input: string) => string;
   pufs_get_p256_pubkey_js: () => string;
@@ -33,6 +34,7 @@ try {
     pufs_cmd_iface_init_js: ['int', []],
     pufs_cmd_iface_deinit_js: ['int', []],
     pufs_rand_js: ['int', ['int', strPtr]],
+    pufs_puf_vrf_service:['int', ['int', strPtr]],
     pufs_get_uid_js: [charPtr, []],
     pufs_p256_sign_js: [charPtr, [charPtr]],
     pufs_get_p256_pubkey_js: [charPtr, []],
@@ -51,7 +53,14 @@ try {
   if (initResult !== 0) {
     throw new Error(`Initialization failed with code ${initResult}`);
   }
+
   console.log('PUFS interface initialized successfully');
+  let vrf = ref.alloc('string');
+  pufs.pufs_puf_vrf_service(8, vrf);
+  var actualVrf = vrf.deref();
+  console.log(`vrf: ${actualVrf}`);
+
+
 } catch (error: unknown) {
   const err = error as Error;
   console.error(`Initialization failed: ${err.message}`);

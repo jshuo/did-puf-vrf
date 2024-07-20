@@ -4,45 +4,12 @@
 #include "pufs_rt.h"
 #include "pufs_pkc.h"
 #include <string.h>
-#include <openssl/ec.h>
-#include <openssl/evp.h>
-#include <openssl/pem.h>
-#include <openssl/err.h>
-#include <openssl/bn.h>
+#include <openssl/sha.h>
+#include <json-c/json.h>
 
-void handle_errors(void)
-{
-    ERR_print_errors_fp(stderr);
-    abort();
-}
 
-EVP_PKEY *generate_key(void)
-{
-    EVP_PKEY *pkey = NULL;
-    EVP_PKEY_CTX *pctx = NULL;
 
-    /* Create the context for key generation */
-    pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_EC, NULL);
-    if (!pctx)
-        handle_errors();
 
-    /* Initialize the key generation context */
-    if (EVP_PKEY_keygen_init(pctx) <= 0)
-        handle_errors();
-
-    /* Set the elliptic curve to use for the key generation */
-    if (EVP_PKEY_CTX_set_ec_paramgen_curve_nid(pctx, NID_X9_62_prime256v1) <= 0)
-        handle_errors();
-
-    /* Generate the key */
-    if (EVP_PKEY_keygen(pctx, &pkey) <= 0)
-        handle_errors();
-
-    /* Clean up */
-    EVP_PKEY_CTX_free(pctx);
-
-    return pkey;
-}
 
 pufs_status_t pufs_cmd_iface_init_js(void)
 {
@@ -72,7 +39,8 @@ void pufs_outString_js(char **outstring)
 
 pufs_status_t pufs_rand_js(int blk, char **rand)
 {
-    pufs_status_t status;
+
+   pufs_status_t status;
     uint8_t privkey[RAND_LENGTH];
     static char random[RAND_LENGTH * 2 + 1]; // Added missing semicolon
 
@@ -134,6 +102,119 @@ char *pufs_get_uid_js(void)
     return uid_str;
 }
 
+
+pufs_status_t pufs_puf_vrf_service(int blk, char **rand) {
+
+   pufs_status_t status;
+    uint8_t privkey[RAND_LENGTH];
+    static char random[RAND_LENGTH * 2 + 1]; // Added missing semicolon
+
+    status = pufs_rand(privkey, blk);
+    if (status != SUCCESS)
+    {
+        pufs_cmd_iface_deinit();
+        return status;
+    }
+
+    // Convert privkey to hex string
+    for (int i = 0; i < RAND_LENGTH; ++i)
+    {
+        sprintf(&random[i * 2], "%02x", privkey[i]);
+    }
+    random[RAND_LENGTH * 2] = '\0'; // Corrected to use RAND_LENGTH
+
+    // Allocate memory for rand if not already allocated by the caller
+    if (*rand == NULL)
+    {
+        *rand = (char *)malloc((RAND_LENGTH * 2 + 1) * sizeof(char));
+        if (*rand == NULL)
+        {
+            // Handle memory allocation failure
+            pufs_cmd_iface_deinit();
+            return MEMORY_ALLOCATION_FAILURE; // Define appropriate error code
+        }
+    }
+
+    // Copy the generated hex string to rand
+    // strcpy(*rand, random);
+
+    pufs_dgst_st md;
+    pufs_ka_slot_t prvslot = PRK_0;
+    const char *salt = "pufsecurity salt";
+    const char *info = "pufsecurity info";
+    pufs_rt_slot_t pufslot = PUFSLOT_1;
+    pufs_ecdsa_sig_st sig;
+    md.dlen = 32;
+
+        // Create a buffer for the SHA-256 hash
+    // unsigned char hash[SHA256_DIGEST_LENGTH];
+     char hash[SHA256_DIGEST_LENGTH];
+
+    // Create and initialize the SHA256 context
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+
+    // Update the context with the message
+    SHA256_Update(&sha256, *rand, strlen(*rand));
+
+    // Finalize the hash and store it in the 'hash' buffer
+    SHA256_Final((unsigned char*) hash, &sha256);
+
+    md.dlen = 32;
+    for (int i = 0; i < 32; i++)
+    {
+        sscanf(&hash[i * 2], "%2hhx", &md.dgst[i]);
+    }
+
+    status = pufs_ecp_set_curve_byname(NISTP256);
+    if (status != SUCCESS)
+    {
+        pufs_cmd_iface_deinit();
+    }
+    pufs_ecp_gen_sprk(prvslot, pufslot, (uint8_t *)salt, 16, (uint8_t *)info, 16, HASH_DEFAULT);
+
+    pufs_ecp_ecdsa_sign_dgst(&sig, md, PRKEY, PRK_0, NULL);
+
+    if (status != SUCCESS)
+    {
+        pufs_cmd_iface_deinit();
+    }
+
+    if (status == SUCCESS) {
+      status = pufs_clear_key(PRKEY, PRK_0, 32);
+    }
+
+    static char signature[129];
+    // Convert the signature to a 128-byte string (hex format)
+    for (uint32_t i = 0; i < sig.qlen; i++)
+    {
+        sprintf(&signature[i * 2], "%02x", sig.r[i]);
+    }
+    for (uint32_t i = 0; i < sig.qlen; i++)
+    {
+        sprintf(&signature[64 + i * 2], "%02x", sig.s[i]);
+    }
+
+    signature[128] = '\0';
+
+
+    json_object *root = json_object_new_object();
+    json_object_object_add(root, "signature", json_object_new_string(signature));
+    json_object_object_add(root, "random", json_object_new_string(random));
+
+    const char *json_str = json_object_to_json_string_ext(root, JSON_C_TO_STRING_PRETTY);
+    size_t json_string_length = strlen(json_str) + 1;
+    *rand = (char *)malloc(json_string_length);
+    if (*rand == NULL) {
+        json_object_put(root);
+        pufs_cmd_iface_deinit();
+    }
+
+    strcpy(*rand, json_str);
+    json_object_put(root);
+
+    return SUCCESS;
+}
 char *pufs_p256_sign_js(char *msgdigest)
 {
     static char signature[129];
@@ -229,15 +310,6 @@ const char *pufs_get_p256_pubkey_js(void)
     return pubkey;
 }
 
-// Aetheras's VRF ??
-const char *pufs_p256_signed_random_js(void)
-{
-    static char vrf[145]; // 8 bytes random + 64 byte signature
-    // Not sure if PUFSecurity's firmware supports this feature.
-    // PUFSecurity introduces an additional Host Lib layer, meaning the VRF doesn't come directly from USB.
-    // Therefore, the VRF is actually originating from the hardware? :) :)
-    return vrf;
-}
 
 pufs_status_t pufs_cmd_iface_deinit_js(void)
 {
