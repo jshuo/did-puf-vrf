@@ -1,0 +1,15 @@
+[Unit]
+Description=pufs Service App
+After=network.target
+
+[Service]
+ExecStart=/home/secux/pufservices/start-pufs-express-server.sh
+WorkingDirectory=/home/secux/pufservices
+Restart=always
+User=root
+Group=root
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
