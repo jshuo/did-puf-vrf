@@ -5,6 +5,7 @@ import ffi from 'ffi-napi';
 import ref from 'ref-napi';
 import process from 'process';
 import cors from 'cors';
+import { Mutex } from 'async-mutex';
 
 interface PufsLibrary {
   pufs_cmd_iface_init_js: () => number;
@@ -20,6 +21,7 @@ interface PufsLibrary {
 
 // Create an instance of the express application
 const app = express();
+const mutex = new Mutex(); // Create a new mutex instance
 const port = 8088;
 app.use(cors());
 
@@ -30,7 +32,7 @@ var strPtr = ref.refType('string');
 // Try to load the library and handle any errors
 let pufs: PufsLibrary;
 try {
-  pufs = ffi.Library('./pufs_c_lib/fw/bin/libpufse_ffi.so', {
+  pufs = ffi.Library('/home/secux/pufservices/pufs_c_lib/fw/bin/libpufse_ffi.so', {
     pufs_cmd_iface_init_js: ['int', []],
     pufs_cmd_iface_deinit_js: ['int', []],
     pufs_rand_js: ['int', ['int', strPtr]],
@@ -53,13 +55,7 @@ try {
   if (initResult !== 0) {
     throw new Error(`Initialization failed with code ${initResult}`);
   }
-
   console.log('PUFS interface initialized successfully');
-  let vrf = ref.alloc('string');
-  pufs.pufs_puf_vrf_service(2, vrf);
-  var actualVrf = vrf.deref();
-  console.log(`vrf: ${actualVrf}`);
-
 
 } catch (error: unknown) {
   const err = error as Error;
@@ -135,6 +131,23 @@ app.get('/pufs_get_p256_pubkey_js', (req, res) => {
     const err = error as Error;
     console.error(`pufs_get_p256_pubkey_js failed with error: ${err.message}`);
     res.status(500).send(`Error: ${err.message}`);
+  }
+});
+
+app.get('/pufs_puf_vrf_service', async (req, res) => {
+  // Acquire the mutex
+  const release = await mutex.acquire();
+  try {
+    let pufvrf = ref.alloc('string');
+    pufs.pufs_puf_vrf_service(2, pufvrf);
+    var vrf = pufvrf.deref();
+    res.json({ vrf });
+  } catch (error: unknown) {
+    const err = error as Error;
+    res.status(500).send(`Error: ${err.message}`);
+  } finally {
+    // Release the mutex
+    release();
   }
 });
 
