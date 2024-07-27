@@ -4,8 +4,13 @@
 . export LD_LIBRARY_PATH=/home/secux/pufservices/pufs_c_lib/fw/bin .. this is to provide the path where the so library are located to be loaded for ffi-napi 
 
 . cd pufservices 
-add LD_LIBARAY_PATH to so at root  .bashrc
+add LD_LIBARAY_PATH to so at root  .bashrc i.e. export LD_LIBRARY_PATH=/home/secux/pufservices/export LD_LIBRARY_PATH=/home/secux/pufservices/pufs_c_lib/fw/bin
+
 . sudo nano /etc/systemd/system/start-pufs-express-server.service
+
+chmod +x /home/secux/pufservices/start-pufs-express-server.sh
+
+
 sudo systemctl enable start-pufs-express-server
 sudo systemctl start start-pufs-express-server
 sudo systemctl status start-pufs-express-server
