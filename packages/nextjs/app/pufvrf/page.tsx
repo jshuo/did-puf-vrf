@@ -8,6 +8,26 @@ import { Account } from "../../components/Account";
 
 export default function PUFVRFPage() {
 
+  const [pufVRF, setPufVRF] = useState("");
+
+  const pufHsmRemoteUrl = process.env.NEXT_PUBLIC_PUF_HSM_REMOTE_URL || undefined
+  const getPufVRF = async () => {
+    let PufVRF;
+    if (pufHsmRemoteUrl !== undefined) {
+      const response = await fetch(`${pufHsmRemoteUrl}pufs_puf_vrf_service`)
+      if (!response.ok) {
+        throw new Error(`getPufVRF HTTP error! status: ${response.status}`);
+      }
+      let jsonString: string = await response.text()
+
+      // Parse the JSON string
+      const jsonObject = JSON.parse(jsonString);
+
+      PufVRF = JSON.parse(jsonObject.vrf)
+    }
+    setPufVRF(PufVRF.rn)
+    return PufVRF.rn;
+  }
 
   return (
     <div>
@@ -25,7 +45,28 @@ export default function PUFVRFPage() {
               <h2>
                 <b>PUF VRF:</b> <p></p> <Account />
               </h2>
-              <p></p>
+              <button
+                onClick={() => getPufVRF()}
+                style={{
+                  backgroundColor: "#007BFF",
+                  color: "white",
+                  border: "none",
+                  margin: "20px",
+                  borderRadius: "4px",
+                  padding: "10px 20px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+                onMouseOver={e => {
+                  e.target.style.backgroundColor = "#0056b3";
+                }}
+                onMouseOut={e => {
+                  e.target.style.backgroundColor = "#007BFF";
+                }}
+              >
+                getPufVRF
+              </button>
+              {pufVRF}
               <hr />
               <table>
                 <tr>

@@ -1,0 +1,17 @@
+[Unit]
+Description=DID PUF VRF App
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/yarn start
+WorkingDirectory=/home/secux/did-puf-vrf
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+User=secux
+Group=secux
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

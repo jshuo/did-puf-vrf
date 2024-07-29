@@ -3,8 +3,10 @@
 . to run the service under superuser mode e.g. sudo su 
 . export LD_LIBRARY_PATH=/home/secux/pufservices/pufs_c_lib/fw/bin .. this is to provide the path where the so library are located to be loaded for ffi-napi 
 
-. cd pufservices 
-add LD_LIBARAY_PATH to so at root  .bashrc i.e. export LD_LIBRARY_PATH=/home/secux/pufservices/export LD_LIBRARY_PATH=/home/secux/pufservices/pufs_c_lib/fw/bin
+. put pufsc.conf under /etc/ld.so.conf.d
+. in pufsc.conf -> /home/secux/pufservices/pufs_c_lib/fw/bin
+. ldconfig
+
 
 . sudo nano /etc/systemd/system/start-pufs-express-server.service
 

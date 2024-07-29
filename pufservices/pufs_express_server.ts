@@ -65,6 +65,13 @@ try {
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+// CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next(); // Pass control to the next handler
+});
 
 // Define the POST endpoint for pufs_p256_sign_js
 app.post('/pufs_p256_sign_js', (req, res) => {
