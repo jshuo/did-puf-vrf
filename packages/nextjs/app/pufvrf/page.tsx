@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { Account } from "../../components/Account";
@@ -28,6 +28,31 @@ export default function PUFVRFPage() {
     setPufVRF(PufVRF.rn)
     return PufVRF.rn;
   }
+
+  useEffect(() => {
+    let intervalId: any;
+    // Define an async function inside useEffect
+    const fetchData = async () => {
+      await getPufVRF();
+
+      // Set up the interval to fetch data every 30 seconds
+      intervalId = setInterval(() => {
+        getPufVRF();
+      }, 1000); // 30,000 milliseconds = 30 seconds
+
+      // Clear the interval when the component unmounts
+      return () => clearInterval(intervalId);
+    };
+
+    // Call the async function
+    fetchData();
+
+    // Clean up function to clear the interval
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []); // Empty dependency array means this effect runs only once on mount
+
 
   return (
     <div>
@@ -69,26 +94,31 @@ export default function PUFVRFPage() {
               {pufVRF}
               <hr />
               <table>
-                <tr>
-                  <td>              <ul className="list-disc" style={{ marginLeft: '20px' }}>
-
-                    <li style={{ marginBottom: '20px' }}>Taiwan Lotto 6/49</li>
-                    <li style={{ marginBottom: '20px' }}>Super Lotto</li>
-                    <li style={{ marginBottom: '20px' }}>Daily Cash 539</li>
-                    <li style={{ marginBottom: '20px' }}>Lotto 6/38</li>
-                    <li style={{ marginBottom: '20px' }}>Power Lottery (Bingo Bingo)</li>
-                    <li style={{ marginBottom: '20px' }}>Big Lotto</li>
-                    <li style={{ marginBottom: '20px' }}>Three-Star</li>
-                    <li style={{ marginBottom: '20px' }}>Four-Star</li>
-                    <li style={{ marginBottom: '20px' }}>Lottery 5/39</li>
-                    <li style={{ marginBottom: '20px' }}>39M</li>
-                  </ul></td>
-                  <td>             <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-                    <Image src="/pufvrf-1.png" alt="Example Image" width={550} height={450} />
-
-                  </div></td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td>
+                      <ul className="list-disc" style={{ marginLeft: '20px' }}>
+                        <li style={{ marginBottom: '20px' }}>Taiwan Lotto 6/49</li>
+                        <li style={{ marginBottom: '20px' }}>Super Lotto</li>
+                        <li style={{ marginBottom: '20px' }}>Daily Cash 539</li>
+                        <li style={{ marginBottom: '20px' }}>Lotto 6/38</li>
+                        <li style={{ marginBottom: '20px' }}>Power Lottery (Bingo Bingo)</li>
+                        <li style={{ marginBottom: '20px' }}>Big Lotto</li>
+                        <li style={{ marginBottom: '20px' }}>Three-Star</li>
+                        <li style={{ marginBottom: '20px' }}>Four-Star</li>
+                        <li style={{ marginBottom: '20px' }}>Lottery 5/39</li>
+                        <li style={{ marginBottom: '20px' }}>39M</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+                        <Image src="/pufvrf-1.png" alt="Example Image" width={550} height={450} />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
+
 
               <hr />
 
