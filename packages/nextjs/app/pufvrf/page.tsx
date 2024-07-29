@@ -18,7 +18,7 @@ export default function PUFVRFPage() {
       if (!response.ok) {
         throw new Error(`getPufVRF HTTP error! status: ${response.status}`);
       }
-      let jsonString: string = await response.text()
+      const jsonString: string = await response.text()
 
       // Parse the JSON string
       const jsonObject = JSON.parse(jsonString);
