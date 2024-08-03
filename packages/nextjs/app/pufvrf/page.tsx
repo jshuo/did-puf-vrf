@@ -14,7 +14,7 @@ export default function PUFVRFPage() {
   const getPufVRF = async () => {
     let PufVRF;
     if (pufHsmRemoteUrl !== undefined) {
-      const response = await fetch(`${pufHsmRemoteUrl}pufs_puf_vrf_service`)
+      const response = await fetch(`/api//hsmApiServices/pufs`)
       if (!response.ok) {
         throw new Error(`getPufVRF HTTP error! status: ${response.status}`);
       }
