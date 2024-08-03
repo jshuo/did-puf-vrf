@@ -118,9 +118,18 @@ export default function VerifierPage() {
     const signedJWT = localStorage.getItem("jwt");
     const chainNameOrId = await signer.getChainId();
     const audienceDid = new EthrDID({ identifier: audienceAddr, provider, chainNameOrId });
-    const JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
-    console.log(`Verify JWT:`);
-    console.log(JWTVerified);
+    let JWTVerified
+
+    try {
+      JWTVerified = await audienceDid?.verifyJWT(signedJWT, didResolver);
+      console.log(`Verify JWT:`);
+      console.log(JWTVerified);
+    } catch (error) {
+      console.error('Error verifying JWT:', error);
+      setSignedJWTVerified(error.message);
+      setLoading(false); // Set loading state to false after processing
+    }
+
     if (JWTVerified != undefined) {
       setSignedJWTVerified(JSON.stringify(JWTVerified?.verified));
       const openaiAnalysis = await OpenAIAnalyze(JWTVerified.payload!.verifiableClaim!);
