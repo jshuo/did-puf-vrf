@@ -78,29 +78,36 @@ export const teslaBatt = {
 };
 
 export const clife = {
-    "id": "did:neopuf:4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
-    "product": {
-      "name": "Clife key C series",
-      "category": "FIDO",
-      "description": {
-        "en": "Clife key is a ChipWon Technology product, certified by the FIDO Association. It offers strong multi-factor authentication (MFA) and secure login.",
-        "zh": "Clife key 是群旺科技的產品，通過FIDO協會認證。提供強大的多因素身份驗證 (MFA) 和安全登錄。"
-      },
-      "features": {
-        "en": [
-          "Supports FIDO protocols: WebAuthn, FIDO2 CTAP1, FIDO2 CTAP2, U2F.",
-          "Compatible with Windows, MacOS, Linux, iOS, Android, ChromeOS.",
-          "Flexible authentication options: single-factor, 2FA, MFA. Durable, tamper-proof, water-resistant, crush-proof. Made in Taiwan."
-        ],
-        "zh": [
-          "支援FIDO協議: WebAuthn, FIDO2 CTAP1, FIDO2 CTAP2, U2F。",
-          "兼容Windows, MacOS, Linux, iOS, Android, ChromeOS。",
-          "靈活的身份驗證選項: 單因素, 2FA, MFA。耐用、防篡改、防水、防擠壓。台灣製造。"
-        ]
-      }
+  product: {
+    name: "Clife key C series",
+    category: "FIDO",
+    description: {
+      en: "Clife key is a ChipWon Technology product, certified by the FIDO Association. It offers strong multi-factor authentication (MFA) and secure login.",
+      zh: "Clife key 是群旺科技的產品，通過FIDO協會認證。提供強大的多因素身份驗證 (MFA) 和安全登錄。",
     },
-    "serialNumber": "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
-    "uuid": "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
-    "chipFingerprintId": "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3"
-  }
-  
+    features: {
+      en: [
+        "Supports FIDO protocols: WebAuthn, FIDO2 CTAP1, FIDO2 CTAP2, U2F.",
+        "Compatible with Windows, MacOS, Linux, iOS, Android, ChromeOS.",
+        "Flexible authentication options: single-factor, 2FA, MFA. Durable, tamper-proof, water-resistant, crush-proof. Made in Taiwan.",
+      ],
+      zh: [
+        "支援FIDO協議: WebAuthn, FIDO2 CTAP1, FIDO2 CTAP2, U2F。",
+        "兼容Windows, MacOS, Linux, iOS, Android, ChromeOS。",
+        "靈活的身份驗證選項: 單因素, 2FA, MFA。耐用、防篡改、防水、防擠壓。台灣製造。",
+      ],
+    },
+  },
+  serialNumber: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
+  uuid: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
+  chipFingerprintId: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
+};
+
+export const jsonl = {
+  "@context": ["https://www.w3.org/2018/credentials/v1"],
+  id: "http://example.com/credentials/123",
+  type: ["VerifiableCredential", "Credential"],
+  issuer: "did:example:issuer",
+  issuanceDate: "2024-07-23T00:00:00Z",
+  credentialSubject: { id: "did:example:subject", name: "Alice", age: 30 },
+};

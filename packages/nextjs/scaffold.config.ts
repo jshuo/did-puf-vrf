@@ -8,7 +8,7 @@ export type ScaffoldConfig = {
   onlyLocalBurnerWallet: boolean;
 };
 
-const BESU_RPC = "http://127.0.0.1:8545";
+const BESU_RPC = "http://58.115.23.124:8545";
 // const besuRpc = process.env.BESU_RPC;
 
 const scaffoldConfig = {
@@ -26,10 +26,10 @@ const scaffoldConfig = {
       },
       rpcUrls: {
         public: {
-          http: ["http://127.0.0.1:8545"],
+          http: [BESU_RPC],
         },
         default: {
-          http: ["http://127.0.0.1:8545"],
+          http: [BESU_RPC],
         },
       },
       testnet: true,
