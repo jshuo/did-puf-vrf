@@ -8,8 +8,5 @@ WorkingDirectory=/home/secux/pufservices
 Restart=always
 User=root
 Group=root
-StandardOutput=syslog
-StandardError=syslog
-
 [Install]
 WantedBy=multi-user.target
