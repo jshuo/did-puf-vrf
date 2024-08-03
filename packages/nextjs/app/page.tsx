@@ -14,7 +14,7 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Cutting-Edge EVM-Compatible dApps</span>
+            <span className="block text-4xl font-bold">Cutting-Edge AI Assisted EVM-Compatible dApps</span>
             <span className="block text-4xl font-bold">for Enterprise Supply Chain, RWA Management and VRF</span>
             <span className="block text-4xl font-bold">featuring NeoPUF Chip Fingerprint and Crypto Signer
             </span>

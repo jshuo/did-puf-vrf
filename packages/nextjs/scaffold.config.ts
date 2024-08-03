@@ -61,8 +61,7 @@ const scaffoldConfig = {
       testnet: true,
     },
     chains.polygonAmoy,
-    chains.shimmer,
-    chains.shimmerTestnet,
+    chains.avalanche,
   ],
 
   // The interval at which your front-end polls the RPC servers for new data
