@@ -203,13 +203,13 @@ export default function IssuerPage() {
                   </button>
                 </form>
                 <br />
-                <span id="subjectDID"><b>Subject Address (generated from PUFse):</b> {subjectDID}</span>
-                <br />
                 <span id="audienceDID"><b>Audience/Verifier Address: </b>{audienceDID}</span>
                 <br />
                 <span id="issuerDID"><b>Issuer Address: </b>{issuerDID}</span>
                 <br />
-                <span id="issuerDID"><b>Signed JWT (Verifiable Credential): </b>{signedJWT}</span>
+                <span id="subjectDID"><b>Subject Address (generated from PUFse):</b> {subjectDID}</span>
+                <br />
+               <span id="issuerDID"><b>Signed JWT (Verifiable Credential): </b>{signedJWT}</span>
                 <br />
               </section>
 
