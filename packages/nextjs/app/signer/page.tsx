@@ -209,7 +209,7 @@ export default function IssuerPage() {
                 <br />
                 <span id="issuerDID"><b>Issuer Address: </b>{issuerDID}</span>
                 <br />
-                <span id="issuerDID"><b>Signed JWT: </b>{signedJWT}</span>
+                <span id="issuerDID"><b>Signed JWT (Verifiable Credential): </b>{signedJWT}</span>
                 <br />
               </section>
 
