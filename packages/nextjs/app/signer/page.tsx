@@ -156,17 +156,20 @@ export default function IssuerPage() {
                   }}
                 >
                   <label>
-                    <textarea
-                      value={randomClaimData}
-                      placeholder="Enter claim data..." // Placeholder text to hint user
-                      onChange={e => setRandomClaimData(e.target.value)} // Use e.target.value to update state
-                      style={{
-                        width: "1000px", // Adjust width as needed
-                        height: "500px", // Adjust height as needed
-                        padding: "8px", // Adjust padding for uniformity
-                        marginRight: "10px", // Optional: Provide spacing between input and button
-                      }}
-                    />
+                    <div className="flex gap-12 flex-col sm:flex-row">
+                      <textarea
+                        value={randomClaimData}
+                        placeholder="Enter claim data..." // Placeholder text to hint user
+                        onChange={e => setRandomClaimData(e.target.value)} // Use e.target.value to update state
+                        style={{
+                          width: "1000px", // Adjust width as needed
+                          height: "500px", // Adjust height as needed
+                          padding: "8px", // Adjust padding for uniformity
+                          marginRight: "10px", // Optional: Provide spacing between input and button
+                        }}
+                      />
+                      <Image src="/pufsystem-demo.jpg" alt="Example Image" width={550} height={450} />
+                    </div>
                   </label>
                   <br />
                   <label>
