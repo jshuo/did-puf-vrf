@@ -244,14 +244,16 @@ export default function VerifierPage() {
 
       <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
         <Image src="/openai-image.png" alt="Example Image" width={800} height={600} />
-        <Image src="/did-puf-result.png" alt="Example Image" width={1600} height={1600} />
+        <Image src="/did-puf-result.png" alt="Example Image" width={1200} height={800} />
+      </div>
+      <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
         {loading ? (
           <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
         ) : (
           <Image src={openaiImage} alt="OpenAI Dall-E Generative Image" width={800} height={600} />
         )}
-
       </div>
+
     </div>
   );
 }

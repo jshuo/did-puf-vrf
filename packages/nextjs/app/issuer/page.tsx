@@ -121,8 +121,8 @@ export default function IssuerPage() {
               <hr />
 
               <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-                <Image src="/puf-did-ai-board.png" alt="Example Image" width={550} height={450} />
-                <Image src="/puf-did-diagram.png" alt="Example Image" width={600} height={450} />
+                <Image src="/puf-did-ai-board.png" alt="Example Image" width={800} height={600} />
+                <Image src="/pufsystem-demo.jpg" alt="Example Image" width={550} height={450} />
 
               </div>
               <section>
