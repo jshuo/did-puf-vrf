@@ -97,10 +97,7 @@ export const clife = {
         "靈活的身份驗證選項: 單因素, 2FA, MFA。耐用、防篡改、防水、防擠壓。台灣製造。",
       ],
     },
-  },
-  serialNumber: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
-  uuid: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
-  chipFingerprintId: "4b8e8c9da0f6a1b9e9e6c0cfa6f292a3f6b8c1d4e5f4a8b9e9c6f3d2a4e9e2c3",
+  }
 };
 
 export const jsonl = {
