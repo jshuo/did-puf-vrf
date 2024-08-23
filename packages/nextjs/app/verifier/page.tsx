@@ -116,7 +116,7 @@ export default function VerifierPage() {
       const response = await fetch('/api/aiApiServices/llama3', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json; charset=utf-8", // Ensure UTF-8 encoding
         },
         body: JSON.stringify({ content: text }),
       });
