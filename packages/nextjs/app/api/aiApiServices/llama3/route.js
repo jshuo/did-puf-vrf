@@ -25,7 +25,7 @@ export async function POST(request) {
     return new Response(JSON.stringify({ message: data }), {
       status: 200, // Or an appropriate status code
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8", // Ensure UTF-8 encoding
       },
     });
   } catch (error) {
