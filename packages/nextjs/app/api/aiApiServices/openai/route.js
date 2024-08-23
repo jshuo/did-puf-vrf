@@ -36,7 +36,7 @@ export async function POST(request) {
     requestContent,
   )}`;
 
-
+  const image_url = "https://oaidalleapiprodscus.blob.core.windows.net/private/org-C1gvNJtoU4OBHbBfKiqDxbOJ/user-qAGQDdCOsRSf4lSE4mD8FFH3/img-B1PoRHYndMSE1H9rgkkiw9Ob.png?st=2024-07-09T08%3A24%3A54Z&se=2024-07-09T10%3A24%3A54Z&sp=r&sv=2023-11-03&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-07-08T18%3A15%3A07Z&ske=2024-07-09T18%3A15%3A07Z&sks=b&skv=2023-11-03&sig=Eak1Y8v%2BdaW1OfAMUkS3r/nI0K0CMm92SsmrUs4BMVA%3D"
 
   // Perform your desired server-side logic with the data
   // For example, save it to a database or send it to another API
