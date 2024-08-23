@@ -23,6 +23,8 @@ export default function VerifierPage() {
   const [openaiResult, setOpenaiResult] = useState("");
   const [openaiImage, setOpenaiImage] = useState("");
   const [geminiResult, setGeminiResult] = useState("");
+  const [llamaResult, setLlamaResult] = useState("");
+  
   const [loading, setLoading] = useState(false);
 
 
@@ -109,10 +111,34 @@ export default function VerifierPage() {
     }
   }
 
+  const LlamaAIAnalyze = async (text) => {
+    try {
+      const response = await fetch('/api/aiApiServices/llama3', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: text }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.message; // Extract the summary from the response
+
+    } catch (error) {
+      console.error("Error summarizing text:", error);
+      throw error; // Handle the error appropriately
+    }
+  }
+
   const processDid = async () => {
     setSignedJWTVerified("");
     setOpenaiResult("");
     setGeminiResult("");
+    setLlamaResult("");
     setOpenaiImage("")
     setLoading(true); // Set loading state to true
     const signedJWT = localStorage.getItem("jwt");
@@ -137,6 +163,8 @@ export default function VerifierPage() {
       setOpenaiImage(openaiAnalysis.image);
       const geminiAnalysis = await GeminiAIAnalyze(JWTVerified.payload!.verifiableClaim!);
       setGeminiResult(geminiAnalysis);
+      const llamaAnalysis = await LlamaAIAnalyze(JWTVerified.payload!.verifiableClaim!);
+      setLlamaResult(llamaAnalysis);
     }
     if (signedJWT) {
       localStorage.removeItem("jwt");
@@ -238,6 +266,17 @@ export default function VerifierPage() {
               {geminiResult}
             </span>
           )}
+
+          <span className="block text-2xl font-bold" style={{ marginTop: "30px" }}>
+            Llama Inspection Result of DID Verifiable Claim:
+          </span>
+          {loading ? (
+            <div className="loading-spinner">Loading...</div> // Replace with your loading spinner or animation component
+          ) : (
+            <span id="signedJWT" className="block text-2xl">
+              {llamaResult}
+            </span>
+          )}          
 
         </div>
       </main>
