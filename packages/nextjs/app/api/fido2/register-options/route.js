@@ -8,9 +8,6 @@ const f2l = new Fido2Lib({
     challengeSize: 128,
     attestation: "none",
     cryptoParams: [-7, -257],
-    authenticatorAttachment: "platform",
-    authenticatorRequireResidentKey: false,
-    authenticatorUserVerification: "required"
 });
 
 export async function GET(req) {
