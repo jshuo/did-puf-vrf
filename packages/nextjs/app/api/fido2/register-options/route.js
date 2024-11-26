@@ -10,6 +10,15 @@ const f2l = new Fido2Lib({
     cryptoParams: [-7, -257],
 });
 
+function arrayBufferToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  }
+
 export async function GET(req) {
     try {
         const registrationOptions = await f2l.attestationOptions();
@@ -29,9 +38,9 @@ export async function GET(req) {
         // Next.js does not support built-in session handling, so use cookies, JWT, or another method.
         // Example (using cookies):
         const headers = new Headers();
-        headers.append("Set-Cookie", `challenge=${registrationOptions.challenge}; HttpOnly; Path=/;`);
         registrationOptions.challenge =  (coerceToBase64Url(registrationOptions.challenge, "challenge"));
-        console.log("Original challenge:", coerceToArrayBuffer(registrationOptions.challenge, "challenge"));
+        headers.append("Set-Cookie", `challenge=${JSON.stringify(registrationOptions.challenge)}; HttpOnly; Path=/;`);
+        // console.log("Original challenge:", JSON.stringify(registrationOptions.challenge));
         return new Response(JSON.stringify(registrationOptions), {
             status: 200,
             headers,
