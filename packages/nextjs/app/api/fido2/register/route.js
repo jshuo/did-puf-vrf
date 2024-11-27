@@ -1,5 +1,5 @@
 import { Fido2Lib, coerceToArrayBuffer, coerceToBase64Url } from "fido2-lib";
-
+const mysql = require('mysql2/promise');
 import { cookies } from "next/headers";
 
 
@@ -34,6 +34,14 @@ export async function POST(req) {
       const formattedChallenge = challenge?.replace(/^"|"$/g, ""); // Remove extra quotes
       // };
 
+
+      const pool = mysql.createPool({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'fido2_db'
+      });
+
       // Convert id and rawId to ArrayBuffer
       clientResponse.id = coerceToArrayBuffer(clientResponse.id, "id");
       clientResponse.rawId = coerceToArrayBuffer(clientResponse.rawId, "rawId");
@@ -49,11 +57,38 @@ export async function POST(req) {
         attestationExpectations
       )
 
+      console.log((attestation.authnrData)); 
+
       // If verification is successful, you now have the public key and other data
       // Store the credential information (e.g., the public key) in your database for future authentication
 
-      const publicKeyPem = attestation.authnrData.get('credentialPublicKeyPem');
-      console.log(publicKeyPem); // Logs the PEM formatted public key
+    // If verification is successful, you now have the public key and other data
+
+  // Extract necessary data from authnrData
+  const userId = 2; // Replace with the actual user ID
+  const credentialId = arrayBufferToBase64(attestation.authnrData.get('credId'));
+  const publicKeyPem = attestation.authnrData.get('credentialPublicKeyPem');
+  const signCount = attestation.authnrData.get('counter');
+  const transports = attestation.authnrData.get('transports') ? attestation.authnrData.get('transports').join(',') : null;
+
+  // Store the credential details in the database
+  const connection = await pool.getConnection();
+  try {
+    // Ensure the user exists in the users table
+    const [rows] = await connection.execute('SELECT id FROM users WHERE id = ?', [userId]);
+    if (rows.length === 0) {
+      // Insert the user if not exists
+      await connection.execute('INSERT INTO users (id, username, display_name) VALUES (?, ?, ?)', [userId, 'username', 'display_name']);
+    }
+
+    // Insert the credential
+    await connection.execute(
+      'INSERT INTO credentials (user_id, credential_id, public_key, sign_count, transports) VALUES (?, ?, ?, ?, ?)',
+      [userId, credentialId, publicKeyPem, signCount, transports]
+    );
+  } finally {
+    connection.release();
+  }
       // You can now store the credential details for later authentication
       // For example, store the public key in your database
  
