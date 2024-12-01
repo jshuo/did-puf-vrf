@@ -20,6 +20,7 @@ function arrayBufferToBase64(buffer) {
   }
 
 export async function GET(req) {
+    debugger; // Add this line
     try {
         const registrationOptions = await f2l.attestationOptions();
 
@@ -29,10 +30,6 @@ export async function GET(req) {
             name: "jeffshuo", // Replace with actual username
             displayName: "jeffshuo",
         };
-
-
-
-
 
         // Store challenge in session (pseudo-code: replace with your session management)
         // Next.js does not support built-in session handling, so use cookies, JWT, or another method.
