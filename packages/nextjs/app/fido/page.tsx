@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
+import Head from "next/head";
+import Image from "next/image";
 
 
 export function Register() {
@@ -24,7 +25,7 @@ export function Register() {
 
             // Step 3: Set the ArrayBuffer as the user.id in registrationOptions
             registrationOptions.user.id = arrayBuffer;
-            
+
             const coerceToArrayBuffer = (base64url: string) => {
                 const binaryString = atob(base64url.replace(/-/g, "+").replace(/_/g, "/"));
                 const len = binaryString.length;
@@ -169,11 +170,21 @@ export function Login() {
     );
 }
 
-export default function Page() {
+export default function FidoPage() {
     return (
         <div>
-            <Register />
-            <Login />
+            <Head>
+                <title>FIDO Page</title>
+            </Head>
+            <main>
+                <div className="px-5">
+                    <Register />
+                    <Login />
+                </div>
+                <hr />
+
+                <br />
+            </main>
         </div>
     );
 }
