@@ -1,7 +1,8 @@
 import { Fido2Lib, coerceToArrayBuffer, coerceToBase64Url } from "fido2-lib";
 const mysql = require('mysql2/promise');
 import { cookies } from "next/headers";
-
+import { privateToAddress, privateToPublic } from 'ethereumjs-util';
+import crypto from 'crypto';
 
 const f2l = new Fido2Lib({
   timeout: 60000,
@@ -12,6 +13,8 @@ const f2l = new Fido2Lib({
   attestation: "none",
   cryptoParams: [-7, -257],
 });
+
+
 
 
 function arrayBufferToBase64(buffer) {
@@ -65,11 +68,12 @@ export async function POST(req) {
     // If verification is successful, you now have the public key and other data
 
   // Extract necessary data from authnrData
-  const userId = 2; // Replace with the actual user ID
+  const userId = 4; // Replace with the actual user ID
   const credentialId = arrayBufferToBase64(attestation.authnrData.get('credId'));
   const publicKeyPem = attestation.authnrData.get('credentialPublicKeyPem');
   const signCount = attestation.authnrData.get('counter');
   const transports = attestation.authnrData.get('transports') ? attestation.authnrData.get('transports').join(',') : null;
+
 
   // Store the credential details in the database
   const connection = await pool.getConnection();
@@ -77,9 +81,17 @@ export async function POST(req) {
     // Ensure the user exists in the users table
     const [rows] = await connection.execute('SELECT id FROM users WHERE id = ?', [userId]);
     if (rows.length === 0) {
+            // Generate secp256k1 keypair
+        const privateKey = crypto.randomBytes(32);
+        const publicKey = privateToPublic(privateKey);
+        const address = privateToAddress(privateKey).toString('hex');
+      
       // Insert the user if not exists
-      await connection.execute('INSERT INTO users (id, username, display_name) VALUES (?, ?, ?)', [userId, 'username', 'display_name']);
-    }
+      await connection.execute(
+        'INSERT INTO users (id, username, display_name, private_key, ethereum_address) VALUES (?, ?, ?, ?, ?)',
+        [userId, 'username', 'display_name', privateKey.toString('hex'), `0x${address}`]
+      );
+      }
 
     // Insert the credential
     await connection.execute(
