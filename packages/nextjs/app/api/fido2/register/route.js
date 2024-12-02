@@ -68,7 +68,7 @@ export async function POST(req) {
     // If verification is successful, you now have the public key and other data
 
   // Extract necessary data from authnrData
-  const userId = 4; // Replace with the actual user ID
+  const userId = 6; // Replace with the actual user ID
   const credentialId = arrayBufferToBase64(attestation.authnrData.get('credId'));
   const publicKeyPem = attestation.authnrData.get('credentialPublicKeyPem');
   const signCount = attestation.authnrData.get('counter');
