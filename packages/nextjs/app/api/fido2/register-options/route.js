@@ -20,7 +20,7 @@ function arrayBufferToBase64(buffer) {
   }
 
 export async function GET(req) {
-    debugger; // Add this line
+    debugger; // Add this line for server debugging and set breakpoints
     try {
         const registrationOptions = await f2l.attestationOptions();
 
