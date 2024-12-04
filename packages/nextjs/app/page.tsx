@@ -123,6 +123,14 @@ const Home: NextPage = () => {
                 </Link>{" "}
               </p>
             </div>
+            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+              <Image src="/shieldbio.png" alt="" width={80} height={40} />
+              <p>
+                <Link href="/fido" passHref className="link">
+                  FIDO App
+                </Link>{" "}
+              </p>
+            </div>
           </div>
         </div>
       </div>
