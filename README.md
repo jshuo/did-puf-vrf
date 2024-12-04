@@ -6,7 +6,7 @@
 
 🧪 The ERC-3643-DApp is an open-source project initiated by the ERC-3643 association. It aims to promote the use of the ERC-3643 standard for tokenized assets by providing a robust and scalable decentralized application.
 
-⚙️ Built upon the foundation of Scaffold-ETH 2, using NextJS, RainbowKit, Hardhat, Wagmi, and Typescript.
+⚙️ Built using NextJS, RainbowKit, Foundry/Hardhat, Wagmi, Viem, and Typescript.
 
 - ✅ **Token Loading**: Easily load any ERC-3643 compliant token by pasting its address.
 - 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
@@ -17,8 +17,8 @@
 
 Before you begin, you need to install the following tools:
 
-- [Node (v18 LTS)](https://nodejs.org/en/download/)
-- [Yarn (v1 or v2+)](https://yarnpkg.com/getting-started/install)
+- [Node (>= v18.18)](https://nodejs.org/en/download/)
+- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
 - [Git](https://git-scm.com/downloads)
 - [ts-node](https://www.npmjs.com/package/ts-node) (For running the server)
 
@@ -26,31 +26,55 @@ Before you begin, you need to install the following tools:
 
 To get started with ERC-3643-DApp, follow the steps below:
 
-1. Clone this repo & install dependencies
+1. Install the latest version of Scaffold-ETH 2
 
 ```
-git clone https://github.com/ERC-3643/ERC-3643-DApp.git
-cd ERC-3643-DApp
-yarn install
+npx create-eth@latest
 ```
 
-2. In one terminal, run the server:
+This command will install all the necessary packages and dependencies, so it might take a while.
+
+> [!NOTE]
+> You can also initialize your project with one of our extensions to add specific features or starter-kits. Learn more in our [extensions documentation](https://docs.scaffoldeth.io/extensions/).
+
+2. Run a local network in the first terminal:
 
 ```
 ts-node server.ts
 ```
 
-3. In a second terminal, start your NextJS app:
+This command starts a local Ethereum network that runs on your local machine and can be used for testing and development. Learn how to [customize your network configuration](https://docs.scaffoldeth.io/quick-start/environment#1-initialize-a-local-blockchain).
+
+3. On a second terminal, deploy the test contract:
+
+```
+yarn deploy
+```
+
+This command deploys a test smart contract to the local network. You can find more information about how to customize your contract and deployment script in our [documentation](https://docs.scaffoldeth.io/quick-start/environment#2-deploy-your-smart-contract).
+
+4. On a third terminal, start your NextJS app:
 
 ```
 yarn start
 ```
 
-Visit your app on: `http://localhost:3000`. To load a specific ERC-3643 compliant token, paste its address into the form in the navbar and click "Load Token".
+Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+
+**What's next**:
+
+Visit the [What's next section of our docs](https://docs.scaffoldeth.io/quick-start/environment#whats-next) to learn how to:
+
+- Edit your smart contracts
+- Edit your deployment scripts
+- Customize your frontend
+- Edit the app config
+- Writing and running tests
+- [Setting up external services and API keys](https://docs.scaffoldeth.io/deploying/deploy-smart-contracts#configuration-of-third-party-services-for-production-grade-apps)
 
 ## Documentation
 
-For more information about the ERC-3643 standard and the association's initiatives, visit the [official website](https://www.erc3643.org/).
+Visit our [docs](https://docs.scaffoldeth.io) to learn all the technical details and guides of Scaffold-ETH 2.
 
 ## Contributing to ERC-3643-DApp
 

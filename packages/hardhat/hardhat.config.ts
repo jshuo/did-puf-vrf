@@ -10,9 +10,6 @@ import "@nomicfoundation/hardhat-verify";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 
-// If not set, it uses ours Alchemy's default API key.
-// You can get your own at https://dashboard.alchemyapi.io
-const providerApiKey = process.env.ALCHEMY_API_KEY || "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 // If not set, it uses the hardhat account 0 private key.
 const deployerPrivateKey =
   process.env.DEPLOYER_PRIVATE_KEY ?? "0xdf0bca5a38585f82036736aac53a5517392118795e96d243eb9356a899b144de";
@@ -21,14 +18,18 @@ const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.17",
-    settings: {
-      optimizer: {
-        enabled: true,
-        // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
-        runs: 200,
+    compilers: [
+      {
+        version: "0.8.20",
+        settings: {
+          optimizer: {
+            enabled: true,
+            // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
+            runs: 200,
+          },
+        },
       },
-    },
+    ],
   },
   // defaultNetwork: "localhost",
   // defaultNetwork: "agence",
@@ -69,10 +70,22 @@ const config: HardhatUserConfig = {
     optimism: {
       url: `https://opt-mainnet.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      verify: {
+        etherscan: {
+          apiUrl: "https://api-optimistic.etherscan.io",
+          apiKey: etherscanOptimisticApiKey,
+        },
+      },
     },
     optimismSepolia: {
       url: `https://opt-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      verify: {
+        etherscan: {
+          apiUrl: "https://api-sepolia-optimistic.etherscan.io",
+          apiKey: etherscanOptimisticApiKey,
+        },
+      },
     },
     polygon: {
       url: `https://polygon-mainnet.g.alchemy.com/v2/${providerApiKey}`,
@@ -101,10 +114,22 @@ const config: HardhatUserConfig = {
     base: {
       url: "https://mainnet.base.org",
       accounts: [deployerPrivateKey],
+      verify: {
+        etherscan: {
+          apiUrl: "https://api.basescan.org",
+          apiKey: basescanApiKey,
+        },
+      },
     },
     baseSepolia: {
       url: "https://sepolia.base.org",
       accounts: [deployerPrivateKey],
+      verify: {
+        etherscan: {
+          apiUrl: "https://api-sepolia.basescan.org",
+          apiKey: basescanApiKey,
+        },
+      },
     },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
