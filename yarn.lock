@@ -6989,7 +6989,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethereumjs-util@npm:^7.1.4":
+"ethereumjs-util@npm:^7.1.4, ethereumjs-util@npm:^7.1.5":
   version: 7.1.5
   resolution: "ethereumjs-util@npm:7.1.5"
   dependencies:
@@ -7040,7 +7040,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.13.2":
+"ethers@npm:^6.13.2, ethers@npm:^6.13.4":
   version: 6.13.4
   resolution: "ethers@npm:6.13.4"
   dependencies:
@@ -12141,6 +12141,8 @@ __metadata:
     "@google/generative-ai": ^0.14.1
     "@netlify/plugin-nextjs": ^5.5.0
     ejs: ^3.1.8
+    ethereumjs-util: ^7.1.5
+    ethers: ^6.13.4
     ethr-did: "git+https://github.com/jshuo/ethr-did.git#a2bb6ba9d94ac95bcf6dcc8a21dfacbfa5514618"
     fido2-lib: ^3.5.3
     husky: ^9.1.6
