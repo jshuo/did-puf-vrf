@@ -11,12 +11,13 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "prettier/prettier": [
       "warn",
-      "endOfLine": "auto",
-      "space-before-function-paren": "off",
-      "space-in-parens": "off",
-      "array-bracket-spacing": "off",
-      "object-curly-spacing": "off",
-      "endOfLine": "auto"
-    }
-  ]
+      {
+        "endOfLine": "auto",
+        "space-before-function-paren": "off",
+        "space-in-parens": "off",
+        "array-bracket-spacing": "off",
+        "object-curly-spacing": "off"
+      }
+    ]
+  }
 }
