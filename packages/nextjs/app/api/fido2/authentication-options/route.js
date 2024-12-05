@@ -1,4 +1,4 @@
-const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise';
 // Function to get user credentials from MySQL
 async function getUserCredentials(userId) {
     const connection = await mysql.createConnection({
