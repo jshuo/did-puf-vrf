@@ -1,5 +1,9 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
   "rules": {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off",
@@ -7,13 +11,12 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "prettier/prettier": [
       "warn",
-        "endOfLine": "auto",
-        "space-before-function-paren": "off",
-        "space-in-parens": "off",
-        "array-bracket-spacing": "off",
-        "object-curly-spacing": "off"
-        "endOfLine": "auto"
-      }
-    ]
-  }
+      "endOfLine": "auto",
+      "space-before-function-paren": "off",
+      "space-in-parens": "off",
+      "array-bracket-spacing": "off",
+      "object-curly-spacing": "off",
+      "endOfLine": "auto"
+    }
+  ]
 }
