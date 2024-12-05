@@ -2294,7 +2294,7 @@ __metadata:
     next-themes: ^0.3.0
     postcss: ^8.4.45
     prettier: ^3.3.3
-    qrcode.react: ^4.0.1
+    qrcode.react: ^4.1.0
     react: ^18.3.1
     react-copy-to-clipboard: ^5.1.0
     react-dom: ^18.3.1
@@ -11466,16 +11466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qrcode.react@npm:^3.1.0":
-  version: 3.2.0
-  resolution: "qrcode.react@npm:3.2.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 55d020ca482d57e8d73ee9e2e18f152184fd3d7d2d0742ae54ec58c5a3bab08b242a648585178d7fc91877fc75d6fbad7a35fb51bc4bddd4374e1de450ca78e7
-  languageName: node
-  linkType: hard
-
-"qrcode.react@npm:^4.0.1":
+"qrcode.react@npm:^4.1.0":
   version: 4.1.0
   resolution: "qrcode.react@npm:4.1.0"
   peerDependencies:
@@ -12192,7 +12183,7 @@ __metadata:
     lint-staged: ^15.2.10
     mysql2: ^3.11.4
     openai: ^4.52.3
-    qrcode.react: ^3.1.0
+    qrcode.react: ^4.1.0
     react-icons: ^5.2.1
     yarn: ^1.22.22
   languageName: unknown
