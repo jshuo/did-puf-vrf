@@ -1,5 +1,5 @@
 import { Fido2Lib, coerceToArrayBuffer, coerceToBase64Url } from "fido2-lib";
-const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise';
 import { cookies } from "next/headers";
 import { privateToAddress, privateToPublic } from 'ethereumjs-util';
 import crypto from 'crypto';
