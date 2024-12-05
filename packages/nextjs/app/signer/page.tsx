@@ -10,7 +10,7 @@ import { EthrDID } from "ethr-did";
 import { jetsonData, teslaBatt, clife } from "./claimData"
 
 import { Wallet } from "ethers";
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from "qrcode.react";
 
 function getRandomClaimData(): string {
   const dataOptions = [jetsonData, teslaBatt, clife];
@@ -209,7 +209,7 @@ export default function IssuerPage() {
                 <span id="issuerDID"><b>Issuer Address: </b>{issuerDID}</span>
                 <br />
                 <span id="subjectDID"><b>Subject Address (generated from PUFse):</b> {subjectDID}</span>
-                <QRCode value={subjectDID} />
+                <QRCodeSVG value={subjectDID} />
                 <br />
                <span id="issuerDID"><b>Signed JWT (Verifiable Credential): </b>{signedJWT}</span>
                 <br />
