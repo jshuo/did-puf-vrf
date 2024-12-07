@@ -14,7 +14,7 @@ const f2l = new Fido2Lib({
 export async function POST(req) {
   debugger; // Add this line for server debugging and set breakpoints
   try {
-    const { clientResponse } = await req.json();
+    const { clientResponse, username } = await req.json(); // Add username to the request body
     const cookieStore = cookies();
     const challenge = cookieStore.get("challenge")?.value;
 
@@ -32,11 +32,32 @@ export async function POST(req) {
     clientResponse.id = coerceToArrayBuffer(clientResponse.id, "id");
     clientResponse.rawId = coerceToArrayBuffer(clientResponse.rawId, "rawId");
 
+    const [rows] = await connection.execute('SELECT id FROM users WHERE username = ?', [username]);
+    if (rows.length === 0) {
+      return new Response(JSON.stringify({ error: "User not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    const userId = rows[0].id;
+
+    const [credentialRows] = await connection.execute('SELECT credential_id FROM credentials WHERE user_id = ?', [userId]);
+    if (credentialRows.length === 0) {
+      return new Response(JSON.stringify({ error: "No credentials found for user" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    const credentialId = credentialRows[0].credential_id;
+
     const assertionExpectations = {
       challenge: formattedChallenge,
       origin: "http://localhost:3000",
       factor: "either",
-      publicKey: clientResponse.id, // Use the credential ID as the public key
+      publicKey: {
+        id: coerceToArrayBuffer(credentialId, "credentialId"),
+        type: "public-key",
+      },
     };
 
     // Perform the FIDO2/WebAuthn verification
@@ -45,7 +66,6 @@ export async function POST(req) {
     console.log(assertion.authnrData);
 
     // Extract necessary data from authnrData
-    const userId = 4; // Replace with the actual user ID
     const publicKey = arrayBufferToBase64(assertion.authnrData.get('credentialPublicKey'));
     const counter = assertion.authnrData.get('counter');
 

@@ -19,34 +19,33 @@ function arrayBufferToBase64(buffer) {
     return btoa(binary);
   }
 
-export async function GET(req) {
-    debugger; // Add this line for server debugging and set breakpoints
-    try {
-        const registrationOptions = await f2l.attestationOptions();
+export async function POST(req) {
+  debugger; // Add this line for server debugging and set breakpoints
+  try {
+    const { username } = await req.json();
+    const registrationOptions = await f2l.attestationOptions();
 
-        // Add user-specific information
-        registrationOptions.user = {
-            id: Buffer.from("jeffshuo"), // Replace with actual user ID
-            name: "jeffshuo", // Replace with actual username
-            displayName: "jeffshuo",
-        };
+    // Add user-specific information
+    registrationOptions.user = {
+      id: Buffer.from(username), // Use the provided username
+      name: username,
+      displayName: username,
+    };
 
-        // Store challenge in session (pseudo-code: replace with your session management)
-        // Next.js does not support built-in session handling, so use cookies, JWT, or another method.
-        // Example (using cookies):
-        const headers = new Headers();
-        registrationOptions.challenge =  (coerceToBase64Url(registrationOptions.challenge, "challenge"));
-        headers.append("Set-Cookie", `challenge=${JSON.stringify(registrationOptions.challenge)}; HttpOnly; Path=/;`);
-        // console.log("Original challenge:", JSON.stringify(registrationOptions.challenge));
-        return new Response(JSON.stringify(registrationOptions), {
-            status: 200,
-            headers,
-        });
-    } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({ error: "Failed to generate registration options" }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" },
-        });
-    }
+    // Store challenge in session (pseudo-code: replace with your session management)
+    const headers = new Headers();
+    registrationOptions.challenge = coerceToBase64Url(registrationOptions.challenge, "challenge");
+    headers.append("Set-Cookie", `challenge=${JSON.stringify(registrationOptions.challenge)}; HttpOnly; Path=/;`);
+
+    return new Response(JSON.stringify(registrationOptions), {
+      status: 200,
+      headers,
+    });
+  } catch (error) {
+    console.error(error);
+    return new Response(JSON.stringify({ error: "Failed to generate registration options" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }

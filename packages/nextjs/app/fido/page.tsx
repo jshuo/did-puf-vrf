@@ -10,10 +10,14 @@ export default function FidoPage() {
     try {
       console.log("Fetching registration options...");
 
-      // Step 1: Fetch registration options from server
-      console.log("GET /api/fido2/register-options");
+      // Step 1: Fetch registration options from server using POST
+      console.log("POST /api/fido2/register-options");
       console.log("Registering user:", username);
-      const response = await fetch("/api/fido2/register-options");
+      const response = await fetch("/api/fido2/register-options", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
       const registrationOptions = await response.json();
 
       console.log("Original user ID:", registrationOptions.user.id);
@@ -26,7 +30,10 @@ export default function FidoPage() {
       registrationOptions.user.id = arrayBuffer;
 
       const coerceToArrayBuffer = (base64url: string) => {
-        const binaryString = atob(base64url.replace(/-/g, "+").replace(/_/g, "/"));
+        // Add padding if necessary
+        const padding = "=".repeat((4 - (base64url.length % 4)) % 4);
+        const base64 = base64url.replace(/-/g, "+").replace(/_/g, "/") + padding;
+        const binaryString = atob(base64);
         const len = binaryString.length;
         const bytes = new Uint8Array(len);
         for (let i = 0; i < len; i++) {
@@ -71,7 +78,7 @@ export default function FidoPage() {
       const verifyRes = await fetch("/api/fido2/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clientResponse }),
+        body: JSON.stringify({ clientResponse, username }),
       });
 
       const result = await verifyRes.json();
@@ -91,21 +98,37 @@ export default function FidoPage() {
       console.log("Fetching authentication options...");
 
       // Step 1: Fetch authentication options from server
-      const res = await fetch("/api/fido2/auth-options");
+      const res = await fetch("/api/fido2/authentication-options", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
       const options = await res.json();
 
       // Convert challenge and allowCredentials IDs to ArrayBuffer
-      options.challenge = Uint8Array.from(atob(options.challenge), c => c.charCodeAt(0));
-      options.allowCredentials = options.allowCredentials.map((cred: PublicKeyCredentialDescriptor) => ({
-        id: Uint8Array.from(atob(cred.id), c => c.charCodeAt(0)),
-        type: cred.type,
-        transports: cred.transports,
-      }));
+      options.challenge = Uint8Array.from(atob(options.challenge.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (options.challenge.length % 4)) % 4)), c => c.charCodeAt(0));
+      options.allowCredentials = options.allowCredentials.map((cred: PublicKeyCredentialDescriptor) => {
+        const id = typeof cred.id === 'string' ? cred.id : Buffer.from(cred.id).toString('base64');
+        return {
+          id: Uint8Array.from(atob(id.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (id.length % 4)) % 4)), c => c.charCodeAt(0)),
+          type: cred.type,
+          transports: cred.transports,
+        };
+      });
 
       console.log("Getting credentials...");
 
       // Step 2: Call WebAuthn API to get credentials
-      const credentials = (await navigator.credentials.get({ publicKey: options })) as PublicKeyCredential;
+      const credentials = (await navigator.credentials.get({
+        publicKey: {
+          ...options,
+          challenge: new Uint8Array(options.challenge).buffer,
+          allowCredentials: options.allowCredentials.map((cred: PublicKeyCredentialDescriptor) => ({
+            ...cred,
+            id: new Uint8Array(cred.id).buffer,
+          })),
+        },
+      })) as PublicKeyCredential;
 
       if (!credentials) throw new Error("Credential retrieval failed");
 
@@ -144,7 +167,7 @@ export default function FidoPage() {
       const verifyRes = await fetch("/api/fido2/authenticate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clientResponse }),
+        body: JSON.stringify({ clientResponse, username }), // Add username to the request body
       });
 
       const result = await verifyRes.json();

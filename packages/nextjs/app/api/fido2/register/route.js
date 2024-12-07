@@ -14,9 +14,6 @@ const f2l = new Fido2Lib({
   cryptoParams: [-7, -257],
 });
 
-
-
-
 function arrayBufferToBase64(buffer) {
   const bytes = new Uint8Array(buffer);
   let binary = '';
@@ -27,16 +24,15 @@ function arrayBufferToBase64(buffer) {
 }
 
 export async function POST(req) {
+  debugger; // Add this line for server debugging and set breakpoints
   if (req.method === "POST") {
     try {
-      const { clientResponse } = await req.json();
+      const { clientResponse, username } = await req.json();
       const cookieStore = cookies();
       const challenge = cookieStore.get("challenge")?.value;
 
       // Ensure challenge is properly formatted
       const formattedChallenge = challenge?.replace(/^"|"$/g, ""); // Remove extra quotes
-      // };
-
 
       const pool = mysql.createPool({
         host: 'localhost',
@@ -56,67 +52,65 @@ export async function POST(req) {
       };
 
       // Perform the FIDO2/WebAuthn verification
-      const attestation = await f2l.attestationResult(clientResponse,
-        attestationExpectations
-      )
+      const attestation = await f2l.attestationResult(clientResponse, attestationExpectations);
 
-      console.log((attestation.authnrData)); 
+      console.log(attestation.authnrData);
 
-      // If verification is successful, you now have the public key and other data
-      // Store the credential information (e.g., the public key) in your database for future authentication
+      // Extract necessary data from authnrData
+      const credentialId = arrayBufferToBase64(attestation.authnrData.get('credId'));
+      const publicKeyPem = attestation.authnrData.get('credentialPublicKeyPem');
+      const signCount = attestation.authnrData.get('counter');
+      const transports = attestation.authnrData.get('transports') ? attestation.authnrData.get('transports').join(',') : null;
 
-    // If verification is successful, you now have the public key and other data
+      // Store the credential details in the database
+      const connection = await pool.getConnection();
+      try {
+        // Ensure the user exists in the users table
+        let [rows] = await connection.execute('SELECT id FROM users WHERE username = ?', [username]);
+        let userId;
+        if (rows.length === 0) {
+          // Generate secp256k1 keypair
+          const privateKey = crypto.randomBytes(32);
+          const publicKey = privateToPublic(privateKey);
+          const address = privateToAddress(privateKey).toString('hex');
 
-  // Extract necessary data from authnrData
-  const userId = 6; // Replace with the actual user ID
-  const credentialId = arrayBufferToBase64(attestation.authnrData.get('credId'));
-  const publicKeyPem = attestation.authnrData.get('credentialPublicKeyPem');
-  const signCount = attestation.authnrData.get('counter');
-  const transports = attestation.authnrData.get('transports') ? attestation.authnrData.get('transports').join(',') : null;
+          // Insert the user if not exists
+          const result = await connection.execute(
+            'INSERT INTO users (username, display_name, private_key, ethereum_address) VALUES (?, ?, ?, ?)',
+            [username, username, privateKey.toString('hex'), `0x${address}`]
+          );
+          userId = result[0].insertId;
+        } else {
+          userId = rows[0].id;
+        }
 
-
-  // Store the credential details in the database
-  const connection = await pool.getConnection();
-  try {
-    // Ensure the user exists in the users table
-    const [rows] = await connection.execute('SELECT id FROM users WHERE id = ?', [userId]);
-    if (rows.length === 0) {
-            // Generate secp256k1 keypair
-        const privateKey = crypto.randomBytes(32);
-        const publicKey = privateToPublic(privateKey);
-        const address = privateToAddress(privateKey).toString('hex');
-      
-      // Insert the user if not exists
-      await connection.execute(
-        'INSERT INTO users (id, username, display_name, private_key, ethereum_address) VALUES (?, ?, ?, ?, ?)',
-        [userId, 'username', 'display_name', privateKey.toString('hex'), `0x${address}`]
-      );
+        // Insert the credential
+        await connection.execute(
+          'INSERT INTO credentials (user_id, credential_id, public_key, sign_count, transports) VALUES (?, ?, ?, ?, ?)',
+          [userId, credentialId, publicKeyPem, signCount, transports]
+        );
+      } finally {
+        connection.release();
       }
 
-    // Insert the credential
-    await connection.execute(
-      'INSERT INTO credentials (user_id, credential_id, public_key, sign_count, transports) VALUES (?, ?, ?, ?, ?)',
-      [userId, credentialId, publicKeyPem, signCount, transports]
-    );
-  } finally {
-    connection.release();
-  }
-      // You can now store the credential details for later authentication
-      // For example, store the public key in your database
- 
       return new Response(JSON.stringify(attestation), {
-        status: 200, // Or an appropriate status code
+        status: 200,
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-
     } catch (error) {
       console.error("Error during registration verification:", error);
+      return new Response(JSON.stringify({ error: "Registration verification failed" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
   } else {
-    // Handle any non-POST requests
-    res.status(405).json({ error: "Method not allowed" });
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

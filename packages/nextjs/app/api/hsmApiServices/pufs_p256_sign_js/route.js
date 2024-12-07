@@ -1,5 +1,7 @@
 export async function POST(request) {
+
   const requestData = await request.json();
+    debugger; // Add this line for server debugging and set breakpoints
     const targetUrl = 'http://58.115.23.124:8088/pufs_p256_sign_js';
   
         const response = await fetch(targetUrl, {

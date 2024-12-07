@@ -31,7 +31,7 @@
 // }
 
 export async function GET(req) {
-
+    debugger; // Add this line for server debugging and set breakpoints
     const targetUrl = 'http://58.115.23.124:8088/pufs_puf_vrf_service';
   
         const response = await fetch(targetUrl, {
