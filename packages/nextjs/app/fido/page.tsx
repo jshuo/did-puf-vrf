@@ -122,13 +122,15 @@ export default function FidoPage() {
       const credentials = (await navigator.credentials.get({
         publicKey: {
           ...options,
-          challenge: new Uint8Array(options.challenge).buffer,
+          challenge: new Uint8Array(options.challenge).buffer, // Convert challenge to ArrayBuffer
           allowCredentials: options.allowCredentials.map((cred: PublicKeyCredentialDescriptor) => ({
             ...cred,
-            id: new Uint8Array(cred.id).buffer,
+            id: cred.id instanceof ArrayBuffer ? cred.id : new Uint8Array(cred.id).buffer, // Ensure id is an ArrayBuffer
           })),
         },
       })) as PublicKeyCredential;
+    
+      console.log('Credentials obtained:', credentials);
 
       if (!credentials) throw new Error("Credential retrieval failed");
 

@@ -24,7 +24,7 @@ function arrayBufferToBase64(buffer) {
 }
 
 export async function POST(req) {
-  debugger; // Add this line for server debugging and set breakpoints
+  // debugger; // Add this line for server debugging and set breakpoints
   if (req.method === "POST") {
     try {
       const { clientResponse, username } = await req.json();
@@ -54,10 +54,8 @@ export async function POST(req) {
       // Perform the FIDO2/WebAuthn verification
       const attestation = await f2l.attestationResult(clientResponse, attestationExpectations);
 
-      console.log(attestation.authnrData);
-
       // Extract necessary data from authnrData
-      const credentialId = arrayBufferToBase64(attestation.authnrData.get('credId'));
+      const credentialId = (attestation.authnrData.get('credId'));
       const publicKeyPem = attestation.authnrData.get('credentialPublicKeyPem');
       const signCount = attestation.authnrData.get('counter');
       const transports = attestation.authnrData.get('transports') ? attestation.authnrData.get('transports').join(',') : null;
@@ -93,24 +91,26 @@ export async function POST(req) {
         connection.release();
       }
 
-      return new Response(JSON.stringify(attestation), {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      if (attestation.audit.validExpectations && attestation.audit.complete) {
+        // Successfully registered
+        console.log('Successfully registered:', attestation.authnrData.get('credId'));
+        return new Response(JSON.stringify({ success: true, credentialId: attestation.authnrData.get('credId') }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
 
+      // If validation fails
+      return new Response(JSON.stringify({ success: false, error: 'Invalid attestation' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     } catch (error) {
-      console.error("Error during registration verification:", error);
-      return new Response(JSON.stringify({ error: "Registration verification failed" }), {
+      console.error('Registration Error:', error);
+      return new Response(JSON.stringify({ success: false, error: error.message }), {
         status: 500,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
       });
     }
-  } else {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-      headers: { "Content-Type": "application/json" },
-    });
   }
 }

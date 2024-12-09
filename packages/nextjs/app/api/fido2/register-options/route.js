@@ -1,4 +1,4 @@
-import { Fido2Lib, coerceToArrayBuffer, coerceToBase64Url } from "fido2-lib";
+import { Fido2Lib, coerceToBase64Url } from "fido2-lib";
 
 const f2l = new Fido2Lib({
     timeout: 60000,
@@ -20,7 +20,8 @@ function arrayBufferToBase64(buffer) {
   }
 
 export async function POST(req) {
-  debugger; // Add this line for server debugging and set breakpoints
+  // register option
+  // debugger; // Add this line for server debugging and set breakpoints
   try {
     const { username } = await req.json();
     const registrationOptions = await f2l.attestationOptions();

@@ -23,20 +23,13 @@ async function generateAuthOptions(userId) {
   const userCredentials = await getUserCredentials(userId);
 
   const options = {
-    challenge: crypto.randomBytes(32).toString('base64'),
+    challenge: crypto.randomBytes(32).toString('base64url'), // Use base64url for compatibility
     timeout: 60000,
-    allowCredentials: userCredentials,
     userVerification: 'required',
-    rpId: 'localhost',
+    rpId: "localhost",
     rpName: 'ACME',
     rpIcon: 'https://example.com/logo.png',
-    extensions: {
-      txAuthSimple: 'Example transaction authorization',
-      txAuthGeneric: {
-        contentType: 'text/plain',
-        content: 'Example transaction authorization'
-      }
-    }
+    ...(userCredentials.length > 0 && { allowCredentials: userCredentials }),
   };
 
   return options;

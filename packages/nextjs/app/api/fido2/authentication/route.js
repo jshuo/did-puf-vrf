@@ -32,7 +32,7 @@ export async function POST(req) {
     clientResponse.id = coerceToArrayBuffer(clientResponse.id, "id");
     clientResponse.rawId = coerceToArrayBuffer(clientResponse.rawId, "rawId");
 
-    const [rows] = await connection.execute('SELECT id FROM users WHERE username = ?', [username]);
+    const [rows] = await pool.execute('SELECT id FROM users WHERE username = ?', [username]);
     if (rows.length === 0) {
       return new Response(JSON.stringify({ error: "User not found" }), {
         status: 404,
@@ -41,7 +41,7 @@ export async function POST(req) {
     }
     const userId = rows[0].id;
 
-    const [credentialRows] = await connection.execute('SELECT credential_id FROM credentials WHERE user_id = ?', [userId]);
+    const [credentialRows] = await pool.execute('SELECT credential_id FROM credentials WHERE user_id = ?', [userId]);
     if (credentialRows.length === 0) {
       return new Response(JSON.stringify({ error: "No credentials found for user" }), {
         status: 404,
