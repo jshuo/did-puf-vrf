@@ -24,7 +24,7 @@ function arrayBufferToBase64(buffer) {
 }
 
 export async function POST(req) {
-  // debugger; // Add this line for server debugging and set breakpoints
+  debugger; // Add this line for server debugging and set breakpoints
   if (req.method === "POST") {
     try {
       const { clientResponse, username } = await req.json();
