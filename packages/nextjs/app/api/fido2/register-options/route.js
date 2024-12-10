@@ -8,6 +8,7 @@ const f2l = new Fido2Lib({
     challengeSize: 128,
     attestation: "none",
     cryptoParams: [-7, -257],
+    authenticatorUserVerification: "required"
 });
 
 function arrayBufferToBase64(buffer) {
@@ -32,6 +33,7 @@ export async function POST(req) {
       name: username,
       displayName: username,
     };
+
 
     // Store challenge in session (pseudo-code: replace with your session management)
     const headers = new Headers();
