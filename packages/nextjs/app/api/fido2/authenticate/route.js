@@ -75,7 +75,8 @@ export async function POST(req) {
         prevCounter: storedSignCount,
       });
 
-      console.log(assertion.authnrData);
+      // console.log(assertion.authnrData);
+      console.log(JSON.stringify(assertion));
 
       // Extract necessary data from authnrData
       const newSignCount = assertion.authnrData.get('counter');
